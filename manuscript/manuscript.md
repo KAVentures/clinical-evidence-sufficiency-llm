@@ -281,3 +281,7 @@ The following supplementary files are maintained as separate documents in the `m
 - **Supplementary File S3 — Study protocol.** Pre-specified objective, design, outcomes, and statistical plan (`manuscript/protocol.md`).
 - **Supplementary File S4 — DECIDE-AI-oriented checklist** (`manuscript/decide_ai_checklist.md`).
 - **Supplementary File S5 — STARD-AI-oriented checklist** (`manuscript/stard_ai_checklist.md`).
+
+The machine-readable data underlying the manuscript are collected under a single labeled entry point.
+
+- **Supplementary Data S6 — Data bundle** (`supplementary_data/`, indexed by `supplementary_data/README.md`). A labeled folder that links to the analysis tables and report JSONs (`outputs/tables/`), all figures in SVG/PNG/PDF (`outputs/figures/`), the primary, cross-, correctness-, and decode-replicate rubric scores (`outputs/scores/`), and the de-identified three-clinician rating sheets with hidden answer keys (`outputs/doctor_review/`). The raw model-output records (`outputs/predictions/`) are not redistributed because they embed source-case text from the underlying licensed datasets and are available from the corresponding author on reasonable request, as described in Data and Code Availability.

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="620" viewBox="0 0 980 620" role="img">
+<style>
+text { font-family: Arial, Helvetica, sans-serif; fill: #1F2933; }
+.title { font-size: 22px; font-weight: 700; }
+.subtitle { font-size: 13px; fill: #667085; }
+.axis { stroke: #344054; stroke-width: 1.2; shape-rendering: crispEdges; }
+.grid { stroke: #D0D5DD; stroke-width: 0.9; shape-rendering: crispEdges; }
+.tick { font-size: 12px; fill: #667085; }
+.label { font-size: 14px; }
+.small { font-size: 12px; fill: #667085; }
+.value { font-size: 13px; font-weight: 700; }
+</style>
+<rect width="100%" height="100%" fill="white"/>
+<text x="55" y="58" class="title">Figure 6. Control-arm unsafe-overconfidence rates</text>
+<text x="55" y="87" class="subtitle">Matched control subset; identical scaffold formatting does not explain the safety effect.</text>
+<line x1="120" y1="470.0" x2="895" y2="470.0" class="grid"/>
+<text x="104" y="474.0" text-anchor="end" class="tick">0</text>
+<line x1="120" y1="432.2" x2="895" y2="432.2" class="grid"/>
+<text x="104" y="436.2" text-anchor="end" class="tick">10</text>
+<line x1="120" y1="394.4" x2="895" y2="394.4" class="grid"/>
+<text x="104" y="398.4" text-anchor="end" class="tick">20</text>
+<line x1="120" y1="356.7" x2="895" y2="356.7" class="grid"/>
+<text x="104" y="360.7" text-anchor="end" class="tick">30</text>
+<line x1="120" y1="318.9" x2="895" y2="318.9" class="grid"/>
+<text x="104" y="322.9" text-anchor="end" class="tick">40</text>
+<line x1="120" y1="281.1" x2="895" y2="281.1" class="grid"/>
+<text x="104" y="285.1" text-anchor="end" class="tick">50</text>
+<line x1="120" y1="243.3" x2="895" y2="243.3" class="grid"/>
+<text x="104" y="247.3" text-anchor="end" class="tick">60</text>
+<line x1="120" y1="205.6" x2="895" y2="205.6" class="grid"/>
+<text x="104" y="209.6" text-anchor="end" class="tick">70</text>
+<line x1="120" y1="167.8" x2="895" y2="167.8" class="grid"/>
+<text x="104" y="171.8" text-anchor="end" class="tick">80</text>
+<line x1="120" y1="130.0" x2="895" y2="130.0" class="grid"/>
+<text x="104" y="134.0" text-anchor="end" class="tick">90</text>
+<line x1="120" y1="470" x2="895" y2="470" class="axis"/>
+<line x1="120" y1="130" x2="120" y2="470" class="axis"/>
+<text x="42" y="300.0" transform="rotate(-90 42 300.0)" text-anchor="middle" class="label">Unsafe overconfidence (%)</text>
+<rect x="160.0" y="293.7" width="120" height="176.3" rx="4" fill="#8F2D56"/>
+<text x="220" y="279.7" text-anchor="middle" class="value">46.7%</text>
+<text x="220.0" y="506.0" text-anchor="middle" class="label"><tspan x="220.0" dy="0">Standard prompt</tspan></text>
+<rect x="350.0" y="327.5" width="120" height="142.5" rx="4" fill="#8172B3"/>
+<text x="410" y="313.5" text-anchor="middle" class="value">37.7%</text>
+<text x="410.0" y="506.0" text-anchor="middle" class="label"><tspan x="410.0" dy="0">Neutral scaffold</tspan></text>
+<rect x="540.0" y="383.4" width="120" height="86.6" rx="4" fill="#007C89"/>
+<text x="600" y="369.4" text-anchor="middle" class="value">22.9%</text>
+<text x="600.0" y="506.0" text-anchor="middle" class="label"><tspan x="600.0" dy="0">Evidence-sufficiency</tspan><tspan x="600.0" dy="17">wrapper</tspan></text>
+<rect x="730.0" y="168.6" width="120" height="301.4" rx="4" fill="#DD8452"/>
+<text x="790" y="154.6" text-anchor="middle" class="value">79.8%</text>
+<text x="790.0" y="506.0" text-anchor="middle" class="label"><tspan x="790.0" dy="0">Format scaffold</tspan></text>
+<rect x="210" y="128" width="560" height="58" rx="10" fill="white" stroke="#D0D5DD" stroke-width="1"/>
+<text x="490" y="153" text-anchor="middle" class="label">Wrapper content reduced labels beyond scaffold structure;</text>
+<text x="490" y="174" text-anchor="middle" class="small">format-only scaffolding increased unsafe overconfidence, consistent with forced commitment.</text>
+</svg>

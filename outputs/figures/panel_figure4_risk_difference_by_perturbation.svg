@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1300" height="527" viewBox="0 0 1300 527" role="img">
+<style>
+  text { font-family: Arial, Helvetica, sans-serif; fill: #1F2933; }
+  .title { font-size: 22px; font-weight: 700; }
+  .subtitle { font-size: 13px; fill: #667085; }
+  .axis { stroke: #344054; stroke-width: 1.2; shape-rendering: crispEdges; }
+  .grid { stroke: #D0D5DD; stroke-width: 0.9; shape-rendering: crispEdges; }
+  .tick { font-size: 12px; fill: #667085; }
+  .label { font-size: 14px; }
+  .small { font-size: 12px; fill: #667085; }
+  .value { font-size: 13px; font-weight: 700; }
+</style>
+<rect width="100%" height="100%" fill="white"/>
+<text x="55" y="58" class="title">Figure 4. Prompt effect by perturbation type</text>
+<text x="55" y="87" class="subtitle">Common-panel analysis across evidence stress variants.</text>
+<line x1="330.0" y1="98" x2="330.0" y2="430" class="grid"/>
+<text x="330.0" y="457" text-anchor="middle" class="tick">-10</text>
+<line x1="429.1" y1="98" x2="429.1" y2="430" class="grid"/>
+<text x="429.1" y="457" text-anchor="middle" class="tick">0</text>
+<line x1="528.2" y1="98" x2="528.2" y2="430" class="grid"/>
+<text x="528.2" y="457" text-anchor="middle" class="tick">10</text>
+<line x1="627.3" y1="98" x2="627.3" y2="430" class="grid"/>
+<text x="627.3" y="457" text-anchor="middle" class="tick">20</text>
+<line x1="726.4" y1="98" x2="726.4" y2="430" class="grid"/>
+<text x="726.4" y="457" text-anchor="middle" class="tick">30</text>
+<line x1="825.5" y1="98" x2="825.5" y2="430" class="grid"/>
+<text x="825.5" y="457" text-anchor="middle" class="tick">40</text>
+<line x1="429.1" y1="98" x2="429.1" y2="430" stroke="#344054" stroke-width="1.4"/>
+<text x="602.5" y="487" text-anchor="middle" class="label">Risk difference (percentage points)</text>
+<text x="55" y="135" class="label">Full information</text>
+<text x="55" y="157" class="small">n=164 paired items</text>
+<line x1="411.0" y1="130" x2="580.1" y2="130" stroke="#475467" stroke-width="3" stroke-linecap="round"/>
+<line x1="411.0" y1="122" x2="411.0" y2="138" stroke="#475467" stroke-width="2"/>
+<line x1="580.1" y1="122" x2="580.1" y2="138" stroke="#475467" stroke-width="2"/>
+<circle cx="495.6" cy="130" r="8" fill="#2E6F5E" stroke="white" stroke-width="2"/>
+<text x="940" y="135" class="value">6.7 pp</text>
+<text x="1045" y="135" class="small">(-1.8, 15.2)</text>
+<text x="55" y="203" class="label">Reworded</text>
+<text x="55" y="225" class="small">n=84 paired items</text>
+<line x1="488.1" y1="198" x2="747.6" y2="198" stroke="#475467" stroke-width="3" stroke-linecap="round"/>
+<line x1="488.1" y1="190" x2="488.1" y2="206" stroke="#475467" stroke-width="2"/>
+<line x1="747.6" y1="190" x2="747.6" y2="206" stroke="#475467" stroke-width="2"/>
+<circle cx="617.8" cy="198" r="8" fill="#2E6F5E" stroke="white" stroke-width="2"/>
+<text x="940" y="203" class="value">19.0 pp</text>
+<text x="1045" y="203" class="small">(6.0, 32.1)</text>
+<text x="55" y="271" class="label">Context uncertainty</text>
+<text x="55" y="293" class="small">n=204 paired items</text>
+<line x1="560.2" y1="266" x2="681.7" y2="266" stroke="#475467" stroke-width="3" stroke-linecap="round"/>
+<line x1="560.2" y1="258" x2="560.2" y2="274" stroke="#475467" stroke-width="2"/>
+<line x1="681.7" y1="258" x2="681.7" y2="274" stroke="#475467" stroke-width="2"/>
+<circle cx="618.5" cy="266" r="8" fill="#2E6F5E" stroke="white" stroke-width="2"/>
+<text x="940" y="271" class="value">19.1 pp</text>
+<text x="1045" y="271" class="small">(13.2, 25.5)</text>
+<text x="55" y="339" class="label">Missing ancillary tests</text>
+<text x="55" y="361" class="small">n=176 paired items</text>
+<line x1="626.1" y1="334" x2="789.4" y2="334" stroke="#475467" stroke-width="3" stroke-linecap="round"/>
+<line x1="626.1" y1="326" x2="626.1" y2="342" stroke="#475467" stroke-width="2"/>
+<line x1="789.4" y1="326" x2="789.4" y2="342" stroke="#475467" stroke-width="2"/>
+<circle cx="705.0" cy="334" r="8" fill="#2E6F5E" stroke="white" stroke-width="2"/>
+<text x="940" y="339" class="value">27.8 pp</text>
+<text x="1045" y="339" class="small">(19.9, 36.4)</text>
+<text x="55" y="407" class="label">Decontextualized</text>
+<text x="55" y="429" class="small">n=572 paired items</text>
+<line x1="701.1" y1="402" x2="782.5" y2="402" stroke="#475467" stroke-width="3" stroke-linecap="round"/>
+<line x1="701.1" y1="394" x2="701.1" y2="410" stroke="#475467" stroke-width="2"/>
+<line x1="782.5" y1="394" x2="782.5" y2="410" stroke="#475467" stroke-width="2"/>
+<circle cx="742.6" cy="402" r="8" fill="#2E6F5E" stroke="white" stroke-width="2"/>
+<text x="940" y="407" class="value">31.6 pp</text>
+<text x="1045" y="407" class="small">(27.4, 35.7)</text>
+<text x="940" y="92" class="small">Effect</text>
+<text x="1045" y="92" class="small">95% CI</text>
+<text x="55.0" y="499.0" text-anchor="start" class="small"><tspan x="55.0" dy="0">Positive values favor the evidence-sufficiency wrapper unless otherwise stated. Intervals are paired bootstrap 95% CIs.</tspan></text>
+</svg>

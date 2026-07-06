@@ -29,6 +29,10 @@ This study focuses on unsafe overconfidence: giving a definitive diagnosis, trea
 
 This was a retrospective public-data benchmark and perturbation study with paired repeated measures. The unit of analysis was model x item x perturbation x prompt condition. The primary comparison was standard prompt versus evidence-sufficiency wrapper for the same model and item-perturbation. The overall design is summarized in Figure 1. Because no established reporting guideline covers non-interventional computational benchmarks of clinical LLM behavior, we report the study following the applicable principles of the DECIDE-AI, CONSORT-AI/SPIRIT-AI, and STARD-AI reporting frameworks [9-11] — pre-specification of the confirmatory primary analysis, transparent handling of the automated (LLM-judge) index test against an independent judge and blinded clinician reference standard, per-model reporting of heterogeneous effects, and explicit statements of intended use and limitations. A completed item-by-item reporting checklist mapped to these frameworks is provided as Supplementary File S1 (`manuscript/reporting_checklist.md`).
 
+![Figure 1. Study design](../outputs/figures/panel_figure1_study_design.png)
+
+**Figure 1. Study design.** Flow of the study from public source datasets through stress-variant generation, the four high-reasoning model configurations, the four prompt conditions, the separate LLM rubric judge, and the paired statistical analysis.
+
 The original protocol considered MIMIC-CDM because it is directly aligned with clinical decision-making under incomplete information [1,8]. MIMIC-derived data were excluded from external API calls after confirming the data-use restriction. MedRBench diagnostic cases replaced the MIMIC arm for the executable public-data study [6,7].
 
 ### Datasets
@@ -102,6 +106,10 @@ Unsafe overconfidence occurred in 592/1,200 standard-prompt responses (49.3%) an
 
 In the adjusted GEE sensitivity model, the evidence-sufficiency wrapper was associated with lower odds of unsafe overconfidence (odds ratio 0.22; p<0.001), adjusted for model, dataset, and perturbation type.
 
+![Figure 2. Unsafe overconfidence by prompt](../outputs/figures/panel_figure2_unsafe_overconfidence_by_prompt.png)
+
+**Figure 2. Unsafe overconfidence by prompt.** Unsafe-overconfidence rate under the standard prompt versus the evidence-sufficiency wrapper on the paired common panel (n = 1,200 pairs). Bars show the observed rate; error bars are Wilson 95% confidence intervals. Same items, models, and judge under both conditions.
+
 ### Per-Model Results
 
 The wrapper reduced unsafe overconfidence in all four model subsets, but the magnitude varied (Figure 3, Table 4):
@@ -113,6 +121,10 @@ The wrapper reduced unsafe overconfidence in all four model subsets, but the mag
 
 Grok 4.3 had the lowest baseline unsafe overconfidence rate on the common panel. Its reduction was small but, unlike in the earlier underpowered subset, statistically significant by McNemar testing (p=0.007), indicating the low baseline is a genuine property of the model rather than an artifact of item sampling.
 
+![Figure 3. Wrapper effect by model](../outputs/figures/panel_figure3_risk_difference_by_model.png)
+
+**Figure 3. Wrapper effect by model.** Paired absolute reduction in unsafe overconfidence (standard − wrapper, percentage points) for each model. Points are the paired risk difference; whiskers are item-clustered bootstrap 95% confidence intervals; n is the number of paired cells per model. Positive values favour the wrapper.
+
 ### Dataset and Perturbation Results
 
 Risk differences were observed across all datasets (Figure 5, Table 6):
@@ -123,11 +135,27 @@ Risk differences were observed across all datasets (Figure 5, Table 6):
 
 By perturbation type (Figure 4, Table 5), the largest reduction occurred in decontextualized Real-POCQi-style inputs (31.6 points). Reductions were also observed for missing ancillary tests (27.8 points), context-uncertainty cases (19.1 points), and reworded variants (19.0 points). The effect was smallest and not statistically distinguishable from zero for full-information diagnostic cases (64.0% vs 57.3%; risk difference 6.7 points, 95% CI -1.8 to 15.2), consistent with the wrapper acting mainly when information is genuinely incomplete rather than on complete cases.
 
+![Figure 4. Wrapper effect by perturbation type](../outputs/figures/panel_figure4_risk_difference_by_perturbation.png)
+
+**Figure 4. Wrapper effect by perturbation type.** Paired absolute reduction in unsafe overconfidence by input-degradation type. Points, whiskers, and n as in Figure 3. The full-information stratum overlaps zero, consistent with the wrapper acting mainly when information is genuinely incomplete.
+
+![Figure 5. Wrapper effect by dataset](../outputs/figures/panel_figure5_risk_difference_by_dataset.png)
+
+**Figure 5. Wrapper effect by dataset.** Paired absolute reduction in unsafe overconfidence by source dataset (Real-POCQi, HealthBench, MedRBench). Points, whiskers, and n as in Figure 3.
+
 ### Mechanism and Circularity Control
 
 A peer-review concern was that the wrapper mechanically emits the section tokens (`EVIDENCE PRESENT`, `EVIDENCE MISSING`, `SUFFICIENCY JUDGMENT`) the judge might reward, so the effect could be circular. The control arms refute this. On the matched control subset (480 cells per arm), the identical scaffold tokens produced markedly different unsafe-overconfidence rates depending on the accompanying instruction: 37.7% under the neutral scaffold, 22.9% under the wrapper, and 79.8% under the format scaffold (same tokens plus a forced-commitment instruction), versus 46.7% under the standard prompt (Figure 6). Because the same tokens map to unsafe rates spanning 23% to 80%, the judge is scoring response behavior, not the presence of scaffold tokens.
 
+![Figure 6. Same scaffold tokens, different behaviour](../outputs/figures/panel_figure6_control_arm_rates.png)
+
+**Figure 6. Same scaffold tokens, different behaviour.** Unsafe-overconfidence rate on the matched control subset (480 cells per arm) for the standard prompt, neutral scaffold, evidence-sufficiency wrapper, and format scaffold. The neutral and format scaffolds share the wrapper's four section labels; error bars are Wilson 95% confidence intervals. Identical tokens map to unsafe rates from 23% to 80%, showing the judge scores behaviour rather than tokens.
+
 The wrapper effect decomposed additively into two components, each with a bootstrap confidence interval excluding zero (Figure 7, Table 8). The scaffold structure alone (standard to neutral) reduced unsafe overconfidence by 9.0 points (95% CI, 6.2 to 11.8), and the abstention instruction added on top of that structure (neutral to wrapper) reduced it by a further 14.8 points (95% CI, 11.6 to 17.8). Their sum (23.8 points) matched the full wrapper effect measured on the same subset (23.8 points), so roughly 38% of the benefit is attributable to structured reasoning and roughly 62% to the abstention content. As an adversarial bound, attaching a forced-commitment instruction to the same scaffold (neutral to format) increased unsafe overconfidence by 42.1 points (95% CI, 38.5 to 45.7), confirming that the same structure can be steered toward worse behavior. The effect is therefore best reported as a decomposition, not as a monolithic claim that reasoning helps.
+
+![Figure 7. Mechanism decomposition of the wrapper effect](../outputs/figures/panel_figure7_mechanism_decomposition.png)
+
+**Figure 7. Mechanism decomposition of the wrapper effect.** Risk differences between conditions (percentage points) on the matched control subset. The full wrapper effect (+23.8 pp) splits additively into a scaffold-structure component (standard→neutral, +9.0 pp) and a larger abstention-content component (neutral→wrapper, +14.8 pp); the forced-commit contrast (neutral→format, −42.1 pp; shown in red) is an adversarial bound. Whiskers are item-clustered bootstrap 95% confidence intervals.
 
 ### Secondary Outcomes
 
@@ -141,9 +169,17 @@ The paired primary endpoint (n=1,200 pairs) was well powered: achieved power for
 
 An independent judge from a different model family (Claude Sonnet 5) re-scored all 3,534 double-judged cells. The two judges agreed on the direction of the wrapper effect but not on its magnitude or on absolute unsafe rates. Raw agreement was 67% (Cohen's kappa 0.19), and disagreement was almost entirely one-directional: 1,147 cells were labeled unsafe by the primary judge but safe by Sonnet, versus only 15 in the reverse direction (Figure 8). Under the primary judge the paired common-panel reduction was 24.7 points; under Sonnet it was 13.1 points on the same 1,200 pairs. The gap was largest for Gemini 3.5 Flash (nano-minus-Sonnet unsafe-rate difference 0.54) and negligible for Grok 4.3 (0.047), indicating that the primary judge's absolute over-labeling is itself model-dependent. The wrapper's benefit was directionally robust under both judges, but its absolute size is a function of judge calibration.
 
+![Figure 8. Two judges disagree on absolute rates](../outputs/figures/panel_figure8_cross_judge_overlabeling.png)
+
+**Figure 8. Two judges disagree on absolute rates.** Unsafe-overconfidence rate by model under the primary judge (GPT-5.4-nano) and the independent different-family judge (Claude Sonnet 5), scoring the same responses. Error bars are Wilson 95% confidence intervals. The primary judge labels substantially more responses unsafe, and the gap is model-dependent.
+
 ### Helpfulness and Accuracy Trade-off
 
 Because the safety endpoint scores an abstention on an answerable question as safe, we measured diagnostic accuracy directly on 330 paired answerable complete-information cases. Correct diagnosis fell from 80.3% under the standard prompt to 50.3% under the wrapper (-30.0 points), while abstention rose from 12.7% to 46.4% (+33.6 points). This cost was strongly model-dependent and inversely tracked each model's safety gain (Figure 9): for GPT-5.5 the accuracy cost was near zero (correct diagnosis -2 points), for Claude Opus 4.8 it was modest (-7 points), for Grok 4.3 it was -10 points, and for Gemini 3.5 Flash it was catastrophic (correct diagnosis 75% to 17%, -58 points; abstention 18% to 82%). The wrapper therefore does not uniformly improve behavior; its net value is the safety gain minus the helpfulness loss, which was favorable for GPT-5.5 and Claude Opus 4.8 but unfavorable for Gemini 3.5 Flash, whose safety gain was small and whose accuracy collapse was large.
+
+![Figure 9. Safety–helpfulness trade-off by model](../outputs/figures/panel_figure9_safety_helpfulness_tradeoff.png)
+
+**Figure 9. Safety–helpfulness trade-off by model.** For each model, the safety gain (reduction in unsafe overconfidence, percentage points) against the helpfulness cost (drop in correct diagnosis on answerable complete-information cases, percentage points). Points below the dashed identity line have a safety gain exceeding the diagnostic-accuracy cost.
 
 ### Prompt-Paraphrase and Decode Robustness
 
@@ -201,26 +237,6 @@ Koyar Afrasyab conceived the study, specified the research question and datasets
 
 The study builds on public benchmark resources and methodological ideas from MIMIC-CDM, Real-POCQi, HealthBench, MedRBench, and health-AI robustness-readiness work. The findings and interpretation are solely those of the author.
 
-## Figure Legends
-
-**Figure 1. Study design.** Flow of the study from public source datasets through stress-variant generation, the four high-reasoning model configurations, the four prompt conditions, the separate LLM rubric judge, and the paired statistical analysis.
-
-**Figure 2. Unsafe overconfidence by prompt.** Unsafe-overconfidence rate under the standard prompt versus the evidence-sufficiency wrapper on the paired common panel (n = 1,200 pairs). Bars show the observed rate; error bars are Wilson 95% confidence intervals. Same items, models, and judge under both conditions.
-
-**Figure 3. Wrapper effect by model.** Paired absolute reduction in unsafe overconfidence (standard − wrapper, percentage points) for each model. Points are the paired risk difference; whiskers are item-clustered bootstrap 95% confidence intervals; n is the number of paired cells per model. Positive values favour the wrapper.
-
-**Figure 4. Wrapper effect by perturbation type.** Paired absolute reduction in unsafe overconfidence by input-degradation type. Points, whiskers, and n as in Figure 3. The full-information stratum overlaps zero, consistent with the wrapper acting mainly when information is genuinely incomplete.
-
-**Figure 5. Wrapper effect by dataset.** Paired absolute reduction in unsafe overconfidence by source dataset (Real-POCQi, HealthBench, MedRBench). Points, whiskers, and n as in Figure 3.
-
-**Figure 6. Same scaffold tokens, different behaviour.** Unsafe-overconfidence rate on the matched control subset (480 cells per arm) for the standard prompt, neutral scaffold, evidence-sufficiency wrapper, and format scaffold. The neutral and format scaffolds share the wrapper's four section labels; error bars are Wilson 95% confidence intervals. Identical tokens map to unsafe rates from 23% to 80%, showing the judge scores behaviour rather than tokens.
-
-**Figure 7. Mechanism decomposition of the wrapper effect.** Risk differences between conditions (percentage points) on the matched control subset. The full wrapper effect (+23.8 pp) splits additively into a scaffold-structure component (standard→neutral, +9.0 pp) and a larger abstention-content component (neutral→wrapper, +14.8 pp); the forced-commit contrast (neutral→format, −42.1 pp; shown in red) is an adversarial bound. Whiskers are item-clustered bootstrap 95% confidence intervals.
-
-**Figure 8. Two judges disagree on absolute rates.** Unsafe-overconfidence rate by model under the primary judge (GPT-5.4-nano) and the independent different-family judge (Claude Sonnet 5), scoring the same responses. Error bars are Wilson 95% confidence intervals. The primary judge labels substantially more responses unsafe, and the gap is model-dependent.
-
-**Figure 9. Safety–helpfulness trade-off by model.** For each model, the safety gain (reduction in unsafe overconfidence, percentage points) against the helpfulness cost (drop in correct diagnosis on answerable complete-information cases, percentage points). Points below the dashed identity line have a safety gain exceeding the diagnostic-accuracy cost.
-
 ## Tables
 
 - **Table 1.** Common-panel composition: paired cells by model, dataset, and perturbation type (`panel_table1_dataset_composition.csv`).
@@ -255,3 +271,13 @@ The study builds on public benchmark resources and methodological ideas from MIM
 10. Liu X, Cruz Rivera S, Moher D, Calvert MJ, Denniston AK, SPIRIT-AI and CONSORT-AI Working Group. Reporting guidelines for clinical trials evaluating artificial intelligence interventions: the CONSORT-AI and SPIRIT-AI extensions. *Nature Medicine*. 2020. doi:10.1038/s41591-020-1037-7.
 
 11. STARD-AI Steering Group. STARD-AI reporting guideline for diagnostic accuracy studies involving artificial intelligence. *Nature Medicine*. 2025. doi:10.1038/s41591-025-03953-8.
+
+## Supplementary Material
+
+The following supplementary files are maintained as separate documents in the `manuscript/` directory of the repository and are reproduced in full at the end of the manuscript PDF for convenience.
+
+- **Supplementary File S1 — Reporting checklist.** Item-by-item checklist mapped to DECIDE-AI, CONSORT-AI/SPIRIT-AI, and STARD-AI principles (`manuscript/reporting_checklist.md`).
+- **Supplementary File S2 — Supplementary methods.** Perturbation manifest, sampling frame, prompt hashing, raw-output logging, clinician-review export, and power simulation (`manuscript/supplementary_methods.md`).
+- **Supplementary File S3 — Study protocol.** Pre-specified objective, design, outcomes, and statistical plan (`manuscript/protocol.md`).
+- **Supplementary File S4 — DECIDE-AI-oriented checklist** (`manuscript/decide_ai_checklist.md`).
+- **Supplementary File S5 — STARD-AI-oriented checklist** (`manuscript/stard_ai_checklist.md`).

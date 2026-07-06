@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+.pytest_cache/
+.env
+*.pyc
+data/raw/*
+!data/raw/DO_NOT_COMMIT.txt
+outputs/predictions/*.jsonl
+outputs/logs/*
+outputs/*.log
+.DS_Store
+API_KEYS.local.md

@@ -1,0 +1,43 @@
+{
+  "truncation": {
+    "gpt-5.5": {
+      "n": 1853,
+      "empty": 31,
+      "no_terminal_punct": 22,
+      "no_terminal_punct_frac": 0.012,
+      "very_short_lt20w": 9,
+      "unclosed_bold": 0
+    },
+    "claude-opus-4-8": {
+      "n": 1620,
+      "empty": 0,
+      "no_terminal_punct": 441,
+      "no_terminal_punct_frac": 0.272,
+      "very_short_lt20w": 0,
+      "unclosed_bold": 64
+    },
+    "gemini-3.5-flash": {
+      "n": 2818,
+      "empty": 5,
+      "no_terminal_punct": 1860,
+      "no_terminal_punct_frac": 0.66,
+      "very_short_lt20w": 53,
+      "unclosed_bold": 267
+    },
+    "grok-4.3": {
+      "n": 2360,
+      "empty": 0,
+      "no_terminal_punct": 5,
+      "no_terminal_punct_frac": 0.002,
+      "very_short_lt20w": 282,
+      "unclosed_bold": 0
+    },
+    "_panel_total": {
+      "n": 8651,
+      "no_terminal_punct": 2328,
+      "very_short": 344,
+      "empty": 36,
+      "unclosed_md": 331
+    }
+  }
+}

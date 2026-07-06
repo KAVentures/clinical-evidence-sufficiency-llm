@@ -1,0 +1,96 @@
+{
+  "subset_items": 80,
+  "models": [
+    "claude-opus-4-8",
+    "gpt-5.5"
+  ],
+  "overall": {
+    "original": {
+      "std_rate": 0.4875,
+      "wrapper_rate": 0.19375,
+      "rd": 0.29375,
+      "n_pairs": 160,
+      "mcnemar_b": 54,
+      "mcnemar_c": 7,
+      "mcnemar_p": 3.869055663633694e-09
+    },
+    "paraphrase_1": {
+      "std_rate": 0.4875,
+      "wrapper_rate": 0.19375,
+      "rd": 0.29375,
+      "n_pairs": 160,
+      "mcnemar_b": 52,
+      "mcnemar_c": 5,
+      "mcnemar_p": 1.1091878836664245e-09
+    },
+    "paraphrase_2": {
+      "std_rate": 0.4875,
+      "wrapper_rate": 0.20625,
+      "rd": 0.28125,
+      "n_pairs": 160,
+      "mcnemar_b": 50,
+      "mcnemar_c": 5,
+      "mcnemar_p": 2.975235487482509e-09
+    }
+  },
+  "per_model": {
+    "claude-opus-4-8": {
+      "original": {
+        "std_rate": 0.5375,
+        "wrapper_rate": 0.1625,
+        "rd": 0.375,
+        "n_pairs": 80,
+        "mcnemar_b": 33,
+        "mcnemar_c": 3,
+        "mcnemar_p": 1.3426569116181915e-06
+      },
+      "paraphrase_1": {
+        "std_rate": 0.5375,
+        "wrapper_rate": 0.175,
+        "rd": 0.3625,
+        "n_pairs": 80,
+        "mcnemar_b": 31,
+        "mcnemar_c": 2,
+        "mcnemar_p": 1.0926445169555457e-06
+      },
+      "paraphrase_2": {
+        "std_rate": 0.5375,
+        "wrapper_rate": 0.2375,
+        "rd": 0.3,
+        "n_pairs": 80,
+        "mcnemar_b": 27,
+        "mcnemar_c": 3,
+        "mcnemar_p": 2.678522342541112e-05
+      }
+    },
+    "gpt-5.5": {
+      "original": {
+        "std_rate": 0.4375,
+        "wrapper_rate": 0.225,
+        "rd": 0.2125,
+        "n_pairs": 80,
+        "mcnemar_b": 21,
+        "mcnemar_c": 4,
+        "mcnemar_p": 0.001374275875831697
+      },
+      "paraphrase_1": {
+        "std_rate": 0.4375,
+        "wrapper_rate": 0.2125,
+        "rd": 0.225,
+        "n_pairs": 80,
+        "mcnemar_b": 21,
+        "mcnemar_c": 3,
+        "mcnemar_p": 0.0005202443475902301
+      },
+      "paraphrase_2": {
+        "std_rate": 0.4375,
+        "wrapper_rate": 0.175,
+        "rd": 0.2625,
+        "n_pairs": 80,
+        "mcnemar_b": 23,
+        "mcnemar_c": 2,
+        "mcnemar_p": 6.334248366623977e-05
+      }
+    }
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "judge_model": "gpt-5.4-mini",
+  "n_cells": 929,
+  "answerable_item_count": 200,
+  "overall": {
+    "correct_diagnosis": {
+      "std_rate": 0.803030303030303,
+      "es_rate": 0.503030303030303,
+      "delta_es_minus_std": -0.3,
+      "n_pairs": 330
+    },
+    "abstention": {
+      "std_rate": 0.12727272727272726,
+      "es_rate": 0.4636363636363636,
+      "delta_es_minus_std": 0.33636363636363636,
+      "n_pairs": 330
+    },
+    "committed": {
+      "std_rate": 0.8727272727272727,
+      "es_rate": 0.5393939393939394,
+      "delta_es_minus_std": -0.3333333333333333,
+      "n_pairs": 330
+    }
+  },
+  "per_model": {
+    "gpt-5.5": {
+      "correct_diagnosis": {
+        "std_rate": 0.9375,
+        "es_rate": 0.9166666666666666,
+        "delta_es_minus_std": -0.020833333333333332,
+        "n_pairs": 48
+      },
+      "abstention": {
+        "std_rate": 0.0,
+        "es_rate": 0.020833333333333332,
+        "delta_es_minus_std": 0.020833333333333332,
+        "n_pairs": 48
+      }
+    },
+    "claude-opus-4-8": {
+      "correct_diagnosis": {
+        "std_rate": 0.9318181818181818,
+        "es_rate": 0.8636363636363636,
+        "delta_es_minus_std": -0.06818181818181818,
+        "n_pairs": 44
+      },
+      "abstention": {
+        "std_rate": 0.0,
+        "es_rate": 0.06818181818181818,
+        "delta_es_minus_std": 0.06818181818181818,
+        "n_pairs": 44
+      }
+    },
+    "gemini-3.5-flash": {
+      "correct_diagnosis": {
+        "std_rate": 0.75,
+        "es_rate": 0.16891891891891891,
+        "delta_es_minus_std": -0.581081081081081,
+        "n_pairs": 148
+      },
+      "abstention": {
+        "std_rate": 0.18243243243243243,
+        "es_rate": 0.8243243243243243,
+        "delta_es_minus_std": 0.6418918918918919,
+        "n_pairs": 148
+      }
+    },
+    "grok-4.3": {
+      "correct_diagnosis": {
+        "std_rate": 0.7555555555555555,
+        "es_rate": 0.6555555555555556,
+        "delta_es_minus_std": -0.1,
+        "n_pairs": 90
+      },
+      "abstention": {
+        "std_rate": 0.16666666666666666,
+        "es_rate": 0.3,
+        "delta_es_minus_std": 0.13333333333333333,
+        "n_pairs": 90
+      }
+    }
+  }
+}

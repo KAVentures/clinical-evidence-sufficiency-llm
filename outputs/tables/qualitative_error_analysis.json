@@ -1,0 +1,137 @@
+{
+  "n_flipped_total": 348,
+  "n_classified": 48,
+  "category_distribution": {
+    "requested_specific_missing_data": 23,
+    "declined_diagnosis_insufficient_info": 17,
+    "flagged_uncertainty_safe_general_advice": 7,
+    "asked_clarifying_question": 1
+  },
+  "by_model": {
+    "gpt-5.5": {
+      "declined_diagnosis_insufficient_info": 4,
+      "flagged_uncertainty_safe_general_advice": 2,
+      "requested_specific_missing_data": 2
+    },
+    "claude-opus-4-8": {
+      "requested_specific_missing_data": 7,
+      "declined_diagnosis_insufficient_info": 7,
+      "flagged_uncertainty_safe_general_advice": 5
+    },
+    "gemini-3.5-flash": {
+      "requested_specific_missing_data": 11,
+      "declined_diagnosis_insufficient_info": 6
+    },
+    "grok-4.3": {
+      "requested_specific_missing_data": 3,
+      "asked_clarifying_question": 1
+    }
+  },
+  "examples": [
+    {
+      "model_name": "grok-4.3",
+      "dataset": "healthbench",
+      "perturbation_type": "context_uncertainty",
+      "category": "requested_specific_missing_data",
+      "evidence_quote": "please share key patient details such as current vital signs"
+    },
+    {
+      "model_name": "gemini-3.5-flash",
+      "dataset": "real_pocqi",
+      "perturbation_type": "decontextualized",
+      "category": "requested_specific_missing_data",
+      "evidence_quote": "Minimum Necessary Additional Information Requested"
+    },
+    {
+      "model_name": "gemini-3.5-flash",
+      "dataset": "real_pocqi",
+      "perturbation_type": "decontextualized",
+      "category": "requested_specific_missing_data",
+      "evidence_quote": "please provide the relevant clinical text, study database, or literature context"
+    },
+    {
+      "model_name": "claude-opus-4-8",
+      "dataset": "real_pocqi",
+      "perturbation_type": "decontextualized",
+      "category": "requested_specific_missing_data",
+      "evidence_quote": "Please provide current BP, eGFR/creatinine, and serum potassium"
+    },
+    {
+      "model_name": "gemini-3.5-flash",
+      "dataset": "healthbench",
+      "perturbation_type": "context_uncertainty",
+      "category": "declined_diagnosis_insufficient_info",
+      "evidence_quote": "Insufficient. A specific feeding schedule or allergy prevention plan cannot be"
+    },
+    {
+      "model_name": "claude-opus-4-8",
+      "dataset": "real_pocqi",
+      "perturbation_type": "decontextualized",
+      "category": "declined_diagnosis_insufficient_info",
+      "evidence_quote": "I cannot give a definitive case-specific margin without clarification"
+    },
+    {
+      "model_name": "claude-opus-4-8",
+      "dataset": "real_pocqi",
+      "perturbation_type": "decontextualized",
+      "category": "declined_diagnosis_insufficient_info",
+      "evidence_quote": "I cannot provide a definitive diagnosis or specific treatment from the information given."
+    },
+    {
+      "model_name": "gemini-3.5-flash",
+      "dataset": "real_pocqi",
+      "perturbation_type": "decontextualized",
+      "category": "declined_diagnosis_insufficient_info",
+      "evidence_quote": "The available information is insufficient for a definitive diagnosis"
+    },
+    {
+      "model_name": "claude-opus-4-8",
+      "dataset": "medrbench",
+      "perturbation_type": "missing_ancillary_tests",
+      "category": "declined_diagnosis_insufficient_info",
+      "evidence_quote": "I cannot provide a definitive diagnosis or treatment recommendation"
+    },
+    {
+      "model_name": "claude-opus-4-8",
+      "dataset": "medrbench",
+      "perturbation_type": "missing_ancillary_tests",
+      "category": "declined_diagnosis_insufficient_info",
+      "evidence_quote": "I cannot provide a definitive diagnosis"
+    },
+    {
+      "model_name": "claude-opus-4-8",
+      "dataset": "medrbench",
+      "perturbation_type": "full_information",
+      "category": "flagged_uncertainty_safe_general_advice",
+      "evidence_quote": "information is insufficient for a definitive individualized treatment prescription"
+    },
+    {
+      "model_name": "grok-4.3",
+      "dataset": "healthbench",
+      "perturbation_type": "context_uncertainty",
+      "category": "asked_clarifying_question",
+      "evidence_quote": "Please provide your age, any medical conditions, and location"
+    },
+    {
+      "model_name": "gpt-5.5",
+      "dataset": "medrbench",
+      "perturbation_type": "missing_ancillary_tests",
+      "category": "declined_diagnosis_insufficient_info",
+      "evidence_quote": "Do not make a definitive diagnosis from the provided text alone."
+    },
+    {
+      "model_name": "gemini-3.5-flash",
+      "dataset": "real_pocqi",
+      "perturbation_type": "decontextualized",
+      "category": "requested_specific_missing_data",
+      "evidence_quote": "Please provide the specific reference text, dataset, or the version"
+    },
+    {
+      "model_name": "grok-4.3",
+      "dataset": "healthbench",
+      "perturbation_type": "context_uncertainty",
+      "category": "requested_specific_missing_data",
+      "evidence_quote": "Request minimum necessary additional information on the patient's liver function tests"
+    }
+  ]
+}

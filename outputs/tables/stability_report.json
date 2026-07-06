@@ -1,0 +1,87 @@
+{
+  "n_rows": 800,
+  "models": [
+    "gemini-3.5-flash",
+    "gpt-5.4-mini"
+  ],
+  "cell_label_unanimity": 0.681,
+  "mean_within_cell_sd": 0.156,
+  "rd_by_replicate": [
+    {
+      "model": "gemini-3.5-flash",
+      "replicate": 0,
+      "rd": 0.475,
+      "n": 40
+    },
+    {
+      "model": "gemini-3.5-flash",
+      "replicate": 1,
+      "rd": 0.525,
+      "n": 40
+    },
+    {
+      "model": "gemini-3.5-flash",
+      "replicate": 2,
+      "rd": 0.425,
+      "n": 40
+    },
+    {
+      "model": "gemini-3.5-flash",
+      "replicate": 3,
+      "rd": 0.425,
+      "n": 40
+    },
+    {
+      "model": "gemini-3.5-flash",
+      "replicate": 4,
+      "rd": 0.35,
+      "n": 40
+    },
+    {
+      "model": "gpt-5.4-mini",
+      "replicate": 0,
+      "rd": 0.3,
+      "n": 40
+    },
+    {
+      "model": "gpt-5.4-mini",
+      "replicate": 1,
+      "rd": 0.3,
+      "n": 40
+    },
+    {
+      "model": "gpt-5.4-mini",
+      "replicate": 2,
+      "rd": 0.25,
+      "n": 40
+    },
+    {
+      "model": "gpt-5.4-mini",
+      "replicate": 3,
+      "rd": 0.325,
+      "n": 40
+    },
+    {
+      "model": "gpt-5.4-mini",
+      "replicate": 4,
+      "rd": 0.375,
+      "n": 40
+    }
+  ],
+  "rd_stability": {
+    "gemini-3.5-flash": {
+      "mean_rd": 0.44,
+      "sd_rd": 0.065,
+      "min_rd": 0.35,
+      "max_rd": 0.525,
+      "n_replicates": 5
+    },
+    "gpt-5.4-mini": {
+      "mean_rd": 0.31,
+      "sd_rd": 0.045,
+      "min_rd": 0.25,
+      "max_rd": 0.375,
+      "n_replicates": 5
+    }
+  }
+}

@@ -1,0 +1,215 @@
+{
+  "analysis_registry": [
+    {
+      "analysis": "Primary: wrapper reduces unsafe_overconfident on the common panel (paired RD, McNemar, GEE)",
+      "status": "CONFIRMATORY (pre-specified primary endpoint)"
+    },
+    {
+      "analysis": "Circularity controls: format_scaffold & neutral_scaffold arms + mechanism decomposition",
+      "status": "SECONDARY (pre-specified in revision plan)"
+    },
+    {
+      "analysis": "Helpfulness/accuracy tradeoff on answerable full_information items",
+      "status": "SECONDARY (pre-specified: safety must not come from over-abstention)"
+    },
+    {
+      "analysis": "Cross-judge robustness (claude-sonnet-5) of direction & magnitude",
+      "status": "SECONDARY (pre-specified sensitivity analysis)"
+    },
+    {
+      "analysis": "Per-model / per-dataset / per-perturbation heterogeneity of the wrapper effect",
+      "status": "EXPLORATORY (multiplicity-corrected; hypothesis-generating)"
+    },
+    {
+      "analysis": "Contradiction (conflicting-evidence) arm",
+      "status": "EXPLORATORY (MedRBench-only; narrower construct)"
+    },
+    {
+      "analysis": "Prompt-paraphrase robustness of the wrapper",
+      "status": "EXPLORATORY (sensitivity)"
+    },
+    {
+      "analysis": "Stochastic stability replicates",
+      "status": "EXPLORATORY (sensitivity)"
+    }
+  ],
+  "multiplicity": {
+    "n_tests": 13,
+    "method": "Holm (FWER) + Benjamini-Hochberg (FDR), alpha=0.05",
+    "tests": [
+      {
+        "subgroup": "overall_common_panel",
+        "b_std_unsafe_es_safe": 348,
+        "c_std_safe_es_unsafe": 52,
+        "n_discordant": 400,
+        "statistic": 217.5625,
+        "p_value": 0.0,
+        "p_bh": 0.0,
+        "p_holm": 0.0,
+        "sig_holm_0.05": true
+      },
+      {
+        "subgroup": "model:gpt-5.5",
+        "b_std_unsafe_es_safe": 77,
+        "c_std_safe_es_unsafe": 19,
+        "n_discordant": 96,
+        "statistic": 33.84375,
+        "p_value": 0.0,
+        "p_bh": 0.0,
+        "p_holm": 0.0,
+        "sig_holm_0.05": true
+      },
+      {
+        "subgroup": "model:claude-opus-4-8",
+        "b_std_unsafe_es_safe": 135,
+        "c_std_safe_es_unsafe": 6,
+        "n_discordant": 141,
+        "statistic": 116.19858156028369,
+        "p_value": 0.0,
+        "p_bh": 0.0,
+        "p_holm": 0.0,
+        "sig_holm_0.05": true
+      },
+      {
+        "subgroup": "model:gemini-3.5-flash",
+        "b_std_unsafe_es_safe": 104,
+        "c_std_safe_es_unsafe": 14,
+        "n_discordant": 118,
+        "statistic": 67.12711864406779,
+        "p_value": 0.0,
+        "p_bh": 0.0,
+        "p_holm": 0.0,
+        "sig_holm_0.05": true
+      },
+      {
+        "subgroup": "model:grok-4.3",
+        "b_std_unsafe_es_safe": 32,
+        "c_std_safe_es_unsafe": 13,
+        "n_discordant": 45,
+        "statistic": 7.2,
+        "p_value": 0.00729,
+        "p_bh": 0.00862,
+        "p_holm": 0.02187,
+        "sig_holm_0.05": true
+      },
+      {
+        "subgroup": "dataset:healthbench",
+        "b_std_unsafe_es_safe": 49,
+        "c_std_safe_es_unsafe": 6,
+        "n_discordant": 55,
+        "statistic": 32.07272727272727,
+        "p_value": 0.0,
+        "p_bh": 0.0,
+        "p_holm": 0.0,
+        "sig_holm_0.05": true
+      },
+      {
+        "subgroup": "dataset:medrbench",
+        "b_std_unsafe_es_safe": 100,
+        "c_std_safe_es_unsafe": 35,
+        "n_discordant": 135,
+        "statistic": 30.340740740740742,
+        "p_value": 0.0,
+        "p_bh": 0.0,
+        "p_holm": 0.0,
+        "sig_holm_0.05": true
+      },
+      {
+        "subgroup": "dataset:real_pocqi",
+        "b_std_unsafe_es_safe": 199,
+        "c_std_safe_es_unsafe": 11,
+        "n_discordant": 210,
+        "statistic": 166.51904761904763,
+        "p_value": 0.0,
+        "p_bh": 0.0,
+        "p_holm": 0.0,
+        "sig_holm_0.05": true
+      },
+      {
+        "subgroup": "perturbation:context_uncertainty",
+        "b_std_unsafe_es_safe": 44,
+        "c_std_safe_es_unsafe": 5,
+        "n_discordant": 49,
+        "statistic": 29.46938775510204,
+        "p_value": 0.0,
+        "p_bh": 0.0,
+        "p_holm": 0.0,
+        "sig_holm_0.05": true
+      },
+      {
+        "subgroup": "perturbation:decontextualized",
+        "b_std_unsafe_es_safe": 191,
+        "c_std_safe_es_unsafe": 10,
+        "n_discordant": 201,
+        "statistic": 161.19402985074626,
+        "p_value": 0.0,
+        "p_bh": 0.0,
+        "p_holm": 0.0,
+        "sig_holm_0.05": true
+      },
+      {
+        "subgroup": "perturbation:full_information",
+        "b_std_unsafe_es_safe": 31,
+        "c_std_safe_es_unsafe": 20,
+        "n_discordant": 51,
+        "statistic": 1.9607843137254901,
+        "p_value": 0.161429,
+        "p_bh": 0.16143,
+        "p_holm": 0.16143,
+        "sig_holm_0.05": false
+      },
+      {
+        "subgroup": "perturbation:missing_ancillary_tests",
+        "b_std_unsafe_es_safe": 58,
+        "c_std_safe_es_unsafe": 9,
+        "n_discordant": 67,
+        "statistic": 34.38805970149254,
+        "p_value": 0.0,
+        "p_bh": 0.0,
+        "p_holm": 0.0,
+        "sig_holm_0.05": true
+      },
+      {
+        "subgroup": "perturbation:reworded",
+        "b_std_unsafe_es_safe": 24,
+        "c_std_safe_es_unsafe": 8,
+        "n_discordant": 32,
+        "statistic": 7.03125,
+        "p_value": 0.00801,
+        "p_bh": 0.00868,
+        "p_holm": 0.02187,
+        "sig_holm_0.05": true
+      }
+    ]
+  },
+  "heterogeneity_model_x_wrapper": {
+    "interaction_terms": {
+      "wrapper:C(model_name)[T.gemini-3.5-flash]": {
+        "coef": 0.8326452413560397,
+        "p": 0.0007395855572341394
+      },
+      "wrapper:C(model_name)[T.gpt-5.5]": {
+        "coef": 1.3737725903349538,
+        "p": 5.254202701682924e-12
+      },
+      "wrapper:C(model_name)[T.grok-4.3]": {
+        "coef": 1.4589739798045915,
+        "p": 4.5324951308904245e-05
+      }
+    },
+    "joint_wald_stat": 52.20257521223273,
+    "joint_wald_p": 2.7116485507542116e-11,
+    "interpretation": "small joint p => wrapper effect differs across models (heterogeneous)"
+  },
+  "power": {
+    "n_pairs": 1200,
+    "observed_rd": 0.24666666666666667,
+    "se": 0.015075259874741237,
+    "ci95": [
+      0.21711970025459204,
+      0.2762136330787413
+    ],
+    "achieved_power_for_observed_effect": 1.0,
+    "mde_at_80pct_power_pp": 4.22
+  }
+}

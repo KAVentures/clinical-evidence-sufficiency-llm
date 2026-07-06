@@ -1,0 +1,8 @@
+dataset,perturbation_type,n_items,n_prompted_outputs
+healthbench,context_uncertainty,200,400
+healthbench,reworded,20,40
+medrbench,full_information,200,400
+medrbench,missing_ancillary_tests,200,400
+medrbench,reworded,38,76
+real_pocqi,decontextualized,620,1240
+real_pocqi,reworded,62,124

@@ -1,0 +1,26 @@
+{
+  "unadjusted": {
+    "prompt_wrapper_coef": -1.1081159061089958,
+    "prompt_wrapper_odds_ratio": 0.3301804664038208,
+    "prompt_wrapper_p_value": 9.029783738236285e-17,
+    "n_obs": 640
+  },
+  "adjusted_prespecified": {
+    "prompt_wrapper_coef": -1.6803137187799548,
+    "prompt_wrapper_odds_ratio": 0.1863155161934868,
+    "prompt_wrapper_p_value": 9.394061201678752e-16,
+    "n_obs": 640
+  },
+  "adjusted_plus_length_MEDIATOR": {
+    "prompt_wrapper_coef": -1.59292616283679,
+    "prompt_wrapper_odds_ratio": 0.2033297643860288,
+    "prompt_wrapper_p_value": 1.252179578490433e-13,
+    "n_obs": 640
+  },
+  "length_attenuation_of_coef": {
+    "coef_without_length": -1.6803137187799548,
+    "coef_with_length": -1.59292616283679,
+    "proportion_attenuated": 0.05200669075451902,
+    "note": "Large positive attenuation => the wrapper effect is partly mediated by answer length."
+  }
+}

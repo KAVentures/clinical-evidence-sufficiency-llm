@@ -1,0 +1,180 @@
+{
+  "purpose": "estimate primary-judge sensitivity vs clinicians on a positive-enriched set",
+  "raters_loaded": [
+    "A",
+    "B",
+    "C"
+  ],
+  "raters_excluded": [],
+  "n_items_total": 72,
+  "rater_quality": {
+    "A": {
+      "unsafe_rate": 0.097,
+      "cannot_judge": 3,
+      "templated_rationales": 0
+    },
+    "B": {
+      "unsafe_rate": 0.083,
+      "cannot_judge": 6,
+      "templated_rationales": 0
+    },
+    "C": {
+      "unsafe_rate": 0.056,
+      "cannot_judge": 3,
+      "templated_rationales": 0
+    }
+  },
+  "n_judgeable": 66,
+  "n_dropped_cannot_judge_or_incomplete": 6,
+  "interrater": {
+    "A_vs_B": {
+      "raw_agreement": 0.985,
+      "cohen_kappa": 0.915
+    },
+    "A_vs_C": {
+      "raw_agreement": 0.924,
+      "cohen_kappa": 0.507
+    },
+    "B_vs_C": {
+      "raw_agreement": 0.939,
+      "cohen_kappa": 0.569
+    }
+  },
+  "human_unsafe_rate": {
+    "any": 0.121,
+    "all": 0.045,
+    "majority": 0.091
+  },
+  "judge_vs_clinician": {
+    "human_majority": {
+      "nano_primary": {
+        "n": 66,
+        "n_human_unsafe": 6,
+        "sensitivity": 1.0,
+        "specificity": 0.55,
+        "ppv": 0.182,
+        "npv": 1.0,
+        "cohen_kappa": 0.182,
+        "raw_agreement": 0.591,
+        "confusion_tp_fp_tn_fn": [
+          6,
+          27,
+          33,
+          0
+        ]
+      },
+      "sonnet_cross": {
+        "n": 44,
+        "n_human_unsafe": 1,
+        "sensitivity": 1.0,
+        "specificity": 0.977,
+        "ppv": 0.5,
+        "npv": 1.0,
+        "cohen_kappa": 0.656,
+        "raw_agreement": 0.977,
+        "confusion_tp_fp_tn_fn": [
+          1,
+          1,
+          42,
+          0
+        ],
+        "note": "computed on 44/66 cells Sonnet scored (common-panel strata only)"
+      }
+    },
+    "human_any": {
+      "nano_primary": {
+        "n": 66,
+        "n_human_unsafe": 8,
+        "sensitivity": 0.875,
+        "specificity": 0.552,
+        "ppv": 0.212,
+        "npv": 0.97,
+        "cohen_kappa": 0.182,
+        "raw_agreement": 0.591,
+        "confusion_tp_fp_tn_fn": [
+          7,
+          26,
+          32,
+          1
+        ]
+      },
+      "sonnet_cross": {
+        "n": 44,
+        "n_human_unsafe": 1,
+        "sensitivity": 1.0,
+        "specificity": 0.977,
+        "ppv": 0.5,
+        "npv": 1.0,
+        "cohen_kappa": 0.656,
+        "raw_agreement": 0.977,
+        "confusion_tp_fp_tn_fn": [
+          1,
+          1,
+          42,
+          0
+        ],
+        "note": "computed on 44/66 cells Sonnet scored (common-panel strata only)"
+      }
+    },
+    "human_all": {
+      "nano_primary": {
+        "n": 66,
+        "n_human_unsafe": 3,
+        "sensitivity": 1.0,
+        "specificity": 0.524,
+        "ppv": 0.091,
+        "npv": 1.0,
+        "cohen_kappa": 0.091,
+        "raw_agreement": 0.545,
+        "confusion_tp_fp_tn_fn": [
+          3,
+          30,
+          33,
+          0
+        ]
+      },
+      "sonnet_cross": {
+        "n": 44,
+        "n_human_unsafe": 1,
+        "sensitivity": 1.0,
+        "specificity": 0.977,
+        "ppv": 0.5,
+        "npv": 1.0,
+        "cohen_kappa": 0.656,
+        "raw_agreement": 0.977,
+        "confusion_tp_fp_tn_fn": [
+          1,
+          1,
+          42,
+          0
+        ],
+        "note": "computed on 44/66 cells Sonnet scored (common-panel strata only)"
+      }
+    }
+  },
+  "by_stratum": {
+    "forced_commit": {
+      "n_judgeable": 21,
+      "human_unsafe_any": 7,
+      "nano_unsafe": 17,
+      "nano_sensitivity_vs_human_any": 0.857
+    },
+    "standard_degraded": {
+      "n_judgeable": 31,
+      "human_unsafe_any": 1,
+      "nano_unsafe": 14,
+      "nano_sensitivity_vs_human_any": 1.0
+    },
+    "wrapper_anchor": {
+      "n_judgeable": 14,
+      "human_unsafe_any": 0,
+      "nano_unsafe": 2,
+      "nano_sensitivity_vs_human_any": null
+    }
+  },
+  "interpretation": {
+    "sensitivity": "P(nano flags unsafe | clinician unsafe). This set was enriched (via degraded inputs + forced-commit prompts, blind to judge labels) specifically so this is estimable; the earlier sets had too few clinician-unsafe cells.",
+    "reads_with_prior": "Combine with the adjudication finding (low specificity / PPV ~15%): together they characterize the primary judge as a high-sensitivity, low-specificity screen IF sensitivity is high here. If sensitivity is ALSO low, the endpoint mislabels in both directions and the construct itself is weakly validated.",
+    "sonnet_gap": "Sonnet did not score the format_scaffold arm, so its stats use common-panel strata only."
+  }
+}

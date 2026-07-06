@@ -1,0 +1,5 @@
+contrast,from_condition,to_condition,n_cells,risk_difference,ci_low,ci_high
+full_wrapper,standard,evidence_sufficiency,480,0.2375,0.20189260563380282,0.2730263157894737
+scaffold_structure,standard,neutral_scaffold,480,0.08958333333333333,0.06162300999629767,0.11805555555555555
+abstention_content,neutral_scaffold,evidence_sufficiency,480,0.14791666666666667,0.11561899038461539,0.17763356055802154
+forced_commit,neutral_scaffold,format_scaffold,480,-0.42083333333333334,-0.4568012914230019,-0.38461538461538464

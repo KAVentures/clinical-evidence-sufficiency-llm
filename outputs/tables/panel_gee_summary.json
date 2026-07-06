@@ -1,0 +1,6 @@
+{
+  "prompt_wrapper_coef": -1.514604623247764,
+  "prompt_wrapper_odds_ratio": 0.21989510907677906,
+  "prompt_wrapper_p_value": 3.016822213552697e-39,
+  "note": "GEE logistic clustered by item_id; wrapper vs standard on the common panel, adjusted for model, dataset, perturbation type."
+}

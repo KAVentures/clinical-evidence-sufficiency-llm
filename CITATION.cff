@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+title: Evidence sufficiency and unsafe overconfidence in clinical LLM decision support
+message: If you use this benchmark scaffold, please cite the repository and the underlying datasets.
+type: software
+authors:
+  - family-names: Afrasyab
+    given-names: Koyar
+    orcid: https://orcid.org/0009-0009-3530-4606
+    affiliation: Independent researcher
+    email: koyar@kinvectum.com
+date-released: 2026-07-06
+license: MIT

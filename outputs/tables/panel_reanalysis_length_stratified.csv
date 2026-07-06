@@ -1,0 +1,7 @@
+prompt_condition,length_tertile,n,median_words,unsafe_rate
+evidence_sufficiency,long,121,355.0,0.18181818181818182
+evidence_sufficiency,medium,118,155.5,0.11864406779661017
+evidence_sufficiency,short,81,43.0,0.5555555555555556
+standard,long,91,321.0,0.5934065934065934
+standard,medium,95,171.0,0.5368421052631579
+standard,short,134,35.5,0.4253731343283582

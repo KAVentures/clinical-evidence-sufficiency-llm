@@ -1,0 +1,615 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Evidence sufficiency and unsafe overconfidence in clinical LLM decision support</title>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; line-height: 1.55; color: #1f2933; max-width: 960px; margin: 44px auto; padding: 0 28px; background: #fff; }
+  h1 { font-size: 30px; line-height: 1.18; margin: 0 0 18px; }
+  h2 { font-size: 22px; margin-top: 34px; border-top: 1px solid #d0d5dd; padding-top: 22px; }
+  h3 { font-size: 17px; margin-top: 28px; }
+  p, li { font-size: 15px; }
+  table { border-collapse: collapse; width: 100%; margin: 18px 0; font-size: 14px; }
+  th, td { border: 1px solid #d0d5dd; padding: 7px 9px; vertical-align: top; }
+  th { background: #f2f4f7; }
+  .figure-block { margin: 26px 0 8px; page-break-inside: avoid; }
+  .figure-block svg, .figure-block img { display: block; width: 100%; height: auto; max-height: 780px; object-fit: contain; }
+  .figure-block + p em { display: block; margin: 8px 0 22px; color: #344054; font-size: 14px; line-height: 1.45; }
+  code { background: #f2f4f7; padding: 1px 4px; border-radius: 3px; }
+</style>
+</head>
+<body>
+<h1>Evidence sufficiency and unsafe overconfidence in clinical LLM decision support: a public-data computational stress test</h1>
+<p><strong>Author:</strong> Koyar Afrasyab, M.D.<br />
+<strong>Affiliation:</strong> Independent researcher<br />
+<strong>ORCID:</strong> https://orcid.org/0009-0009-3530-4606<br />
+<strong>Correspondence:</strong> Koyar Afrasyab, M.D.; koyar@kinvectum.com</p>
+<h2>Abstract</h2>
+<p><strong>Background:</strong> Clinical language models can provide fluent recommendations even when patient-specific evidence is incomplete, ambiguous, or contradictory. Prior clinical decision-making and robustness studies show that benchmark performance can fall under realistic information-gathering, context-removal, and perturbation conditions [1,2]. We evaluated whether a structured evidence-sufficiency prompt reduces unsafe overconfident clinical answers.</p>
+<p><strong>Methods:</strong> We conducted a retrospective public-data benchmark using Real-POCQi, HealthBench, and MedRBench [3-7]. MIMIC-CDM was excluded because MIMIC-derived data are currently prohibited from external API use [8]. Four high-reasoning model configurations were evaluated: GPT-5.5, Claude Opus 4.8, Gemini 3.5 Flash, and Grok 4.3. The primary analysis used a fully paired common panel of 300 item-perturbations per model (1,200 paired model-item cells, 2,400 model outputs), each answered with a standard clinical prompt and an evidence-sufficiency wrapper. To test whether the effect was an artifact of the judge rewarding the wrapper's structural tokens (circularity), we added two matched control arms on a 120-item x 4-model subset (480 cells each): a neutral scaffold using the wrapper's four section labels with neither an abstain nor a commit instruction, and a format scaffold using the same labels with a forced-commitment instruction. The primary rubric judge was GPT-5.4-nano. We pre-specified multiple robustness and validity analyses: an independent different-family judge (Claude Sonnet 5) re-scored the full paired panel; a correctness judge scored diagnostic accuracy and abstention on answerable complete-information cases to quantify the helpfulness cost; two independent paraphrases of the wrapper and stochastic decode replicates tested prompt-wording and sampling robustness; and a blinded three-clinician review tested whether the judge's threshold matches clinical judgment. The primary estimand was the paired absolute risk difference in unsafe overconfidence, standard prompt minus wrapper, with 10,000 bootstrap resamples and McNemar testing; subgroup analyses used Holm and Benjamini-Hochberg correction and a GEE model x wrapper interaction test of effect heterogeneity.</p>
+<p><strong>Results:</strong> On the common panel, unsafe overconfidence occurred in 592/1,200 standard-prompt responses (49.3%) and 296/1,200 evidence-sufficiency responses (24.7%). The wrapper reduced unsafe overconfidence by 24.7 percentage points (95% bootstrap CI, 21.8 to 27.7; McNemar 348 vs 52 discordant pairs, p=3.1e-49; adjusted GEE odds ratio 0.22, p=3.0e-39). Model-specific reductions were 43.0 points for Claude Opus 4.8, 30.0 for Gemini 3.5 Flash, 19.3 for GPT-5.5, and 6.3 for Grok 4.3 (all Holm-adjusted p&lt;0.05), and the effect differed significantly across models (interaction joint Wald p=2.7e-11). In the control arms, identical scaffold tokens produced very different unsafe rates (neutral 37.7%, wrapper 22.9%, format 79.8% on the matched subset), so the judge scored behavior rather than tokens; the effect decomposed additively into a scaffold-structure component (+9.0 points) and a larger abstention-content component (+14.8 points). The direction of benefit was robust to the independent Sonnet judge and to two wrapper paraphrases (+28 to +29 points) and stochastic decoding, but the absolute magnitude was judge-dependent: the two judges disagreed on 1,147/3,534 cells almost entirely in one direction (GPT-5.4-nano labeled unsafe where Sonnet labeled safe, 1,147 vs 15 the reverse), and the paired reduction fell to +13.1 points under Sonnet. The wrapper's safety gain carried a helpfulness cost that was itself strongly model-dependent: on 330 answerable complete-information cases, correct diagnosis fell from 80.3% to 50.3% and abstention rose from 12.7% to 46.4%, but this ranged from near-free for GPT-5.5 (correct -2 points) to catastrophic for Gemini 3.5 Flash (correct -58 points; abstention 18% to 82%). In the blinded clinician review, the primary judge's sensitivity to human-labeled unsafe responses was high but its specificity was low (positive predictive value 15%; human-majority unsafe rate 6.7% vs judge 44%), and on judge-discordant cases the two reliable clinicians sided with the conservative Sonnet judge, confirming that the primary judge over-labels in absolute terms.</p>
+<p><strong>Conclusions:</strong> In this public-data computational benchmark, evidence-sufficiency prompting reliably and reproducibly reduced unsafe overconfident clinical responses, and a matched control-arm decomposition showed the direction of the effect reflects genuine behavior change rather than judge circularity. However, the absolute magnitude of the effect and of the unsafe-overconfidence rate itself are properties of the judge's calibration: an independent judge and blinded clinicians agreed on the direction but placed the threshold much higher, and the safety gain came at a diagnostic-accuracy cost that was acceptable for some models and unacceptable for others. These findings support evaluating clinical AI for abstention, information-seeking, and the safety-helpfulness trade-off jointly, reporting effects as directional and relative rather than as calibrated absolute rates, and do not establish clinical deployment readiness or patient-outcome benefit.</p>
+<h2>Introduction</h2>
+<p>High benchmark performance does not establish safe clinical decision-support behavior. A model can answer complete-information questions correctly while failing in realistic settings where key data are missing, contradictory, or should trigger further information gathering. Hager et al. showed that large language models degrade in a realistic clinical decision-making framework requiring information gathering, lab interpretation, imaging interpretation, diagnosis, and treatment planning rather than static answer selection [1]. Gu et al. argued that medical AI benchmark readiness requires robustness stress tests because strong headline scores can mask brittleness under input removal, distractor, format, and visual perturbations [2]. Feng et al. introduced Real-POCQi to move evaluation toward real physician point-of-care questions and expert physician judgments [3]. HealthBench and MedRBench add complementary health-conversation safety and clinical-reasoning benchmark settings [5-7].</p>
+<p>This study focuses on unsafe overconfidence: giving a definitive diagnosis, treatment recommendation, or management plan despite insufficient or contradictory information, without clearly stating uncertainty and without requesting missing clinically necessary information. The hypothesis was that a simple evidence-sufficiency wrapper would reduce unsafe overconfident responses compared with a standard clinical-answer prompt.</p>
+<h2>Methods</h2>
+<h3>Study Design</h3>
+<p>This was a retrospective public-data benchmark and perturbation study with paired repeated measures, designed in the spirit of reporting and evaluation guidance for AI decision-support systems [9-11]. The unit of analysis was model x item x perturbation x prompt condition. The primary comparison was standard prompt versus evidence-sufficiency wrapper for the same model and item-perturbation.</p>
+<p>The original protocol considered MIMIC-CDM because it is directly aligned with clinical decision-making under incomplete information [1,8]. MIMIC-derived data were excluded from external API calls after confirming the data-use restriction. MedRBench diagnostic cases replaced the MIMIC arm for the executable public-data study [6,7].</p>
+<h3>Datasets</h3>
+<p>The executable sampling frame used:</p>
+<ul>
+<li>Real-POCQi: 620 real physician point-of-care questions [3,4].</li>
+<li>HealthBench: 200 selected uncertainty/context examples from the hard split [5].</li>
+<li>MedRBench: 200 diagnostic cases sampled from <code>diagnosis_957_cases_with_rare_disease_491.json</code> [6,7].</li>
+</ul>
+<p>An earlier interim analysis used a cost-controlled stratified subset of already collected responses, but the standard and evidence-sufficiency conditions had been run on largely different items, leaving few truly paired cells. To remove this confound we generated a fully paired common panel: 300 item-perturbations per model answered under both conditions (1,200 paired model-item cells, 2,400 model outputs), stratified across dataset and perturbation type. Two additional control arms (neutral scaffold and format scaffold; see Prompts) were run on a 120-item x 4-model subset (480 cells each) to isolate the mechanism of the wrapper effect.</p>
+<h3>Perturbations</h3>
+<p>Real-POCQi questions were decontextualized by removing or generalizing clinically relevant detail where present, with a small rewording subset for robustness. HealthBench contributed uncertainty/context-seeking cases and a small rewording subset. MedRBench included full-information diagnostic cases, missing-ancillary-test variants, and reworded variants. The perturbation strategy reused the logic of prior robustness work: input removal, harmless rewording, missing-context stress tests, and separation of complete-information performance from evidence-sufficiency behavior [1,2]. Generated manifests stored item IDs, dataset, source text hash, perturbation type, removed fields, expected missing evidence, and ground-truth diagnosis where available.</p>
+<h3>Models</h3>
+<p>Four requested high-reasoning model configurations were evaluated:</p>
+<ul>
+<li>OpenAI GPT-5.5 with high reasoning effort.</li>
+<li>Anthropic Claude Opus 4.8 with adaptive thinking and high output effort.</li>
+<li>Google Gemini 3.5 Flash with thinking budget enabled.</li>
+<li>xAI Grok 4.3 with high reasoning effort.</li>
+</ul>
+<p>The separate rubric judge was OpenAI GPT-5.4-nano. The judged subset contained no failed judge calls.</p>
+<h3>Prompts</h3>
+<p>The standard prompt was: "You are a clinical decision-support assistant. Answer the clinical question as accurately and safely as possible."</p>
+<p>The evidence-sufficiency wrapper required the model to list evidence present, evidence missing, make a sufficiency judgment, and avoid definitive diagnosis or treatment when information was insufficient. It used the labels <code>EVIDENCE PRESENT</code>, <code>EVIDENCE MISSING</code>, <code>SUFFICIENCY JUDGMENT</code>, and <code>ANSWER</code>.</p>
+<p>Two control prompts shared the wrapper's four section labels to isolate the source of its effect. The neutral scaffold used the identical labels but asked only to state whether the information was sufficient and to provide a clinical answer, with neither an instruction to abstain nor an instruction to commit. The format scaffold used the identical labels together with an explicit instruction to commit to a definitive answer. Comparing these arms separates any effect of the structural tokens the judge might reward (circularity) from the effect of the wrapper's abstention content: the standard-to-neutral contrast measures the scaffold structure alone, the neutral-to-wrapper contrast measures the abstention instruction added on top, and the neutral-to-format contrast is an adversarial bound in which the same tokens accompany forced commitment.</p>
+<h3>Outcomes</h3>
+<p>The primary outcome was unsafe overconfident response, binary. A response was labeled unsafe overconfident if it gave a definitive diagnosis, treatment recommendation, or management plan despite insufficient or contradictory information, failed to clearly state uncertainty, or failed to request clinically necessary missing information.</p>
+<p>Secondary outcomes included correct abstention, information seeking, identification of removed evidence, potentially harmful treatment, guideline-concordant next step, and answer length.</p>
+<h3>Scoring</h3>
+<p>Rubric-based LLM scoring was used as a computational first-pass label, not as clinical ground truth. The primary judge (GPT-5.4-nano) returned structured JSON with binary rubric fields, confidence level, rationale, and quote support. This follows the practical rubric-based style of recent health-AI evaluations while preserving the distinction between automated labels and clinical adjudication [2,5].</p>
+<h3>Judge Validation and Cross-Judge Robustness</h3>
+<p>Because the sole automated label is an LLM judge, we validated it two ways. First, an independent judge from a different model family, Claude Sonnet 5, re-scored the entire paired common panel and the contradiction arm using the identical rubric, and we compared the two judges by Cohen's kappa, raw agreement, the direction of discordance, and the recomputed paired risk difference under each judge. Second, three physicians independently rated blinded responses (case text and model response only, blinded to model, prompt condition, and both judge labels). Two review sets were prepared: a 120-item judge-validation set balanced across models and conditions, and a 90-item adjudication set that oversampled judge-discordant cells (primary judge unsafe, cross judge safe) so clinicians could arbitrate which threshold is clinically correct. Both sets included a <code>cannot judge / needs more context</code> option to flag truncated or malformed responses. Analyses reported inter-rater agreement, judge sensitivity and specificity against the human majority, and, on discordant cells, whether clinicians sided with the over-labeling or the conservative judge.</p>
+<h3>Helpfulness and Accuracy</h3>
+<p>Because the unsafe-overconfidence endpoint treats an abstention on an answerable question as safe, it cannot by itself detect over-abstention. We therefore scored diagnostic accuracy on the answerable subset: MedRBench complete-information cases with a gold diagnosis in the ground-truth label. A correctness judge (GPT-5.4-mini) labeled each response for whether it gave a definitive diagnosis, whether that diagnosis was correct, and whether it abstained or deferred, and we computed the paired wrapper-minus-standard change in correct diagnosis and abstention overall and per model.</p>
+<h3>Robustness Analyses</h3>
+<p>To test whether the effect depended on the exact wrapper wording, two independent paraphrases of the wrapper (one prose without section labels, one with different section labels) were generated and judged on an 80-item subset for Claude Opus 4.8 and GPT-5.5. To test stability against stochastic decoding, five independent replicates at temperature 0.8 were generated for a 40-item subset under both conditions for two lower-cost models and judged with the primary judge, quantifying per-cell label unanimity and the spread of the paired risk difference across replicates.</p>
+<h3>Statistical Analysis</h3>
+<p>The primary estimand was the paired absolute risk difference in unsafe overconfidence, standard prompt minus evidence-sufficiency wrapper, on the common panel. Confidence intervals used 10,000 bootstrap resamples of paired differences. McNemar tests compared discordant paired binary outcomes. A GEE logistic model clustered by item ID was fit as a sensitivity analysis, adjusting for model, dataset, and perturbation type. Control-arm contrasts (standard-to-neutral, neutral-to-wrapper, and neutral-to-format) were computed on the matched subset of cells present in all arms, with confidence intervals from an item-clustered bootstrap, and an additive check compared the sum of the scaffold-structure and abstention-content contrasts against the full wrapper effect. We pre-specified the common-panel wrapper effect as the confirmatory primary analysis and labeled control-arm, cross-judge, helpfulness, contradiction, and robustness analyses as secondary or exploratory. All subgroup McNemar tests (per model, dataset, and perturbation type) were corrected for multiplicity with the Holm and Benjamini-Hochberg procedures. Effect heterogeneity across models was tested formally with a GEE logistic model including a model x wrapper interaction and a joint Wald test that all interaction terms were zero. Achieved power and the minimum detectable effect were computed for the paired primary endpoint.</p>
+<h2>Results</h2>
+<h3>Dataset and Run Composition</h3>
+<p>The primary analysis included 2,400 scored outputs from 1,200 paired model-item perturbations: 300 paired perturbations for each of GPT-5.5, Claude Opus 4.8, Gemini 3.5 Flash, and Grok 4.3. The panel included Real-POCQi, HealthBench, and MedRBench cases, with decontextualized, context-uncertainty, full-information, missing-ancillary-test, and reworded perturbations. The two control arms added 960 further outputs (480 neutral-scaffold and 480 format-scaffold cells). The judged data contained no failed judge calls.</p>
+<div class="figure-block" aria-label="Figure 1. Study design">
+<svg xmlns="http://www.w3.org/2000/svg" width="1060" height="650" viewBox="0 0 1060 650" role="img">
+<style>
+  text { font-family: Arial, Helvetica, sans-serif; fill: #1F2933; }
+  .title { font-size: 22px; font-weight: 700; }
+  .subtitle { font-size: 13px; fill: #667085; }
+  .axis { stroke: #344054; stroke-width: 1.2; shape-rendering: crispEdges; }
+  .grid { stroke: #D0D5DD; stroke-width: 0.9; shape-rendering: crispEdges; }
+  .tick { font-size: 12px; fill: #667085; }
+  .label { font-size: 14px; }
+  .small { font-size: 12px; fill: #667085; }
+  .value { font-size: 13px; font-weight: 700; }
+</style>
+<rect width="100%" height="100%" fill="white"/>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#475467"/></marker></defs>
+<text x="55" y="62" class="title">Figure 1. Study design</text>
+<text x="55" y="91" class="subtitle">Public benchmark cases were converted into paired prompt-comparison stress tests for evidence sufficiency.</text>
+<rect x="60" y="165" width="250" height="150" rx="12" fill="#EAF4F4" stroke="#B8C2CC" stroke-width="1.3"/>
+<text x="78.0" y="200.0" text-anchor="start" class="label"><tspan x="78.0" dy="0">Public clinical</tspan><tspan x="78.0" dy="18">benchmarks</tspan></text>
+<text x="78.0" y="247.0" text-anchor="start" class="small"><tspan x="78.0" dy="0">Real-POCQi, HealthBench,</tspan><tspan x="78.0" dy="16">and MedRBench.</tspan></text>
+<rect x="405" y="165" width="250" height="150" rx="12" fill="#EEF2FF" stroke="#B8C2CC" stroke-width="1.3"/>
+<text x="423.0" y="200.0" text-anchor="start" class="label"><tspan x="423.0" dy="0">Evidence stress</tspan><tspan x="423.0" dy="18">variants</tspan></text>
+<text x="423.0" y="247.0" text-anchor="start" class="small"><tspan x="423.0" dy="0">Removed context, missing</tspan><tspan x="423.0" dy="16">evidence, and controls.</tspan></text>
+<rect x="750" y="165" width="250" height="150" rx="12" fill="#FFF7ED" stroke="#B8C2CC" stroke-width="1.3"/>
+<text x="768.0" y="200.0" text-anchor="start" class="label"><tspan x="768.0" dy="0">Model response panel</tspan></text>
+<text x="768.0" y="247.0" text-anchor="start" class="small"><tspan x="768.0" dy="0">Four high-reasoning</tspan><tspan x="768.0" dy="16">models under paired</tspan><tspan x="768.0" dy="16">prompt conditions.</tspan></text>
+<rect x="235" y="405" width="250" height="150" rx="12" fill="#FDF2F8" stroke="#B8C2CC" stroke-width="1.3"/>
+<text x="253.0" y="440.0" text-anchor="start" class="label"><tspan x="253.0" dy="0">Independent rubric</tspan><tspan x="253.0" dy="18">scoring</tspan></text>
+<text x="253.0" y="487.0" text-anchor="start" class="small"><tspan x="253.0" dy="0">Separate judge labels</tspan><tspan x="253.0" dy="16">safety outcomes.</tspan></text>
+<rect x="575" y="405" width="250" height="150" rx="12" fill="#ECFDF3" stroke="#B8C2CC" stroke-width="1.3"/>
+<text x="593.0" y="440.0" text-anchor="start" class="label"><tspan x="593.0" dy="0">Paired analysis</tspan></text>
+<text x="593.0" y="487.0" text-anchor="start" class="small"><tspan x="593.0" dy="0">Risk differences,</tspan><tspan x="593.0" dy="16">clustered CIs, McNemar,</tspan><tspan x="593.0" dy="16">and GEE.</tspan></text>
+<line x1="310" y1="240" x2="390" y2="240" stroke="#475467" stroke-width="1.5" marker-end="url(#arrow)"/>
+<line x1="655" y1="240" x2="735" y2="240" stroke="#475467" stroke-width="1.5" marker-end="url(#arrow)"/>
+<line x1="875" y1="315" x2="490" y2="395" stroke="#475467" stroke-width="1.5" marker-end="url(#arrow)"/>
+<line x1="485" y1="480" x2="560" y2="480" stroke="#475467" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="55.0" y="585.0" text-anchor="start" class="small"><tspan x="55.0" dy="0">Primary estimand: paired absolute difference in automated unsafe-overconfidence labels, standard prompt minus</tspan><tspan x="55.0" dy="17">evidence-sufficiency wrapper.</tspan></text>
+</svg>
+</div>
+
+<p><em>Figure 1. Study design. Public clinical benchmark sources were transformed into evidence-sufficiency stress variants, answered by four high-reasoning model configurations under standard and evidence-sufficiency prompts, and scored with a separate rubric judge before clinician adjudication.</em></p>
+<h3>Primary Outcome</h3>
+<p>Unsafe overconfidence occurred in 592/1,200 standard-prompt responses (49.3%) and 296/1,200 evidence-sufficiency responses (24.7%). The absolute paired reduction was 24.7 percentage points (95% bootstrap CI, 21.8 to 27.7). McNemar testing showed 348 pairs where the standard prompt was unsafe and the wrapper was safe, versus 52 pairs where the standard prompt was safe and the wrapper was unsafe (p=3.1e-49).</p>
+<p>In the adjusted GEE sensitivity model, the evidence-sufficiency wrapper was associated with lower odds of unsafe overconfidence (odds ratio 0.22; p=3.0e-39), adjusted for model, dataset, and perturbation type.</p>
+<div class="figure-block" aria-label="Figure 2. Unsafe overconfidence by prompt">
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="620" viewBox="0 0 900 620" role="img">
+<style>
+  text { font-family: Arial, Helvetica, sans-serif; fill: #1F2933; }
+  .title { font-size: 22px; font-weight: 700; }
+  .subtitle { font-size: 13px; fill: #667085; }
+  .axis { stroke: #344054; stroke-width: 1.2; shape-rendering: crispEdges; }
+  .grid { stroke: #D0D5DD; stroke-width: 0.9; shape-rendering: crispEdges; }
+  .tick { font-size: 12px; fill: #667085; }
+  .label { font-size: 14px; }
+  .small { font-size: 12px; fill: #667085; }
+  .value { font-size: 13px; font-weight: 700; }
+</style>
+<rect width="100%" height="100%" fill="white"/>
+<text x="55" y="58" class="title">Figure 2. Unsafe overconfidence by prompt</text>
+<text x="55" y="87" class="subtitle">Common-panel analysis; lower values indicate fewer automated unsafe-overconfidence labels.</text>
+<line x1="135" y1="465.0" x2="810" y2="465.0" class="grid"/>
+<text x="119" y="469.0" text-anchor="end" class="tick">0</text>
+<line x1="135" y1="412.7" x2="810" y2="412.7" class="grid"/>
+<text x="119" y="416.7" text-anchor="end" class="tick">10</text>
+<line x1="135" y1="360.4" x2="810" y2="360.4" class="grid"/>
+<text x="119" y="364.4" text-anchor="end" class="tick">20</text>
+<line x1="135" y1="308.1" x2="810" y2="308.1" class="grid"/>
+<text x="119" y="312.1" text-anchor="end" class="tick">30</text>
+<line x1="135" y1="255.8" x2="810" y2="255.8" class="grid"/>
+<text x="119" y="259.8" text-anchor="end" class="tick">40</text>
+<line x1="135" y1="203.5" x2="810" y2="203.5" class="grid"/>
+<text x="119" y="207.5" text-anchor="end" class="tick">50</text>
+<line x1="135" y1="151.2" x2="810" y2="151.2" class="grid"/>
+<text x="119" y="155.2" text-anchor="end" class="tick">60</text>
+<line x1="135" y1="465" x2="810" y2="465" class="axis"/>
+<line x1="135" y1="125" x2="135" y2="465" class="axis"/>
+<text x="42" y="295.0" transform="rotate(-90 42 295.0)" text-anchor="middle" class="label">Unsafe overconfidence (%)</text>
+<rect x="250.0" y="206.9" width="170" height="258.1" rx="4" fill="#8F2D56"/>
+<text x="335" y="172.9" text-anchor="middle" class="value">49.3%</text>
+<text x="335" y="191.9" text-anchor="middle" class="small">592/1200</text>
+<text x="335.0" y="501.0" text-anchor="middle" class="label"><tspan x="335.0" dy="0">Standard prompt</tspan></text>
+<rect x="525.0" y="336.0" width="170" height="129.0" rx="4" fill="#007C89"/>
+<text x="610" y="302.0" text-anchor="middle" class="value">24.7%</text>
+<text x="610" y="321.0" text-anchor="middle" class="small">296/1200</text>
+<text x="610.0" y="501.0" text-anchor="middle" class="label"><tspan x="610.0" dy="0">Evidence-sufficiency</tspan><tspan x="610.0" dy="17">wrapper</tspan></text>
+<rect x="250" y="132" width="410" height="66" rx="10" fill="white" stroke="#D0D5DD" stroke-width="1"/>
+<text x="455" y="159" text-anchor="middle" class="label">Absolute paired reduction: <tspan font-weight="700">24.7 percentage points</tspan></text>
+<text x="455" y="182" text-anchor="middle" class="small">Paired 95% CI 21.8 to 27.7 percentage points</text>
+</svg>
+</div>
+
+<p><em>Figure 2. Unsafe overconfidence by prompt. Primary common-panel automated-rubric outcome. Unsafe overconfidence labels were lower under the evidence-sufficiency wrapper than under the standard clinical-answer prompt.</em></p>
+<h3>Per-Model Results</h3>
+<p>The wrapper reduced unsafe overconfidence in all four model subsets, but the magnitude varied:</p>
+<ul>
+<li>Claude Opus 4.8: 58.3% standard vs 15.3% wrapper; risk difference 43.0 percentage points (95% CI, 37.0 to 49.0).</li>
+<li>Gemini 3.5 Flash: 80.7% vs 50.7%; risk difference 30.0 points (95% CI, 24.0 to 36.3).</li>
+<li>GPT-5.5: 46.3% vs 27.0%; risk difference 19.3 points (95% CI, 13.3 to 25.3).</li>
+<li>Grok 4.3: 12.0% vs 5.7%; risk difference 6.3 points (95% CI, 2.0 to 10.7).</li>
+</ul>
+<p>Grok 4.3 had the lowest baseline unsafe overconfidence rate on the common panel. Its reduction was small but, unlike in the earlier underpowered subset, statistically significant by McNemar testing (p=0.007), indicating the low baseline is a genuine property of the model rather than an artifact of item sampling.</p>
+<div class="figure-block" aria-label="Figure 3. Prompt effect by model">
+<svg xmlns="http://www.w3.org/2000/svg" width="1300" height="459" viewBox="0 0 1300 459" role="img">
+<style>
+  text { font-family: Arial, Helvetica, sans-serif; fill: #1F2933; }
+  .title { font-size: 22px; font-weight: 700; }
+  .subtitle { font-size: 13px; fill: #667085; }
+  .axis { stroke: #344054; stroke-width: 1.2; shape-rendering: crispEdges; }
+  .grid { stroke: #D0D5DD; stroke-width: 0.9; shape-rendering: crispEdges; }
+  .tick { font-size: 12px; fill: #667085; }
+  .label { font-size: 14px; }
+  .small { font-size: 12px; fill: #667085; }
+  .value { font-size: 13px; font-weight: 700; }
+</style>
+<rect width="100%" height="100%" fill="white"/>
+<text x="55" y="58" class="title">Figure 3. Prompt effect by model</text>
+<text x="55" y="87" class="subtitle">Common-panel analysis; each point is the paired absolute reduction in unsafe-overconfidence labels.</text>
+<line x1="330.0" y1="98" x2="330.0" y2="362" class="grid"/>
+<text x="330.0" y="389" text-anchor="middle" class="tick">-10</text>
+<line x1="413.8" y1="98" x2="413.8" y2="362" class="grid"/>
+<text x="413.8" y="389" text-anchor="middle" class="tick">0</text>
+<line x1="497.7" y1="98" x2="497.7" y2="362" class="grid"/>
+<text x="497.7" y="389" text-anchor="middle" class="tick">10</text>
+<line x1="581.5" y1="98" x2="581.5" y2="362" class="grid"/>
+<text x="581.5" y="389" text-anchor="middle" class="tick">20</text>
+<line x1="665.4" y1="98" x2="665.4" y2="362" class="grid"/>
+<text x="665.4" y="389" text-anchor="middle" class="tick">30</text>
+<line x1="749.2" y1="98" x2="749.2" y2="362" class="grid"/>
+<text x="749.2" y="389" text-anchor="middle" class="tick">40</text>
+<line x1="833.1" y1="98" x2="833.1" y2="362" class="grid"/>
+<text x="833.1" y="389" text-anchor="middle" class="tick">50</text>
+<line x1="413.8" y1="98" x2="413.8" y2="362" stroke="#344054" stroke-width="1.4"/>
+<text x="602.5" y="419" text-anchor="middle" class="label">Risk difference (percentage points)</text>
+<text x="55" y="135" class="label">Grok 4.3</text>
+<text x="55" y="157" class="small">n=300 paired items</text>
+<line x1="430.6" y1="130" x2="503.3" y2="130" stroke="#475467" stroke-width="3" stroke-linecap="round"/>
+<line x1="430.6" y1="122" x2="430.6" y2="138" stroke="#475467" stroke-width="2"/>
+<line x1="503.3" y1="122" x2="503.3" y2="138" stroke="#475467" stroke-width="2"/>
+<circle cx="466.9" cy="130" r="8" fill="#335C81" stroke="white" stroke-width="2"/>
+<text x="940" y="135" class="value">6.3 pp</text>
+<text x="1045" y="135" class="small">(2.0, 10.7)</text>
+<text x="55" y="203" class="label">GPT-5.5</text>
+<text x="55" y="225" class="small">n=300 paired items</text>
+<line x1="525.6" y1="198" x2="626.3" y2="198" stroke="#475467" stroke-width="3" stroke-linecap="round"/>
+<line x1="525.6" y1="190" x2="525.6" y2="206" stroke="#475467" stroke-width="2"/>
+<line x1="626.3" y1="190" x2="626.3" y2="206" stroke="#475467" stroke-width="2"/>
+<circle cx="575.9" cy="198" r="8" fill="#335C81" stroke="white" stroke-width="2"/>
+<text x="940" y="203" class="value">19.3 pp</text>
+<text x="1045" y="203" class="small">(13.3, 25.3)</text>
+<text x="55" y="271" class="label">Gemini 3.5 Flash</text>
+<text x="55" y="293" class="small">n=300 paired items</text>
+<line x1="615.1" y1="266" x2="718.5" y2="266" stroke="#475467" stroke-width="3" stroke-linecap="round"/>
+<line x1="615.1" y1="258" x2="615.1" y2="274" stroke="#475467" stroke-width="2"/>
+<line x1="718.5" y1="258" x2="718.5" y2="274" stroke="#475467" stroke-width="2"/>
+<circle cx="665.4" cy="266" r="8" fill="#335C81" stroke="white" stroke-width="2"/>
+<text x="940" y="271" class="value">30.0 pp</text>
+<text x="1045" y="271" class="small">(24.0, 36.3)</text>
+<text x="55" y="339" class="label">Claude Opus 4.8</text>
+<text x="55" y="361" class="small">n=300 paired items</text>
+<line x1="724.1" y1="334" x2="824.7" y2="334" stroke="#475467" stroke-width="3" stroke-linecap="round"/>
+<line x1="724.1" y1="326" x2="724.1" y2="342" stroke="#475467" stroke-width="2"/>
+<line x1="824.7" y1="326" x2="824.7" y2="342" stroke="#475467" stroke-width="2"/>
+<circle cx="774.4" cy="334" r="8" fill="#335C81" stroke="white" stroke-width="2"/>
+<text x="940" y="339" class="value">43.0 pp</text>
+<text x="1045" y="339" class="small">(37.0, 49.0)</text>
+<text x="940" y="92" class="small">Effect</text>
+<text x="1045" y="92" class="small">95% CI</text>
+<text x="55.0" y="431.0" text-anchor="start" class="small"><tspan x="55.0" dy="0">Positive values favor the evidence-sufficiency wrapper unless otherwise stated. Intervals are paired bootstrap 95% CIs.</tspan></text>
+</svg>
+</div>
+
+<p><em>Figure 3. Prompt effect by model. Absolute risk difference by model in the common-panel analysis. Positive values favor the evidence-sufficiency wrapper. Model comparisons should not be interpreted as a leaderboard.</em></p>
+<h3>Dataset and Perturbation Results</h3>
+<p>Risk differences were observed across all datasets:</p>
+<ul>
+<li>Real-POCQi: 47.0% standard vs 15.7% wrapper; risk difference 31.3 points.</li>
+<li>HealthBench: 34.7% vs 14.8%; risk difference 19.9 points.</li>
+<li>MedRBench: 61.2% vs 44.3%; risk difference 16.9 points.</li>
+</ul>
+<p>By perturbation type, the largest reduction occurred in decontextualized Real-POCQi-style inputs (31.6 points). Reductions were also observed for missing ancillary tests (27.8 points), context-uncertainty cases (19.1 points), and reworded variants (19.0 points). The effect was smallest and not statistically distinguishable from zero for full-information diagnostic cases (64.0% vs 57.3%; risk difference 6.7 points, 95% CI -1.8 to 15.2), consistent with the wrapper acting mainly when information is genuinely incomplete rather than on complete cases.</p>
+<div class="figure-block" aria-label="Figure 4. Prompt effect by perturbation type">
+<svg xmlns="http://www.w3.org/2000/svg" width="1300" height="527" viewBox="0 0 1300 527" role="img">
+<style>
+  text { font-family: Arial, Helvetica, sans-serif; fill: #1F2933; }
+  .title { font-size: 22px; font-weight: 700; }
+  .subtitle { font-size: 13px; fill: #667085; }
+  .axis { stroke: #344054; stroke-width: 1.2; shape-rendering: crispEdges; }
+  .grid { stroke: #D0D5DD; stroke-width: 0.9; shape-rendering: crispEdges; }
+  .tick { font-size: 12px; fill: #667085; }
+  .label { font-size: 14px; }
+  .small { font-size: 12px; fill: #667085; }
+  .value { font-size: 13px; font-weight: 700; }
+</style>
+<rect width="100%" height="100%" fill="white"/>
+<text x="55" y="58" class="title">Figure 4. Prompt effect by perturbation type</text>
+<text x="55" y="87" class="subtitle">Common-panel analysis across evidence stress variants.</text>
+<line x1="330.0" y1="98" x2="330.0" y2="430" class="grid"/>
+<text x="330.0" y="457" text-anchor="middle" class="tick">-10</text>
+<line x1="429.1" y1="98" x2="429.1" y2="430" class="grid"/>
+<text x="429.1" y="457" text-anchor="middle" class="tick">0</text>
+<line x1="528.2" y1="98" x2="528.2" y2="430" class="grid"/>
+<text x="528.2" y="457" text-anchor="middle" class="tick">10</text>
+<line x1="627.3" y1="98" x2="627.3" y2="430" class="grid"/>
+<text x="627.3" y="457" text-anchor="middle" class="tick">20</text>
+<line x1="726.4" y1="98" x2="726.4" y2="430" class="grid"/>
+<text x="726.4" y="457" text-anchor="middle" class="tick">30</text>
+<line x1="825.5" y1="98" x2="825.5" y2="430" class="grid"/>
+<text x="825.5" y="457" text-anchor="middle" class="tick">40</text>
+<line x1="429.1" y1="98" x2="429.1" y2="430" stroke="#344054" stroke-width="1.4"/>
+<text x="602.5" y="487" text-anchor="middle" class="label">Risk difference (percentage points)</text>
+<text x="55" y="135" class="label">Full information</text>
+<text x="55" y="157" class="small">n=164 paired items</text>
+<line x1="411.0" y1="130" x2="580.1" y2="130" stroke="#475467" stroke-width="3" stroke-linecap="round"/>
+<line x1="411.0" y1="122" x2="411.0" y2="138" stroke="#475467" stroke-width="2"/>
+<line x1="580.1" y1="122" x2="580.1" y2="138" stroke="#475467" stroke-width="2"/>
+<circle cx="495.6" cy="130" r="8" fill="#2E6F5E" stroke="white" stroke-width="2"/>
+<text x="940" y="135" class="value">6.7 pp</text>
+<text x="1045" y="135" class="small">(-1.8, 15.2)</text>
+<text x="55" y="203" class="label">Reworded</text>
+<text x="55" y="225" class="small">n=84 paired items</text>
+<line x1="488.1" y1="198" x2="747.6" y2="198" stroke="#475467" stroke-width="3" stroke-linecap="round"/>
+<line x1="488.1" y1="190" x2="488.1" y2="206" stroke="#475467" stroke-width="2"/>
+<line x1="747.6" y1="190" x2="747.6" y2="206" stroke="#475467" stroke-width="2"/>
+<circle cx="617.8" cy="198" r="8" fill="#2E6F5E" stroke="white" stroke-width="2"/>
+<text x="940" y="203" class="value">19.0 pp</text>
+<text x="1045" y="203" class="small">(6.0, 32.1)</text>
+<text x="55" y="271" class="label">Context uncertainty</text>
+<text x="55" y="293" class="small">n=204 paired items</text>
+<line x1="560.2" y1="266" x2="681.7" y2="266" stroke="#475467" stroke-width="3" stroke-linecap="round"/>
+<line x1="560.2" y1="258" x2="560.2" y2="274" stroke="#475467" stroke-width="2"/>
+<line x1="681.7" y1="258" x2="681.7" y2="274" stroke="#475467" stroke-width="2"/>
+<circle cx="618.5" cy="266" r="8" fill="#2E6F5E" stroke="white" stroke-width="2"/>
+<text x="940" y="271" class="value">19.1 pp</text>
+<text x="1045" y="271" class="small">(13.2, 25.5)</text>
+<text x="55" y="339" class="label">Missing ancillary tests</text>
+<text x="55" y="361" class="small">n=176 paired items</text>
+<line x1="626.1" y1="334" x2="789.4" y2="334" stroke="#475467" stroke-width="3" stroke-linecap="round"/>
+<line x1="626.1" y1="326" x2="626.1" y2="342" stroke="#475467" stroke-width="2"/>
+<line x1="789.4" y1="326" x2="789.4" y2="342" stroke="#475467" stroke-width="2"/>
+<circle cx="705.0" cy="334" r="8" fill="#2E6F5E" stroke="white" stroke-width="2"/>
+<text x="940" y="339" class="value">27.8 pp</text>
+<text x="1045" y="339" class="small">(19.9, 36.4)</text>
+<text x="55" y="407" class="label">Decontextualized</text>
+<text x="55" y="429" class="small">n=572 paired items</text>
+<line x1="701.1" y1="402" x2="782.5" y2="402" stroke="#475467" stroke-width="3" stroke-linecap="round"/>
+<line x1="701.1" y1="394" x2="701.1" y2="410" stroke="#475467" stroke-width="2"/>
+<line x1="782.5" y1="394" x2="782.5" y2="410" stroke="#475467" stroke-width="2"/>
+<circle cx="742.6" cy="402" r="8" fill="#2E6F5E" stroke="white" stroke-width="2"/>
+<text x="940" y="407" class="value">31.6 pp</text>
+<text x="1045" y="407" class="small">(27.4, 35.7)</text>
+<text x="940" y="92" class="small">Effect</text>
+<text x="1045" y="92" class="small">95% CI</text>
+<text x="55.0" y="499.0" text-anchor="start" class="small"><tspan x="55.0" dy="0">Positive values favor the evidence-sufficiency wrapper unless otherwise stated. Intervals are paired bootstrap 95% CIs.</tspan></text>
+</svg>
+</div>
+
+<p><em>Figure 4. Prompt effect by perturbation type. Absolute risk difference by perturbation type. The largest reductions were seen when information was genuinely incomplete, consistent with the wrapper's intended effect of discouraging definitive answers when case-specific evidence is missing.</em></p>
+<div class="figure-block" aria-label="Figure 5. Prompt effect by dataset">
+<svg xmlns="http://www.w3.org/2000/svg" width="1300" height="391" viewBox="0 0 1300 391" role="img">
+<style>
+  text { font-family: Arial, Helvetica, sans-serif; fill: #1F2933; }
+  .title { font-size: 22px; font-weight: 700; }
+  .subtitle { font-size: 13px; fill: #667085; }
+  .axis { stroke: #344054; stroke-width: 1.2; shape-rendering: crispEdges; }
+  .grid { stroke: #D0D5DD; stroke-width: 0.9; shape-rendering: crispEdges; }
+  .tick { font-size: 12px; fill: #667085; }
+  .label { font-size: 14px; }
+  .small { font-size: 12px; fill: #667085; }
+  .value { font-size: 13px; font-weight: 700; }
+</style>
+<rect width="100%" height="100%" fill="white"/>
+<text x="55" y="58" class="title">Figure 5. Prompt effect by dataset</text>
+<text x="55" y="87" class="subtitle">Common-panel analysis by public benchmark source.</text>
+<line x1="330.0" y1="98" x2="330.0" y2="294" class="grid"/>
+<text x="330.0" y="321" text-anchor="middle" class="tick">-10</text>
+<line x1="429.1" y1="98" x2="429.1" y2="294" class="grid"/>
+<text x="429.1" y="321" text-anchor="middle" class="tick">0</text>
+<line x1="528.2" y1="98" x2="528.2" y2="294" class="grid"/>
+<text x="528.2" y="321" text-anchor="middle" class="tick">10</text>
+<line x1="627.3" y1="98" x2="627.3" y2="294" class="grid"/>
+<text x="627.3" y="321" text-anchor="middle" class="tick">20</text>
+<line x1="726.4" y1="98" x2="726.4" y2="294" class="grid"/>
+<text x="726.4" y="321" text-anchor="middle" class="tick">30</text>
+<line x1="825.5" y1="98" x2="825.5" y2="294" class="grid"/>
+<text x="825.5" y="321" text-anchor="middle" class="tick">40</text>
+<line x1="429.1" y1="98" x2="429.1" y2="294" stroke="#344054" stroke-width="1.4"/>
+<text x="602.5" y="351" text-anchor="middle" class="label">Risk difference (percentage points)</text>
+<text x="55" y="135" class="label">MedRBench</text>
+<text x="55" y="157" class="small">n=384 paired items</text>
+<line x1="542.6" y1="130" x2="653.6" y2="130" stroke="#475467" stroke-width="3" stroke-linecap="round"/>
+<line x1="542.6" y1="122" x2="542.6" y2="138" stroke="#475467" stroke-width="2"/>
+<line x1="653.6" y1="122" x2="653.6" y2="138" stroke="#475467" stroke-width="2"/>
+<circle cx="596.8" cy="130" r="8" fill="#8A5A44" stroke="white" stroke-width="2"/>
+<text x="940" y="135" class="value">16.9 pp</text>
+<text x="1045" y="135" class="small">(11.5, 22.7)</text>
+<text x="55" y="203" class="label">HealthBench</text>
+<text x="55" y="225" class="small">n=216 paired items</text>
+<line x1="566.7" y1="198" x2="686.0" y2="198" stroke="#475467" stroke-width="3" stroke-linecap="round"/>
+<line x1="566.7" y1="190" x2="566.7" y2="206" stroke="#475467" stroke-width="2"/>
+<line x1="686.0" y1="190" x2="686.0" y2="206" stroke="#475467" stroke-width="2"/>
+<circle cx="626.4" cy="198" r="8" fill="#8A5A44" stroke="white" stroke-width="2"/>
+<text x="940" y="203" class="value">19.9 pp</text>
+<text x="1045" y="203" class="small">(13.9, 25.9)</text>
+<text x="55" y="271" class="label">Real-POCQi</text>
+<text x="55" y="293" class="small">n=600 paired items</text>
+<line x1="699.9" y1="266" x2="779.2" y2="266" stroke="#475467" stroke-width="3" stroke-linecap="round"/>
+<line x1="699.9" y1="258" x2="699.9" y2="274" stroke="#475467" stroke-width="2"/>
+<line x1="779.2" y1="258" x2="779.2" y2="274" stroke="#475467" stroke-width="2"/>
+<circle cx="739.6" cy="266" r="8" fill="#8A5A44" stroke="white" stroke-width="2"/>
+<text x="940" y="271" class="value">31.3 pp</text>
+<text x="1045" y="271" class="small">(27.3, 35.3)</text>
+<text x="940" y="92" class="small">Effect</text>
+<text x="1045" y="92" class="small">95% CI</text>
+<text x="55.0" y="363.0" text-anchor="start" class="small"><tspan x="55.0" dy="0">Positive values favor the evidence-sufficiency wrapper unless otherwise stated. Intervals are paired bootstrap 95% CIs.</tspan></text>
+</svg>
+</div>
+
+<p><em>Figure 5. Prompt effect by dataset. Absolute risk difference by dataset in the common-panel analysis. Positive values indicate lower automated unsafe-overconfidence labels under the evidence-sufficiency wrapper than under the standard prompt.</em></p>
+<h3>Mechanism and Circularity Control</h3>
+<p>A peer-review concern was that the wrapper mechanically emits the section tokens (<code>EVIDENCE PRESENT</code>, <code>EVIDENCE MISSING</code>, <code>SUFFICIENCY JUDGMENT</code>) the judge might reward, so the effect could be circular. The control arms refute this. On the matched control subset (480 cells per arm), the identical scaffold tokens produced markedly different unsafe-overconfidence rates depending on the accompanying instruction: 37.7% under the neutral scaffold, 22.9% under the wrapper, and 79.8% under the format scaffold (same tokens plus a forced-commitment instruction), versus 46.7% under the standard prompt. Because the same tokens map to unsafe rates spanning 23% to 80%, the judge is scoring response behavior, not the presence of scaffold tokens.</p>
+<p>The wrapper effect decomposed additively into two components, each with a bootstrap confidence interval excluding zero. The scaffold structure alone (standard to neutral) reduced unsafe overconfidence by 9.0 points (95% CI, 6.2 to 11.8), and the abstention instruction added on top of that structure (neutral to wrapper) reduced it by a further 14.8 points (95% CI, 11.6 to 17.8). Their sum (23.8 points) matched the full wrapper effect measured on the same subset (23.8 points), so roughly 38% of the benefit is attributable to structured reasoning and roughly 62% to the abstention content. As an adversarial bound, attaching a forced-commitment instruction to the same scaffold (neutral to format) increased unsafe overconfidence by 42.1 points (95% CI, 38.5 to 45.7), confirming that the same structure can be steered toward worse behavior. The effect is therefore best reported as a decomposition, not as a monolithic claim that reasoning helps.</p>
+<div class="figure-block" aria-label="Figure 6. Control-arm unsafe-overconfidence rates">
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="620" viewBox="0 0 980 620" role="img">
+<style>
+text { font-family: Arial, Helvetica, sans-serif; fill: #1F2933; }
+.title { font-size: 22px; font-weight: 700; }
+.subtitle { font-size: 13px; fill: #667085; }
+.axis { stroke: #344054; stroke-width: 1.2; shape-rendering: crispEdges; }
+.grid { stroke: #D0D5DD; stroke-width: 0.9; shape-rendering: crispEdges; }
+.tick { font-size: 12px; fill: #667085; }
+.label { font-size: 14px; }
+.small { font-size: 12px; fill: #667085; }
+.value { font-size: 13px; font-weight: 700; }
+</style>
+<rect width="100%" height="100%" fill="white"/>
+<text x="55" y="58" class="title">Figure 6. Control-arm unsafe-overconfidence rates</text>
+<text x="55" y="87" class="subtitle">Matched control subset; identical scaffold formatting does not explain the safety effect.</text>
+<line x1="120" y1="470.0" x2="895" y2="470.0" class="grid"/>
+<text x="104" y="474.0" text-anchor="end" class="tick">0</text>
+<line x1="120" y1="432.2" x2="895" y2="432.2" class="grid"/>
+<text x="104" y="436.2" text-anchor="end" class="tick">10</text>
+<line x1="120" y1="394.4" x2="895" y2="394.4" class="grid"/>
+<text x="104" y="398.4" text-anchor="end" class="tick">20</text>
+<line x1="120" y1="356.7" x2="895" y2="356.7" class="grid"/>
+<text x="104" y="360.7" text-anchor="end" class="tick">30</text>
+<line x1="120" y1="318.9" x2="895" y2="318.9" class="grid"/>
+<text x="104" y="322.9" text-anchor="end" class="tick">40</text>
+<line x1="120" y1="281.1" x2="895" y2="281.1" class="grid"/>
+<text x="104" y="285.1" text-anchor="end" class="tick">50</text>
+<line x1="120" y1="243.3" x2="895" y2="243.3" class="grid"/>
+<text x="104" y="247.3" text-anchor="end" class="tick">60</text>
+<line x1="120" y1="205.6" x2="895" y2="205.6" class="grid"/>
+<text x="104" y="209.6" text-anchor="end" class="tick">70</text>
+<line x1="120" y1="167.8" x2="895" y2="167.8" class="grid"/>
+<text x="104" y="171.8" text-anchor="end" class="tick">80</text>
+<line x1="120" y1="130.0" x2="895" y2="130.0" class="grid"/>
+<text x="104" y="134.0" text-anchor="end" class="tick">90</text>
+<line x1="120" y1="470" x2="895" y2="470" class="axis"/>
+<line x1="120" y1="130" x2="120" y2="470" class="axis"/>
+<text x="42" y="300.0" transform="rotate(-90 42 300.0)" text-anchor="middle" class="label">Unsafe overconfidence (%)</text>
+<rect x="160.0" y="293.7" width="120" height="176.3" rx="4" fill="#8F2D56"/>
+<text x="220" y="279.7" text-anchor="middle" class="value">46.7%</text>
+<text x="220.0" y="506.0" text-anchor="middle" class="label"><tspan x="220.0" dy="0">Standard prompt</tspan></text>
+<rect x="350.0" y="327.5" width="120" height="142.5" rx="4" fill="#8172B3"/>
+<text x="410" y="313.5" text-anchor="middle" class="value">37.7%</text>
+<text x="410.0" y="506.0" text-anchor="middle" class="label"><tspan x="410.0" dy="0">Neutral scaffold</tspan></text>
+<rect x="540.0" y="383.4" width="120" height="86.6" rx="4" fill="#007C89"/>
+<text x="600" y="369.4" text-anchor="middle" class="value">22.9%</text>
+<text x="600.0" y="506.0" text-anchor="middle" class="label"><tspan x="600.0" dy="0">Evidence-sufficiency</tspan><tspan x="600.0" dy="17">wrapper</tspan></text>
+<rect x="730.0" y="168.6" width="120" height="301.4" rx="4" fill="#DD8452"/>
+<text x="790" y="154.6" text-anchor="middle" class="value">79.8%</text>
+<text x="790.0" y="506.0" text-anchor="middle" class="label"><tspan x="790.0" dy="0">Format scaffold</tspan></text>
+<rect x="210" y="128" width="560" height="58" rx="10" fill="white" stroke="#D0D5DD" stroke-width="1"/>
+<text x="490" y="153" text-anchor="middle" class="label">Wrapper content reduced labels beyond scaffold structure;</text>
+<text x="490" y="174" text-anchor="middle" class="small">format-only scaffolding increased unsafe overconfidence, consistent with forced commitment.</text>
+</svg>
+</div>
+
+<p><em>Figure 6. Control-arm unsafe-overconfidence rates. Matched control arms using the same scaffold labels showed that unsafe-overconfidence rates depended on instruction content, not merely the presence of wrapper section tokens.</em></p>
+<div class="figure-block" aria-label="Figure 7. Mechanism decomposition">
+<svg xmlns="http://www.w3.org/2000/svg" width="1300" height="459" viewBox="0 0 1300 459" role="img">
+<style>
+  text { font-family: Arial, Helvetica, sans-serif; fill: #1F2933; }
+  .title { font-size: 22px; font-weight: 700; }
+  .subtitle { font-size: 13px; fill: #667085; }
+  .axis { stroke: #344054; stroke-width: 1.2; shape-rendering: crispEdges; }
+  .grid { stroke: #D0D5DD; stroke-width: 0.9; shape-rendering: crispEdges; }
+  .tick { font-size: 12px; fill: #667085; }
+  .label { font-size: 14px; }
+  .small { font-size: 12px; fill: #667085; }
+  .value { font-size: 13px; font-weight: 700; }
+</style>
+<rect width="100%" height="100%" fill="white"/>
+<text x="55" y="58" class="title">Figure 7. Mechanism decomposition</text>
+<text x="55" y="87" class="subtitle">Matched control subset; positive values indicate lower unsafe overconfidence in the first-named contrast direction.</text>
+<line x1="330.0" y1="98" x2="330.0" y2="362" class="grid"/>
+<text x="330.0" y="389" text-anchor="middle" class="tick">-50</text>
+<line x1="394.1" y1="98" x2="394.1" y2="362" class="grid"/>
+<text x="394.1" y="389" text-anchor="middle" class="tick">-40</text>
+<line x1="458.2" y1="98" x2="458.2" y2="362" class="grid"/>
+<text x="458.2" y="389" text-anchor="middle" class="tick">-30</text>
+<line x1="522.4" y1="98" x2="522.4" y2="362" class="grid"/>
+<text x="522.4" y="389" text-anchor="middle" class="tick">-20</text>
+<line x1="586.5" y1="98" x2="586.5" y2="362" class="grid"/>
+<text x="586.5" y="389" text-anchor="middle" class="tick">-10</text>
+<line x1="650.6" y1="98" x2="650.6" y2="362" class="grid"/>
+<text x="650.6" y="389" text-anchor="middle" class="tick">0</text>
+<line x1="714.7" y1="98" x2="714.7" y2="362" class="grid"/>
+<text x="714.7" y="389" text-anchor="middle" class="tick">10</text>
+<line x1="778.8" y1="98" x2="778.8" y2="362" class="grid"/>
+<text x="778.8" y="389" text-anchor="middle" class="tick">20</text>
+<line x1="842.9" y1="98" x2="842.9" y2="362" class="grid"/>
+<text x="842.9" y="389" text-anchor="middle" class="tick">30</text>
+<line x1="650.6" y1="98" x2="650.6" y2="362" stroke="#344054" stroke-width="1.4"/>
+<text x="602.5" y="419" text-anchor="middle" class="label">Risk difference (percentage points)</text>
+<text x="55" y="135" class="label">Forced commit</text>
+<text x="55" y="157" class="small">n=480 matched cells</text>
+<line x1="357.7" y1="130" x2="404.0" y2="130" stroke="#475467" stroke-width="3" stroke-linecap="round"/>
+<line x1="357.7" y1="122" x2="357.7" y2="138" stroke="#475467" stroke-width="2"/>
+<line x1="404.0" y1="122" x2="404.0" y2="138" stroke="#475467" stroke-width="2"/>
+<circle cx="380.8" cy="130" r="8" fill="#6941C6" stroke="white" stroke-width="2"/>
+<text x="940" y="135" class="value">-42.1 pp</text>
+<text x="1045" y="135" class="small">(-45.7, -38.5)</text>
+<text x="55" y="203" class="label">Scaffold structure</text>
+<text x="55" y="225" class="small">n=480 matched cells</text>
+<line x1="690.1" y1="198" x2="726.3" y2="198" stroke="#475467" stroke-width="3" stroke-linecap="round"/>
+<line x1="690.1" y1="190" x2="690.1" y2="206" stroke="#475467" stroke-width="2"/>
+<line x1="726.3" y1="190" x2="726.3" y2="206" stroke="#475467" stroke-width="2"/>
+<circle cx="708.0" cy="198" r="8" fill="#6941C6" stroke="white" stroke-width="2"/>
+<text x="940" y="203" class="value">9.0 pp</text>
+<text x="1045" y="203" class="small">(6.2, 11.8)</text>
+<text x="55" y="271" class="label">Abstention content</text>
+<text x="55" y="293" class="small">n=480 matched cells</text>
+<line x1="724.7" y1="266" x2="764.5" y2="266" stroke="#475467" stroke-width="3" stroke-linecap="round"/>
+<line x1="724.7" y1="258" x2="724.7" y2="274" stroke="#475467" stroke-width="2"/>
+<line x1="764.5" y1="258" x2="764.5" y2="274" stroke="#475467" stroke-width="2"/>
+<circle cx="745.4" cy="266" r="8" fill="#6941C6" stroke="white" stroke-width="2"/>
+<text x="940" y="271" class="value">14.8 pp</text>
+<text x="1045" y="271" class="small">(11.6, 17.8)</text>
+<text x="55" y="339" class="label">Full wrapper</text>
+<text x="55" y="361" class="small">n=480 matched cells</text>
+<line x1="780.0" y1="334" x2="825.6" y2="334" stroke="#475467" stroke-width="3" stroke-linecap="round"/>
+<line x1="780.0" y1="326" x2="780.0" y2="342" stroke="#475467" stroke-width="2"/>
+<line x1="825.6" y1="326" x2="825.6" y2="342" stroke="#475467" stroke-width="2"/>
+<circle cx="802.9" cy="334" r="8" fill="#6941C6" stroke="white" stroke-width="2"/>
+<text x="940" y="339" class="value">23.8 pp</text>
+<text x="1045" y="339" class="small">(20.2, 27.3)</text>
+<text x="940" y="92" class="small">Effect</text>
+<text x="1045" y="92" class="small">95% CI</text>
+<text x="55.0" y="431.0" text-anchor="start" class="small"><tspan x="55.0" dy="0">Positive values favor the evidence-sufficiency wrapper unless otherwise stated. Intervals are paired bootstrap 95% CIs.</tspan></text>
+</svg>
+</div>
+
+<p><em>Figure 7. Mechanism decomposition. The full wrapper effect decomposed into a scaffold-structure component and a larger abstention-content component, while a forced-commitment scaffold worsened unsafe overconfidence.</em></p>
+<h3>Secondary Outcomes</h3>
+<p>The wrapper improved several safety-relevant behaviors on the common panel. Correct abstention increased from 32.8% under the standard prompt to 66.9% under the wrapper. Asking for missing information increased from 10.6% to 63.8%. Identification of removed evidence increased from 8.3% to 19.4%. Potentially harmful treatment recommendations decreased from 13.2% to 3.3%. Median answer length increased from 143 to 186 words; the length increase alone did not explain the safety gain, as the format scaffold produced the shortest of the scaffolded outputs yet the highest unsafe rate.</p>
+<h3>Statistical Robustness, Multiplicity, and Heterogeneity</h3>
+<p>The paired primary endpoint (n=1,200 pairs) was well powered: achieved power for the observed effect was essentially 1.0, and the minimum detectable effect at 80% power was 4.2 percentage points. After Holm and Benjamini-Hochberg correction across the thirteen subgroup tests (overall, four models, three datasets, five perturbation types), every subgroup remained significant except full-information diagnostic cases (Holm-adjusted p=0.16). The wrapper effect was significantly heterogeneous across models: a GEE model with a model x wrapper interaction rejected the hypothesis of a constant effect (joint Wald statistic 52.2, p=2.7e-11). Effects should therefore be reported per model rather than pooled into a single headline number.</p>
+<h3>Cross-Judge Robustness</h3>
+<p>An independent judge from a different model family (Claude Sonnet 5) re-scored all 3,534 double-judged cells. The two judges agreed on the direction of the wrapper effect but not on its magnitude or on absolute unsafe rates. Raw agreement was 67% (Cohen's kappa 0.19), and disagreement was almost entirely one-directional: 1,147 cells were labeled unsafe by the primary judge but safe by Sonnet, versus only 15 in the reverse direction. Under the primary judge the paired common-panel reduction was 24.7 points; under Sonnet it was 13.1 points on the same 1,200 pairs. The gap was largest for Gemini 3.5 Flash (nano-minus-Sonnet unsafe-rate difference 0.56) and negligible for Grok 4.3 (0.045), indicating that the primary judge's absolute over-labeling is itself model-dependent. The wrapper's benefit was directionally robust under both judges, but its absolute size is a function of judge calibration.</p>
+<div class="figure-block" aria-label="Figure 8. Cross-judge calibration">
+<img src="clinical-evidence-sufficiency-llm/outputs/figures/panel_figure8_cross_judge_overlabeling.png" alt="Figure 8. Cross-judge calibration">
+</div>
+
+<p><em>Figure 8. Cross-judge calibration. Independent judging showed the same directional wrapper benefit but lower absolute unsafe-overconfidence rates, consistent with primary-judge over-labeling.</em></p>
+<h3>Helpfulness and Accuracy Trade-off</h3>
+<p>Because the safety endpoint scores an abstention on an answerable question as safe, we measured diagnostic accuracy directly on 330 paired answerable complete-information cases. Correct diagnosis fell from 80.3% under the standard prompt to 50.3% under the wrapper (-30.0 points), while abstention rose from 12.7% to 46.4% (+33.6 points). This cost was strongly model-dependent and inversely tracked each model's safety gain: for GPT-5.5 the accuracy cost was near zero (correct diagnosis -2 points), for Claude Opus 4.8 it was modest (-7 points), for Grok 4.3 it was -10 points, and for Gemini 3.5 Flash it was catastrophic (correct diagnosis 75% to 17%, -58 points; abstention 18% to 82%). The wrapper therefore does not uniformly improve behavior; its net value is the safety gain minus the helpfulness loss, which was favorable for GPT-5.5 and Claude Opus 4.8 but unfavorable for Gemini 3.5 Flash, whose safety gain was small and whose accuracy collapse was large.</p>
+<div class="figure-block" aria-label="Figure 9. Safety-helpfulness trade-off">
+<img src="clinical-evidence-sufficiency-llm/outputs/figures/panel_figure9_safety_helpfulness_tradeoff.png" alt="Figure 9. Safety-helpfulness trade-off">
+</div>
+
+<p><em>Figure 9. Safety-helpfulness trade-off. Diagnostic accuracy and abstention changed differently by model, showing that the safety gain carried a model-specific helpfulness cost.</em></p>
+<h3>Prompt-Paraphrase and Decode Robustness</h3>
+<p>The effect was not an artifact of the exact wrapper wording. Two independent paraphrases of the wrapper produced paired reductions of 29.4 and 28.1 points on the 80-item subset (160 pairs each), statistically indistinguishable from the original wrapper's 29.4 points on the same subset (all p&lt;1e-8), for both Claude Opus 4.8 and GPT-5.5. The effect was also stable under stochastic decoding: across five temperature-0.8 replicates, individual cell labels were unanimous 68% of the time, but the aggregate paired risk difference was consistently large and positive for both tested models (0.44 +/- 0.065 and 0.31 +/- 0.045; minimum across replicates 0.25).</p>
+<h3>Contradiction Arm</h3>
+<p>A case-grounded conflicting-evidence arm was generated by having a model negate one explicit, structural finding within each MedRBench complete-information case (for example, a same-encounter pathology report stating the opposite result), with clinician spot-check validation (24/25 items judged valid). Because complete-information base cases existed only in MedRBench, this arm applies to that dataset only. Under the primary judge the wrapper reduced unsafe overconfidence by 19.3 points overall, but the effect was strongly model-conditional and included a failure signal: Claude Opus 4.8 improved by 50.7 points and GPT-5.5 by 30.0, Grok 4.3 was near the floor, and Gemini 3.5 Flash appeared to worsen. However, this apparent Gemini backfire sign-flipped under the Sonnet judge and the arm's effect fell to 5.5 points under Sonnet, so the contradiction arm is reported as exploratory and the Gemini result is not interpreted as a genuine backfire.</p>
+<h3>Clinician Review</h3>
+<p>All three physicians completed both review sets, but one physician's adjudication-set submission was excluded as unreliable: it labeled 87.8% of responses unsafe versus 5.8% on that same reviewer's judge-validation set, used near-verbatim templated rationales on 79 of 90 items, and flagged no truncated responses where the other two flagged 17 and 19. On the 120-item judge-validation set the primary judge had 100% sensitivity but low specificity against the human majority (positive predictive value 15%; human-majority unsafe rate 6.7% versus judge unsafe rate 44%), consistent with a high-sensitivity, low-specificity screen. On the 90-item adjudication set, the two reliable clinicians agreed with each other on 97.1% of judgeable items, and on all 46 judgeable judge-discordant cells (primary judge unsafe, Sonnet safe) they sided with Sonnet (safe), directly confirming that the primary judge over-labels in absolute terms. Two caveats temper the human data: 21 of 90 responses (23%) were dropped as truncated or unjudgeable, disproportionately from cells both judges had called unsafe; and because the clinician-labeled unsafe base rate was very low, this set could assess judge over-labeling (specificity) but not judge sensitivity.</p>
+<h3>Mechanism of Avoided Overconfidence</h3>
+<p>To characterize how the wrapper avoided overconfidence rather than only that it did, a sample of cells that flipped from unsafe under the standard prompt to safe under the wrapper was categorized. The dominant mechanisms were requesting specific missing data (for example particular labs, imaging, history, or examination findings) and explicitly declining a diagnosis on insufficient information, followed by flagging uncertainty while giving only safe general next steps; vague hedging without a concrete safety action was rare. The wrapper thus improves safety chiefly by eliciting information-seeking and explicit deferral, consistent with the abstention-content component identified in the control-arm decomposition.</p>
+<h2>Discussion</h2>
+<p>In this public-data stress test, a simple evidence-sufficiency wrapper reduced unsafe overconfident clinical responses by about one quarter of all paired cases on a fully paired common panel. The effect was observed across datasets and across all four model subsets, although the baseline unsafe overconfidence rate and effect size varied substantially by model.</p>
+<p>A matched control-arm decomposition addressed the main internal-validity threat to this design. Because the same scaffold tokens yielded unsafe rates from 23% to 80% depending on the accompanying instruction, the reduction is not an artifact of the judge rewarding the wrapper's format. The effect instead splits into a structural component and a larger abstention-content component, each significant, which clarifies why the intervention works and what a minimal version would need to retain.</p>
+<p>These findings support the central hypothesis that clinical LLM evaluation should measure whether models know when not to answer definitively. Benchmark accuracy alone can miss clinically important behavior: whether a model requests missing information, acknowledges uncertainty, identifies removed evidence, and avoids potentially harmful treatment recommendations when the prompt is under-specified. This aligns with MIMIC-CDM's emphasis on information gathering before diagnosis or treatment, Real-POCQi's emphasis on physician-realistic information needs, and robustness-readiness work showing that apparently strong health-AI systems can fail under small but clinically meaningful perturbations [1-3].</p>
+<p>Two robustness results strengthen the causal reading of the direction of effect. The reduction was reproduced almost identically by two independent paraphrases of the wrapper and was stable across stochastic decodes, so it is not an artifact of a particular prompt string or of sampling noise, and the qualitative analysis showed the mechanism is concrete information-seeking and explicit deferral rather than vague hedging. Together with the control-arm decomposition, this makes a reasonably strong case that the wrapper changes model behavior in the intended direction.</p>
+<p>At the same time, three findings caution strongly against over-reading the absolute numbers. First, the magnitude of the effect and the absolute unsafe-overconfidence rate are properties of the judge's calibration, not of the models alone: an independent different-family judge agreed on the direction but nearly halved the effect, and disagreement was almost entirely the primary judge labeling as unsafe what the second judge called safe. Second, blinded clinicians confirmed this over-labeling directly, agreeing with the conservative judge on every judge-discordant case they could rate and implying a human unsafe rate several-fold below the primary judge's. Third, and most important for deployment, the safety gain is not free: it is bought with abstention, and the diagnostic-accuracy cost ranged from negligible for GPT-5.5 to a near-total collapse of correct diagnosis for Gemini 3.5 Flash. The wrapper is therefore best understood as shifting models along a safety-helpfulness trade-off whose favorability is model-specific, not as a uniform safety improvement.</p>
+<p>The results should not be interpreted as showing that prompting solves clinical AI safety. The wrapper reduced unsafe overconfidence but did not eliminate it; the benefit was concentrated in genuinely incomplete inputs rather than complete diagnostic cases; the effect was significantly heterogeneous across models; and for at least one model the accuracy cost would be unacceptable. Grok 4.3 had low baseline unsafe overconfidence, leaving little room for improvement, while Gemini 3.5 Flash combined a small safety gain with a large accuracy loss. Reporting the effect as a directional, relative, per-model result under an explicitly acknowledged judge-calibration caveat is more defensible than reporting a single calibrated absolute rate.</p>
+<h2>Limitations</h2>
+<p>First, the primary comparison used a paired common panel of 300 item-perturbations per model rather than a complete all-item panel, and the control arms used a 120-item subset; this makes the results appropriate as a computational stress-test paper, not a definitive leaderboard. Second, the primary label was produced by an LLM judge whose absolute calibration is imperfect: an independent judge and blinded clinicians agreed on the direction of the wrapper effect but showed the primary judge over-labels unsafe overconfidence (clinician positive predictive value about 15%), so absolute rates and effect magnitudes should be read as judge-relative, and the primary judge is best characterized as a high-sensitivity, low-specificity screen. Third, the clinician review had important limitations of its own: one of three reviewers returned an unreliable, apparently auto-templated adjudication sheet that had to be excluded, leaving two reliable raters; the clinician-labeled unsafe base rate was low enough that the review could assess judge over-labeling but not judge sensitivity; and it involved a small number of physicians on a modest sample, so it validates the calibration direction rather than providing definitive ground truth. Fourth, a non-trivial fraction of generated responses were truncated or malformed (about one in five in the adjudication sample and a smaller fraction panel-wide), which the clinician <code>cannot judge</code> flag mitigated for the human analysis but which remains a response-generation quality issue affecting the automated labels. Fifth, the safety gain is accompanied by a diagnostic-accuracy cost that is large for some models, measured here with a single correctness judge on MedRBench answerable cases; the safety-helpfulness trade-off should be evaluated jointly and per model before any use. Sixth, perturbations are synthetic and may not capture all forms of real clinical ambiguity; the case-grounded conflicting-evidence arm applies to MedRBench only, is exploratory, and its one apparent model-level backfire did not survive the independent judge. Seventh, the format-scaffold control conflates the scaffold with a forced-commitment instruction and is therefore an adversarial bound rather than a pure placebo; the neutral scaffold provides the clean structural control. Eighth, model outputs may change over time with provider updates, and conclusions apply only to the recorded model names and run period. Ninth, MIMIC-CDM was not used because MIMIC-derived data are prohibited from external API use; this improves data-use compliance but reduces comparability with EHR-derived clinical decision-making simulations.</p>
+<h2>Data and Code Availability</h2>
+<p>The repository contains code, prompts, public-data manifests, raw model outputs, primary and cross-judge rubric scores, analysis tables, figures, and manuscript files. The secondary and robustness analyses are reproduced by dedicated scripts and reports: cross-judge robustness (<code>analysis/cross_judge_robustness.py</code>, <code>crossjudge_agreement_report.json</code>), helpfulness and accuracy (<code>analysis/accuracy_tradeoff.py</code>, <code>accuracy_tradeoff_report.json</code>), prompt-paraphrase robustness (<code>analysis/paraphrase_analysis.py</code>, <code>paraphrase_robustness_report.json</code>), decode stability (<code>analysis/stability_replicates.py</code>, <code>stability_report.json</code>), multiplicity, heterogeneity and power (<code>analysis/rigor_addons.py</code>, <code>rigor_addons_report.json</code>), the qualitative mechanism analysis (<code>analysis/qualitative_error_analysis.py</code>), and the clinician review (<code>analysis/judge_validation.py</code> and <code>analysis/analyze_adjudication_final.py</code>, <code>adjudication_report_final.json</code>). Real-POCQi, HealthBench, and MedRBench are public-source datasets. MIMIC-derived data are not included and were not sent to external APIs. De-identified clinician rating sheets and the hidden answer keys are included; one excluded adjudication sheet is retained with documentation of the exclusion.</p>
+<h2>Ethics</h2>
+<p>This was a retrospective computational benchmark using public non-MIMIC data. It does not involve prospective patient care and does not support clinical deployment claims. A prospective clinician-in-the-loop evaluation would be required before clinical deployment claims.</p>
+<h2>Funding and Conflicts</h2>
+<p>This work was funded by Kinvectum AB. Koyar Afrasyab is founder of Kinvectum AB. The author reports this relationship as a potential competing interest. No MIMIC-derived records were sent to external APIs.</p>
+<h2>Author Contributions</h2>
+<p>Koyar Afrasyab conceived the study, specified the research question and datasets, supervised the computational study design, interpreted the results, and is responsible for the final manuscript.</p>
+<h2>Acknowledgments</h2>
+<p>The study builds on public benchmark resources and methodological ideas from MIMIC-CDM, Real-POCQi, HealthBench, MedRBench, and health-AI robustness-readiness work. The findings and interpretation are solely those of the author.</p>
+<h2>References</h2>
+<ol>
+<li>
+<p>Hager P, Jungmann F, Holland R, Bhagat K, Hubrecht I, Knauer M, Vielhauer J, Makowski M, Braren R, Kaissis G, Rueckert D. Evaluation and mitigation of the limitations of large language models in clinical decision-making. <em>Nature Medicine</em>. 2024. doi:10.1038/s41591-024-03097-1.</p>
+</li>
+<li>
+<p>Gu Y, et al. Health AI readiness evaluation and robustness stress-testing resource. <em>Nature Medicine</em>. 2026. doi:10.1038/s41591-026-04501-8. Code and data release: https://github.com/aiden-ygu/health-ai-readiness-eval/tree/v1.0.0. Zenodo: https://doi.org/10.5281/zenodo.20047288.</p>
+</li>
+<li>
+<p>Feng JJ, et al. Expert Evaluation of Clinical AI Tools on Real Point-of-Care Clinical Queries. arXiv:2606.28960. 2026. https://arxiv.org/abs/2606.28960.</p>
+</li>
+<li>
+<p>Feng Lab. Real-POCQi dataset. Hugging Face. 2026. https://huggingface.co/datasets/jjfenglab/Real-POCQi.</p>
+</li>
+<li>
+<p>OpenAI. HealthBench. 2025. https://openai.com/index/healthbench/.</p>
+</li>
+<li>
+<p>Qiu P, Wu C, Liu S, Zhao W, Chen Z, Gu H, Peng C, Zhang Y, Wang Y, Xie W. Quantifying the Reasoning Abilities of LLMs on Real-world Clinical Cases. arXiv:2503.04691. 2025. https://arxiv.org/abs/2503.04691.</p>
+</li>
+<li>
+<p>MAGIC-AI4Med. MedRBench. GitHub. 2025. https://github.com/MAGIC-AI4Med/MedRBench.</p>
+</li>
+<li>
+<p>Hager P, et al. MIMIC-IV-Ext Clinical Decision Making Dataset. PhysioNet. Version 1.1. https://physionet.org/content/mimic-iv-ext-cdm/1.1/.</p>
+</li>
+<li>
+<p>Vasey B, Nagendran M, Campbell B, Clifton DA, Collins GS, Denaxas S, et al. DECIDE-AI: Developmental and Exploratory Clinical Investigations of Decision support systems driven by Artificial Intelligence. <em>Nature Medicine</em>. 2022. doi:10.1038/s41591-022-01772-9.</p>
+</li>
+<li>
+<p>Liu X, Cruz Rivera S, Moher D, Calvert MJ, Denniston AK, SPIRIT-AI and CONSORT-AI Working Group. Reporting guidelines for clinical trials evaluating artificial intelligence interventions: the CONSORT-AI and SPIRIT-AI extensions. <em>Nature Medicine</em>. 2020. doi:10.1038/s41591-020-1037-7.</p>
+</li>
+<li>
+<p>STARD-AI Steering Group. STARD-AI reporting guideline for diagnostic accuracy studies involving artificial intelligence. <em>Nature Medicine</em>. 2025. doi:10.1038/s41591-025-03953-8.</p>
+</li>
+</ol>
+</body>
+</html>

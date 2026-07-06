@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "clinical-evidence-sufficiency-llm"
+version = "0.1.0"
+description = "Benchmark scaffold for evidence sufficiency and unsafe overconfidence in clinical LLM decision support."
+requires-python = ">=3.10"
+dependencies = []
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+

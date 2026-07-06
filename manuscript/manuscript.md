@@ -191,7 +191,7 @@ This was a retrospective computational benchmark using public non-MIMIC data. It
 
 ## Funding and Conflicts
 
-This work was funded by Kinvectum AB. Koyar Afrasyab is founder of Kinvectum AB. The author reports this relationship as a potential competing interest. No MIMIC-derived records were sent to external APIs.
+This project was funded by Kinvectum AB. Koyar Afrasyab, M.D. is the founder of Kinvectum AB. The funder had no role in study design, analysis, or the decision to publish. This relationship is reported as a potential competing interest. No MIMIC-derived records were sent to external APIs.
 
 ## Author Contributions
 

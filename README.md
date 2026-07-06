@@ -145,17 +145,24 @@ De-identified clinician rating sheets and the hidden answer keys are included un
             decision support: a public-data computational stress test},
   author = {Afrasyab, Koyar},
   year   = {2026},
-  note   = {Independent research repository},
+  howpublished = {GitHub repository},
   url    = {https://github.com/KAVentures/clinical-evidence-sufficiency-llm}
 }
 ```
 
 Please also cite the underlying datasets (Real-POCQi, HealthBench, MedRBench) per their own terms.
 
-## Ethics, Funding, and Competing Interests
+## Ethics
 
-This is a retrospective public-data benchmark study with no prospective patient care and no delivered intervention. It is not evidence of clinical deployment readiness, patient-outcome benefit, or autonomous-care safety. MIMIC-derived data must not be sent to external APIs. The author declares no competing financial interests specific to this work.
+This is a retrospective public-data benchmark study with no prospective patient care and no delivered intervention. It is not evidence of clinical deployment readiness, patient-outcome benefit, or autonomous-care safety. MIMIC-derived data must not be sent to external APIs.
+
+## Funding and Competing Interests
+
+This project was funded by Kinvectum AB. Koyar Afrasyab, M.D. is the founder of Kinvectum AB. The funder had no role in study design, analysis, or the decision to publish.
 
 ## License
 
-Code is released under the [MIT License](LICENSE). The manuscript, figures, and derived result tables are released under CC-BY-4.0. The underlying datasets remain governed by their own licenses.
+- **Code** (`analysis/`, `src/`, `tests/`): [MIT](LICENSE).
+- **Paper and data** (`manuscript/`, `outputs/`): [CC-BY-4.0](LICENSE-CC-BY-4.0.md).
+
+Subject to the licensing terms of the upstream datasets (Real-POCQi, HealthBench, MedRBench) and any third-party source materials.

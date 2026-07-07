@@ -1,7 +1,7 @@
 # Evidence sufficiency and unsafe overconfidence in clinical LLM decision support: a public-data computational stress test
 
 **Author:** Koyar Afrasyab, M.D.  
-**Affiliation:** Independent researcher  
+**Affiliation:** Kinvectum AB, Sweden  
 **ORCID:** https://orcid.org/0009-0009-3530-4606  
 **Correspondence:** Koyar Afrasyab, M.D.; koyar@kinvectum.com
 
@@ -221,9 +221,11 @@ First, the primary comparison used a paired common panel of 300 item-perturbatio
 
 The repository contains code, prompts, public-data manifests, primary and cross-judge rubric scores, analysis tables, figures, and manuscript files. The full raw model-output records, which embed source-case text from the underlying licensed datasets, are not redistributed in the repository and are available from the corresponding author on reasonable request. The secondary and robustness analyses are reproduced by dedicated scripts and reports: cross-judge robustness (`analysis/cross_judge_robustness.py`, `crossjudge_agreement_report.json`), helpfulness and accuracy (`analysis/accuracy_tradeoff.py`, `accuracy_tradeoff_report.json`), prompt-paraphrase robustness (`analysis/paraphrase_analysis.py`, `paraphrase_robustness_report.json`), decode stability (`analysis/stability_replicates.py`, `stability_report.json`), multiplicity, heterogeneity and power (`analysis/rigor_addons.py`, `rigor_addons_report.json`), the qualitative mechanism analysis (`analysis/qualitative_error_analysis.py`), the clinician review (`analysis/judge_validation.py` and `analysis/analyze_adjudication_final.py`, `adjudication_report_final.json`), and the positive-enriched judge-sensitivity sub-study (`analysis/build_sensitivity_positive_set.py`, `analysis/analyze_sensitivity.py`, `sensitivity_report.json`). Real-POCQi, HealthBench, and MedRBench are public-source datasets. MIMIC-derived data are not included and were not sent to external APIs. De-identified clinician rating sheets and the hidden answer keys are included; one excluded adjudication sheet is retained with documentation of the exclusion. On publication the complete repository will be deposited in a public archive with a persistent DOI (Zenodo) and released under an open licence, with the corresponding GitHub repository linked from the archived record; in the interim the repository is available from the corresponding author on reasonable request. Provider API keys and any credential files are excluded from all released artifacts.
 
-## Ethics
+## Ethics and data governance
 
-This was a retrospective computational benchmark using public non-MIMIC data. It does not involve prospective patient care and does not support clinical deployment claims. A prospective clinician-in-the-loop evaluation would be required before clinical deployment claims.
+This was a retrospective public-data computational benchmark study. It did not involve recruitment of human participants, prospective patient care, clinical intervention, or collection of new patient data. The executable study used public, non-MIMIC datasets only: Real-POCQi, HealthBench, and MedRBench. MIMIC-CDM was considered only as background motivation and was excluded from all external API execution because MIMIC-derived data must not be sent to external APIs.
+
+The study evaluates model behavior, prompt sensitivity, and judge calibration. It does not establish clinical deployment readiness, autonomous-care safety, or patient-outcome benefit. A prospective clinician-in-the-loop evaluation would be required before any clinical deployment claim.
 
 ## Funding and Conflicts
 

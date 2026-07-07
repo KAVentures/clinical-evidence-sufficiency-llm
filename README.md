@@ -2,7 +2,7 @@
 
 **A public-data computational stress-test showing that a structured "evidence-sufficiency" prompt reliably reduces unsafe overconfident clinical answers across four frontier models — and that the _LLM judge's_ calibration, not just the model, governs the absolute size of that effect.**
 
-**Author:** Koyar Afrasyab, M.D. · Independent researcher · [ORCID 0009-0009-3530-4606](https://orcid.org/0009-0009-3530-4606)
+**Author:** Koyar Afrasyab, M.D. · Kinvectum AB, Sweden · [ORCID 0009-0009-3530-4606](https://orcid.org/0009-0009-3530-4606)
 **Correspondence:** koyar@kinvectum.com
 
 > These are computational rubric-judge labels validated against an independent judge and blinded clinician review. They characterize model _behavior_ and judge _calibration_; they do not establish clinical deployment readiness or patient-outcome benefit.

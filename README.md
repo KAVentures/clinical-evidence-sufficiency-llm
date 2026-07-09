@@ -1,6 +1,6 @@
 # Evidence Sufficiency and Unsafe Overconfidence in Clinical LLM Decision Support
 
-**A public-data computational stress-test showing that a structured "evidence-sufficiency" prompt reliably reduces unsafe overconfident clinical answers across four frontier models — and that the _LLM judge's_ calibration, not just the model, governs the absolute size of that effect.**
+**A paired public-data stress test showing that a measured "safety gain" from prompting clinical LLMs is directionally real but _judge-dependent_ — its magnitude nearly halves under an independent judge, blinded clinicians characterize the automated label as a high-sensitivity, low-specificity screen, and the behavior change carries a model-specific helpfulness cost. Matched scaffold controls show the direction is genuine behavior change, not judge circularity.**
 
 **Author:** Koyar Afrasyab, M.D. · Kinvectum AB, Sweden · [ORCID 0009-0009-3530-4606](https://orcid.org/0009-0009-3530-4606)
 **Correspondence:** koyar@kinvectum.com
@@ -45,9 +45,11 @@ Every inference record stores prompt hash, prompt condition, model/provider meta
 
 ## Main Results
 
+**Headline: a measured safety gain from prompting is directionally real but judge-dependent, and it costs helpfulness.** The wrapper shifted behavior in the intended direction, but the *size* of that shift is governed by the judge that scores it; blinded clinicians characterize the automated label as a screen rather than a calibrated rate; and the behavior change carries a model-specific accuracy cost. Matched scaffold controls show the direction is genuine behavior change, not judge circularity. The pre-specified primary analysis (below) is the vehicle for these findings, not the conclusion.
+
 **Primary common panel — 1,200 fully paired model-item cells (300 per model), 2,400 scored outputs.**
 
-Unsafe overconfidence fell from **49.3%** (592/1,200) under the standard prompt to **24.7%** (296/1,200) under the evidence-sufficiency wrapper — a paired absolute reduction of **24.7 percentage points** (95% bootstrap CI 21.8–27.7; McNemar 348 vs 52 discordant pairs, *p* < 0.001; adjusted GEE odds ratio 0.22, *p* < 0.001).
+Unsafe overconfidence fell from **49.3%** (592/1,200) under the standard prompt to **24.7%** (296/1,200) under the evidence-sufficiency wrapper — a paired absolute reduction of **24.7 percentage points** (95% bootstrap CI 21.8–27.7; McNemar 348 vs 52 discordant pairs, *p* < 0.001; adjusted GEE odds ratio 0.22, *p* < 0.001). The direction held across all four models, two wrapper paraphrases, and stochastic decoding.
 
 ![Unsafe overconfidence by prompt condition](outputs/figures/panel_figure2_unsafe_overconfidence_by_prompt.png)
 
@@ -60,20 +62,20 @@ Unsafe overconfidence fell from **49.3%** (592/1,200) under the standard prompt 
 | GPT-5.5 | 46.3% | 27.0% | **19.3** |
 | Grok 4.3 | 12.0% | 5.7% | **6.3** |
 
-**The effect is behavior, not judge circularity.** Two matched control arms on a 120-item × 4-model subset used the wrapper's four section labels with different instructions. Identical scaffold tokens produced very different unsafe rates — neutral scaffold 37.7%, wrapper 22.9%, forced-commitment format scaffold 79.8% — so the judge scored behavior rather than tokens. The gain decomposed additively into a **scaffold-structure component (+9.0 pp)** and a larger **abstention-content component (+14.8 pp)**.
+**Absolute magnitude is judge-dependent.** An independent, different-family judge (Claude Sonnet 5) re-scored the full panel. The two judges agreed on the *direction* of the effect but disagreed on 1,147/3,534 cells almost entirely in one direction (GPT-5.4-nano labeled unsafe where Sonnet labeled safe: 1,147 vs 15 reverse). The paired reduction nearly halved to **+13.1 pp** under Sonnet — a two-fold swing in a clinical-safety number depending only on which LLM scores it.
 
-**Absolute magnitude is judge-dependent.** An independent, different-family judge (Claude Sonnet 5) re-scored the full panel. The two judges agreed on the *direction* of the effect but disagreed on 1,147/3,534 cells almost entirely in one direction (GPT-5.4-nano labeled unsafe where Sonnet labeled safe: 1,147 vs 15 reverse). The paired reduction fell to **+13.1 pp** under Sonnet, and the direction was also robust to two wrapper paraphrases (+28 to +29 pp) and stochastic decoding.
+**Blinded clinician review — a high-sensitivity, low-specificity screen.** Three physicians rated three blinded sets. On a dedicated positive-enriched set the primary judge's sensitivity was **1.00** against the human majority (95% CI 0.61–1.00) while specificity was **0.55**; on judge-discordant cases the two reliable clinicians sided with the conservative Sonnet judge. The judge rarely misses a clinician-unsafe response but over-labels in absolute terms, so it is trustworthy for direction and ranking, not as a calibrated rate. Its low positive predictive value (~15%) quantifies the over-labeling but rests on only 6–8 clinician-unsafe cases, is base-rate dependent, and should not be transported directly onto the panel-wide rate.
 
-**Safety carries a model-dependent helpfulness cost.** On 330 answerable complete-information cases, correct diagnosis fell 80.3% → 50.3% and abstention rose 12.7% → 46.4% — but this ranged from near-free for GPT-5.5 (correct −2 pp) to catastrophic for Gemini 3.5 Flash (correct −58 pp; abstention 18% → 82%).
+**Safety carries a model-dependent helpfulness cost.** On 330 answerable complete-information cases, correct diagnosis fell 80.3% → 50.3% and abstention rose 12.7% → 46.4% — but this ranged from near-free for GPT-5.5 (correct −2 pp) to catastrophic for Gemini 3.5 Flash (correct −58 pp; abstention 18% → 82%). This trade-off was scored by a **single correctness judge and awaits blinded human confirmation**; the per-model magnitudes are provisional.
 
-**Blinded clinician review** (three physicians, three sets) characterized the primary judge as a **high-sensitivity, low-specificity screen**: sensitivity 1.00 against the human majority on a dedicated positive-enriched set (95% CI 0.61–1.00), specificity 0.55, positive predictive value 15%, and on judge-discordant cases the two reliable clinicians sided with the conservative Sonnet judge.
+**The direction is genuine behavior, not judge circularity.** Two matched control arms on a 120-item × 4-model subset used the wrapper's four section labels with different instructions. Identical scaffold tokens produced very different unsafe rates — neutral scaffold 37.7%, wrapper 22.9%, forced-commitment format scaffold 79.8% — so the judge scored behavior rather than tokens. The gain decomposed additively into a **scaffold-structure component (+9.0 pp)** and a larger **abstention-content component (+14.8 pp)**; because all arms share one judge, this contrast is robust to a constant judge threshold.
 
 ## Key Conclusions
 
-- Evidence-sufficiency prompting **reliably and reproducibly reduces unsafe overconfident clinical responses**, and a matched control decomposition shows the direction reflects genuine behavior change, not judge circularity.
-- The **absolute** unsafe-overconfidence rate and effect size are properties of the **judge's calibration**: an independent judge and blinded clinicians agreed on direction but set the threshold far higher.
-- The safety gain trades off against diagnostic accuracy, and the trade-off is **acceptable for some models and unacceptable for others** — it must be evaluated jointly, per model.
-- Report clinical-AI safety effects as **directional and relative**, not as calibrated absolute rates.
+- The **magnitude** of a measured safety effect is a property of the **judge's calibration**, not the model alone: the paired reduction nearly halved (24.7 → 13.1 pp) under an independent judge, with disagreement almost entirely one-directional (1,147 vs 15). Blinded clinicians characterize the primary endpoint as a **high-sensitivity, low-specificity screen** — trustworthy for direction and ranking, not as a calibrated absolute rate.
+- The safety gain trades off against diagnostic accuracy, and the trade-off is **acceptable for some models and unacceptable for others** (near-free for GPT-5.5, near-total collapse for Gemini 3.5 Flash) — it must be evaluated jointly, per model. This trade-off currently rests on a single correctness judge and awaits human confirmation.
+- The **direction** of the effect is genuine behavior change, not judge circularity: a matched scaffold-control decomposition (+9.0 pp structure, +14.8 pp abstention content) isolates it in a contrast robust to a constant judge threshold.
+- Report clinical-AI safety effects as **directional and relative, anchored to human review, and evaluated jointly with helpfulness** — not as calibrated absolute rates from a single automated judge.
 
 ## Limitations
 

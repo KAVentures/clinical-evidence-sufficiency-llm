@@ -45,7 +45,7 @@ Every inference record stores prompt hash, prompt condition, model/provider meta
 
 ## Main Results
 
-**Headline: a measured safety gain from prompting is directionally real but judge-dependent, and it costs helpfulness.** The wrapper shifted behavior in the intended direction, but the *size* of that shift is governed by the judge that scores it; blinded clinicians characterize the automated label as a screen rather than a calibrated rate; and the behavior change carries a model-specific accuracy cost. Matched scaffold controls show the direction is genuine behavior change, not judge circularity. The pre-specified primary analysis (below) is the vehicle for these findings, not the conclusion.
+**Headline: a measured safety gain from prompting is directionally real but judge-dependent, and it costs helpfulness.** The wrapper shifted behavior in the intended direction, but the *size* of that shift depends strongly on the judge that scores it; blinded clinicians characterize the automated label as a screen rather than a calibrated rate; and the behavior change carries a model-specific accuracy cost. Matched scaffold controls show the direction is genuine behavior change, not judge circularity. The pre-specified primary analysis (below) is the vehicle for these findings, not the conclusion.
 
 **Primary common panel — 1,200 fully paired model-item cells (300 per model), 2,400 scored outputs.**
 

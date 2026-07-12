@@ -1,4 +1,4 @@
-# Supplementary Data (S6)
+# Supplementary Data (S4)
 
 This folder is the single labeled entry point to the machine-readable data underlying the
 manuscript. It contains no new files: each entry below is a symlink to the canonical

@@ -1,12 +1,30 @@
 cff-version: 1.2.0
-title: Evidence sufficiency and unsafe overconfidence in clinical LLM decision support
-message: If you use this benchmark scaffold, please cite the repository and the underlying datasets.
+title: Judge-dependent safety gains and model-specific helpfulness costs of evidence-sufficiency prompting in clinical LLMs
+message: If you use this benchmark scaffold, please cite the arXiv preprint (see preferred-citation) and the underlying datasets.
 type: software
 authors:
   - family-names: Afrasyab
     given-names: Koyar
     orcid: https://orcid.org/0009-0009-3530-4606
-    affiliation: Independent researcher
+    affiliation: Kinvectum AB, Sweden
     email: koyar@kinvectum.com
 date-released: 2026-07-06
 license: MIT
+identifiers:
+  - type: doi
+    value: 10.48550/arXiv.2607.18086
+    description: arXiv preprint
+url: https://github.com/KAVentures/clinical-evidence-sufficiency-llm
+preferred-citation:
+  type: article
+  title: Judge-dependent safety gains and model-specific helpfulness costs of evidence-sufficiency prompting in clinical LLMs
+  authors:
+    - family-names: Afrasyab
+      given-names: Koyar
+      orcid: https://orcid.org/0009-0009-3530-4606
+      affiliation: Kinvectum AB, Sweden
+  year: 2026
+  journal: arXiv
+  doi: 10.48550/arXiv.2607.18086
+  url: https://arxiv.org/abs/2607.18086
+  notes: arXiv:2607.18086 [cs.AI]

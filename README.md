@@ -1,9 +1,10 @@
-# Evidence Sufficiency and Unsafe Overconfidence in Clinical LLM Decision Support
+# Judge-Dependent Safety Gains and Model-Specific Helpfulness Costs of Evidence-Sufficiency Prompting in Clinical LLMs
 
 **A paired public-data stress test showing that a measured "safety gain" from prompting clinical LLMs is directionally real but _judge-dependent_ — its magnitude nearly halves under an independent judge, blinded clinicians characterize the automated label as a high-sensitivity, low-specificity screen, and the behavior change carries a model-specific helpfulness cost. Matched scaffold controls show the direction is genuine behavior change, not judge circularity.**
 
 **Author:** Koyar Afrasyab, M.D. · Kinvectum AB, Sweden · [ORCID 0009-0009-3530-4606](https://orcid.org/0009-0009-3530-4606)
 **Correspondence:** koyar@kinvectum.com
+**Preprint:** [arXiv:2607.18086](https://arxiv.org/abs/2607.18086) · [doi:10.48550/arXiv.2607.18086](https://doi.org/10.48550/arXiv.2607.18086)
 
 > These are computational rubric-judge labels validated against an independent judge and blinded clinician review. They characterize model _behavior_ and judge _calibration_; they do not establish clinical deployment readiness or patient-outcome benefit.
 
@@ -11,7 +12,7 @@
 
 - [Manuscript (Markdown)](manuscript/manuscript.md) · [Manuscript (PDF)](manuscript/manuscript.pdf)
 - [Study protocol](manuscript/protocol.md) · [Supplementary methods](manuscript/supplementary_methods.md)
-- [Reporting checklist (S1)](manuscript/reporting_checklist.md) · [DECIDE-AI](manuscript/decide_ai_checklist.md) · [STARD-AI](manuscript/stard_ai_checklist.md)
+- [Reporting checklist (S1)](manuscript/reporting_checklist.md) · [Ethics self-assessment](manuscript/ethics_self_assessment.md)
 - [Prompts](prompts/) · [Analysis scripts](analysis/) · [Result tables](outputs/tables/) · [Figures](outputs/figures/)
 
 ## Study Question
@@ -142,9 +143,25 @@ De-identified clinician rating sheets and the hidden answer keys are included un
 ## Citation
 
 ```bibtex
-@misc{afrasyab2026evidencesufficiency,
-  title  = {Evidence sufficiency and unsafe overconfidence in clinical LLM
-            decision support: a public-data computational stress test},
+@article{afrasyab2026judgedependent,
+  title  = {Judge-dependent safety gains and model-specific helpfulness costs
+            of evidence-sufficiency prompting in clinical LLMs},
+  author = {Afrasyab, Koyar},
+  year   = {2026},
+  eprint = {2607.18086},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.AI},
+  doi    = {10.48550/arXiv.2607.18086},
+  url    = {https://arxiv.org/abs/2607.18086}
+}
+```
+
+The accompanying code and data are archived in this repository:
+
+```bibtex
+@misc{afrasyab2026evidencesufficiency_repo,
+  title  = {Judge-dependent safety gains and model-specific helpfulness costs
+            of evidence-sufficiency prompting in clinical LLMs (code and data)},
   author = {Afrasyab, Koyar},
   year   = {2026},
   howpublished = {GitHub repository},

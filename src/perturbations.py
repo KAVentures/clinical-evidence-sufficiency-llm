@@ -131,11 +131,14 @@ def _split_sections(text: str) -> list[tuple[str | None, str]]:
     chunks = re.split(r"\n\s*\n", text)
     sections = []
     for chunk in chunks:
-        if ":" in chunk.splitlines()[0]:
-            name, body = chunk.split(":", 1)
+        stripped = chunk.strip()
+        if not stripped:
+            continue
+        if ":" in stripped.splitlines()[0]:
+            name, body = stripped.split(":", 1)
             sections.append((name.strip(), body.strip()))
         else:
-            sections.append((None, chunk.strip()))
+            sections.append((None, stripped))
     return sections
 
 
@@ -159,4 +162,3 @@ def _remove_sections(text: str, keys: list[str], expected: str) -> PerturbationR
     else:
         kept_text = "\n\n".join(kept)
     return PerturbationResult(kept_text.strip(), removed, "", expected)
-

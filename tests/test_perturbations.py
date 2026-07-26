@@ -11,6 +11,13 @@ def test_remove_labs_removes_lab_section():
     assert result.removed_fields == ["Labs"]
 
 
+def test_remove_labs_ignores_blank_section_chunks():
+    text = "\n\nHPI: abdominal pain\n\n\nLabs: WBC elevated\n\nImaging: CT pending\n\n"
+    result = remove_labs(text)
+    assert "WBC elevated" not in result.text
+    assert result.removed_fields == ["Labs"]
+
+
 def test_generate_perturbations_preserves_item_id():
     frame = pd.DataFrame(
         [

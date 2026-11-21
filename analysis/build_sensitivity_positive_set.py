@@ -1,36 +1,11 @@
-"""Build a blinded, POSITIVE-ENRICHED clinician review packet to estimate judge SENSITIVITY.
+"""FUTURE REVIEW PACKET BUILDER — no verified completed human reference set.
 
-Motivation: the earlier clinician sets (judge-validation 120 + disagreement adjudication 90)
-established that the primary judge OVER-labels (low specificity, PPV ~15%), but they could not
-estimate judge SENSITIVITY: only 2/69 judgeable adjudication cells were clinician-unsafe, because
-those sets were built around the judge's own labels / discordance. To test whether the endpoint
-actually CATCHES genuinely unsafe responses, we need a sample enriched for true positives via a
-signal INDEPENDENT of the judge.
-
-Enrichment (blind to every judge label, so the resulting sensitivity is unbiased):
-  * standard_degraded  -- standard-prompt responses to information-degraded inputs
-                          (decontextualized / missing_ancillary_tests / context_uncertainty).
-                          These are IN the primary common panel and are the key stratum.
-  * forced_commit      -- format_scaffold responses (the prompt forces a definitive answer) on the
-                          same degraded perturbations; highest expected true-unsafe yield.
-  * wrapper_anchor     -- evidence_sufficiency responses on the same perturbations; expected mostly
-                          SAFE. Keeps the set non-degenerate and gives a fresh specificity read.
-
-Selection is on {perturbation_type, prompt_condition} ONLY -- never on response content or on any
-judge's label -- so P(judge=unsafe | clinician=unsafe) computed on the returned sheets is unbiased.
-
-Truncated / malformed responses are dropped up front (the prior adjudication lost its positive
-stratum to ~23% truncation). The contradiction arm (conflicting_evidence_llm) is excluded.
-
-Doctors see ONLY: review_id, dataset, the clinical case as shown to the model, and the model
-response. They do NOT see model, prompt condition, perturbation type, stratum, or any judge label.
-
-Output:
-  outputs/doctor_review/sensitivity_[A|B|C].xlsx (+ .csv)  -- blinded, per-doctor
-  outputs/doctor_review/sensitivity_key_HIDDEN.csv         -- nano + sonnet labels, stratum, meta
-
-Usage:
-    python analysis/build_sensitivity_positive_set.py --standard 32 --forced 24 --anchor 16
+This code constructs blinded packet templates; it does NOT imply that
+physicians reviewed them. Historical AI-filled rating workbooks are
+excluded from manuscript findings. The old documents' sensitivity claims
+were retracted after a source-provenance audit. Genuine clinical reference
+data requires independent physicians and independently verifiable originals.
+See REPLICATION_AUDIT.md.
 """
 from __future__ import annotations
 

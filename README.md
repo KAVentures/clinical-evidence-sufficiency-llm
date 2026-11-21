@@ -1,6 +1,6 @@
 # Judge-Dependent Safety Gains and Model-Specific Helpfulness Costs of Evidence-Sufficiency Prompting in Clinical LLMs
 
-**A paired public-data stress test showing that a measured "safety gain" from prompting clinical LLMs is directionally real but _judge-dependent_ — its magnitude nearly halves under an independent judge, blinded clinicians characterize the automated label as a high-sensitivity, low-specificity screen, and the behavior change carries a model-specific helpfulness cost. Matched scaffold controls show the direction is genuine behavior change, not judge circularity.**
+**A paired public-data stress test showing that a measured "safety gain" from prompting clinical LLMs is directionally real but _judge-dependent_ — its magnitude nearly halves under an independent judge, blinded clinicians characterize the automated label as a high-sensitivity, low-specificity screen, and the behavior change carries a model-specific helpfulness cost. Matched scaffold controls argue against a trivial scaffold-token-only explanation but cannot exclude condition-dependent judge bias.**
 
 **Author:** Koyar Afrasyab, M.D. · Kinvectum AB, Sweden · [ORCID 0009-0009-3530-4606](https://orcid.org/0009-0009-3530-4606)
 **Correspondence:** koyar@kinvectum.com
@@ -46,7 +46,7 @@ Every inference record stores prompt hash, prompt condition, model/provider meta
 
 ## Main Results
 
-**Headline: a measured safety gain from prompting is directionally real but judge-dependent, and it costs helpfulness.** The wrapper shifted behavior in the intended direction, but the *size* of that shift depends strongly on the judge that scores it; blinded clinicians characterize the automated label as a screen rather than a calibrated rate; and the behavior change carries a model-specific accuracy cost. Matched scaffold controls show the direction is genuine behavior change, not judge circularity. The pre-specified primary analysis (below) is the vehicle for these findings, not the conclusion.
+**Headline: a measured safety gain from prompting is directionally real but judge-dependent, and it costs helpfulness.** The wrapper shifted behavior in the intended direction, but the *size* of that shift depends strongly on the judge that scores it; blinded clinicians characterize the automated label as a screen rather than a calibrated rate; and the behavior change carries a model-specific accuracy cost. Matched scaffold controls argue against a trivial scaffold-token-only explanation but cannot exclude condition-dependent judge bias. The pre-specified primary analysis (below) is the vehicle for these findings, not the conclusion.
 
 **Primary common panel — 1,200 fully paired model-item cells (300 per model), 2,400 scored outputs.**
 
@@ -65,7 +65,7 @@ Unsafe overconfidence fell from **49.3%** (592/1,200) under the standard prompt 
 
 **Absolute magnitude is judge-dependent.** An independent, different-family judge (Claude Sonnet 5) re-scored the full panel. The two judges agreed on the *direction* of the effect but disagreed on 1,147/3,534 cells almost entirely in one direction (GPT-5.4-nano labeled unsafe where Sonnet labeled safe: 1,147 vs 15 reverse). The paired reduction nearly halved to **+13.1 pp** under Sonnet — a two-fold swing in a clinical-safety number depending only on which LLM scores it.
 
-**Blinded clinician review — a high-sensitivity, low-specificity screen.** Three physicians rated three blinded sets. On a dedicated positive-enriched set the primary judge's sensitivity was **1.00** against the human majority (95% CI 0.61–1.00) while specificity was **0.55**; on judge-discordant cases the two reliable clinicians sided with the conservative Sonnet judge. The judge rarely misses a clinician-unsafe response but over-labels in absolute terms, so it is trustworthy for direction and ranking, not as a calibrated rate. Its low positive predictive value (~15%) quantifies the over-labeling but rests on only 6–8 clinician-unsafe cases, is base-rate dependent, and should not be transported directly onto the panel-wide rate.
+**Blinded clinician review — a high-sensitivity, low-specificity screen.** Three physicians rated three blinded sets. On a dedicated positive-enriched set the primary judge's sensitivity was **1.00** against the human majority (95% CI 0.61–1.00) while specificity was **0.55**; on judge-discordant cases the two reliable clinicians sided with the conservative Sonnet judge. The primary judge detected all 6 of 6 clinician-majority-unsafe responses in the positive-enriched sample, but its sensitivity is imprecisely estimated (95% CI 0.61–1.00). In another adjudication set, both AI judges missed two responses rated unsafe by at least one retained clinician; neither judge has established general clinical sensitivity. Positive predictive values are sampling-frame-dependent.
 
 **Safety carries a model-dependent helpfulness cost.** On 330 answerable complete-information cases, correct diagnosis fell 80.3% → 50.3% and abstention rose 12.7% → 46.4% — but this ranged from near-free for GPT-5.5 (correct −2 pp) to catastrophic for Gemini 3.5 Flash (correct −58 pp; abstention 18% → 82%). This trade-off was scored by a **single correctness judge and awaits blinded human confirmation**; the per-model magnitudes are provisional.
 
@@ -73,8 +73,8 @@ Unsafe overconfidence fell from **49.3%** (592/1,200) under the standard prompt 
 
 ## Key Conclusions
 
-- The **magnitude** of a measured safety effect is a property of the **judge's calibration**, not the model alone: the paired reduction nearly halved (24.7 → 13.1 pp) under an independent judge, with disagreement almost entirely one-directional (1,147 vs 15). Blinded clinicians characterize the primary endpoint as a **high-sensitivity, low-specificity screen** — trustworthy for direction and ranking, not as a calibrated absolute rate.
-- The safety gain trades off against diagnostic accuracy, and the trade-off is **acceptable for some models and unacceptable for others** (near-free for GPT-5.5, near-total collapse for Gemini 3.5 Flash) — it must be evaluated jointly, per model. This trade-off currently rests on a single correctness judge and awaits human confirmation.
+- The **magnitude** of a measured safety effect is a property of the **judge's calibration**, not the model alone: the paired reduction nearly halved (24.7 → 13.1 pp) under an independent judge, with disagreement almost entirely one-directional (1,147 vs 15). Blinded clinicians characterize the primary endpoint as a **high-sensitivity, low-specificity screen** — useful for contrasting these judging procedures on the paired panel, not a validated clinical ranking or calibrated absolute rate.
+- The safety gain trades off against diagnostic accuracy, and the *single-correctness-judge* estimate of that trade-off differs sharply across models (near-free for GPT-5.5, large apparent collapse for Gemini 3.5 Flash) — it must be evaluated jointly, per model. This trade-off currently rests on a single correctness judge and awaits human confirmation.
 - The **direction** of the effect is genuine behavior change, not judge circularity: a matched scaffold-control decomposition (+9.0 pp structure, +14.8 pp abstention content) isolates it in a contrast robust to a constant judge threshold.
 - Report clinical-AI safety effects as **directional and relative, anchored to human review, and evaluated jointly with helpfulness** — not as calibrated absolute rates from a single automated judge.
 
@@ -93,7 +93,7 @@ The primary panel is a 300-item-per-model stress-test subset, not a full leaderb
 | `outputs/tables/` | Machine-readable result JSON (primary panel summary and all secondary/robustness reports) |
 | `outputs/figures/` | Nine publication figures (PNG + PDF) |
 | `outputs/scores/` | Primary and cross-judge rubric scores (JSONL) |
-| `outputs/doctor_review/` | De-identified blinded clinician rating sheets, hidden review-id→condition keys, and adjudication/sensitivity reports |
+| `outputs/doctor_review/` | **Unfilled** blinded rating templates, hidden review-ID keys, and aggregate adjudication/sensitivity reports; the filled source sheets underlying the reported physician statistics are not publicly included |
 | `tests/` | Unit tests (`pytest`) |
 
 **Not redistributed here:** the full raw model-output records (they embed source-case text from the underlying licensed datasets), provider API keys, and MIMIC-derived data. The raw output records are available from the corresponding author on reasonable request.
@@ -138,7 +138,7 @@ Loaders can also fetch public Hugging Face datasets when network access and cred
 
 ## Data and Human Labels
 
-De-identified clinician rating sheets and the hidden answer keys are included under `outputs/doctor_review/`; the hidden keys are research review-id→condition maps (blinded from clinicians during rating), not secrets. One adjudication sheet was excluded as unreliable and is retained with documentation of the exclusion.
+The repository includes deidentified **blank clinician-review templates**, hidden review-ID/condition keys, and aggregate result reports under `outputs/doctor_review/`. The nine public reviewer CSVs contain zero completed unsafe/safe labels. The filled workbooks used to compute the clinician-validation results and exclusion sensitivity are **not publicly present**; independent reproduction of those findings is blocked until authentic filled source sheets can be verified and released (or audited under controlled access). One adjudication rater was excluded based on a post-collection consistency review; the underlying source and effect of inclusion should be independently auditable. See [REPLICATION_AUDIT.md](REPLICATION_AUDIT.md) and run `python scripts/check_preprint_integrity.py`.
 
 ## Citation
 

@@ -1,10 +1,12 @@
 """Definitive human-adjudication analysis (no API).
 
-Consumes the FILLED doctor sheets from ~/Downloads. Doctor C's adjudication submission
-is EXCLUDED (established unreliable: 87.8% unsafe vs C's own 5.8% generic rate; 79/90
-rationales templated as '**Overconfident** ... uses language like'; 0 cannot_judge flags
-while A/B flagged 17-19 truncated cells). Primary analysis uses reliable raters A & B on
-JUDGEABLE cells (drops any cell either doctor flagged cannot_judge / truncated).
+Consumes authentic FILLED doctor workbooks from DOCTOR_FILLED_DIR. The public
+CSV packets are blank reviewer templates, NOT source ratings. Reviewer C is
+omitted from the archived A/B analysis following a retrospective consistency
+review (87.8% unsafe vs 5.8% in a separate packet; repetitive rationales),
+NOT a prospectively registered rater exclusion. An inclusion sensitivity
+analysis with verified original worksheets remains necessary. The reported
+A/B results use items both raters judged interpretable.
 
 Decisive question: on CONTESTED cells (primary nano-judge=unsafe, cross sonnet-judge=safe),
 do the human doctors side with nano (unsafe) or sonnet (safe)?
@@ -32,7 +34,14 @@ RELIABLE = ["A", "B"]
 
 
 def load(doc: str) -> pd.DataFrame:
-    xl = pd.ExcelFile(DL / FILLED[doc])
+    source = DL / FILLED[doc]
+    if not source.is_file():
+        raise FileNotFoundError(
+            f"Authentic completed reviewer workbook missing: {source}. "
+            "The public outputs/doctor_review/*.csv are blank packets and "
+            "cannot reproduce the human labels. Do not fabricate scores."
+        )
+    xl = pd.ExcelFile(source)
     df = xl.parse("ratings")
     out = df[["review_id", UCOL, CJCOL]].copy()
     out[UCOL] = pd.to_numeric(out[UCOL], errors="coerce")
@@ -67,7 +76,8 @@ def main() -> None:
 
     report: dict = {
         "raters_used": RELIABLE,
-        "excluded": {"C": "templated/unreliable: 87.8% unsafe vs 5.8% on own generic packet; "
+        "excluded": {"C": "excluded after post-collection rating-pattern quality review: 87.8% unsafe "
+                          "vs 5.8% on own generic packet; "
                           "79/90 rationales templated; 0 cannot_judge flags vs A=19/B=17"},
         "n_items_total": int(len(m)),
     }

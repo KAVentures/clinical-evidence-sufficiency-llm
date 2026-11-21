@@ -29,7 +29,7 @@ That distinction matters because clinical-AI safety is increasingly scored by LL
 
 ### Study Design
 
-This was a retrospective public-data benchmark and perturbation study with paired repeated measures. The unit of analysis was model x item x perturbation x prompt condition. The primary comparison was standard prompt versus evidence-sufficiency wrapper for the same model and item-perturbation. The overall design is summarized in Figure 1. Because no established reporting guideline covers non-interventional computational benchmarks of clinical LLM behavior, we report the study following the applicable principles of the DECIDE-AI, CONSORT-AI/SPIRIT-AI, and STARD-AI reporting frameworks [9-11] — pre-specification of the confirmatory primary analysis, transparent handling of the automated (LLM-judge) index test against an independent judge and blinded clinician reference standard, per-model reporting of heterogeneous effects, and explicit statements of intended use and limitations. A completed item-by-item reporting checklist mapped to these frameworks is provided as Supplementary File S1 (`manuscript/reporting_checklist.md`).
+This was a retrospective public-data benchmark and perturbation study with paired repeated measures. The unit of analysis was model x item x perturbation x prompt condition. The primary comparison was standard prompt versus evidence-sufficiency wrapper for the same model and item-perturbation. The overall design is summarized in Figure 1. Because no established reporting guideline covers non-interventional computational benchmarks of clinical LLM behavior, we report the study following the applicable principles of the DECIDE-AI, CONSORT-AI/SPIRIT-AI, and STARD-AI reporting frameworks [9-12] — pre-specification of the confirmatory primary analysis, transparent handling of the automated (LLM-judge) index test against an independent judge and blinded clinician reference standard, per-model reporting of heterogeneous effects, and explicit statements of intended use and limitations. A completed item-by-item reporting checklist mapped to these frameworks is provided as Supplementary File S1 (`manuscript/reporting_checklist.md`).
 
 ![Figure 1. Study design](../outputs/figures/panel_figure1_study_design.png)
 
@@ -268,7 +268,7 @@ The machine-readable data underlying the manuscript are collected under a single
 
 1. Hager P, Jungmann F, Holland R, Bhagat K, Hubrecht I, Knauer M, Vielhauer J, Makowski M, Braren R, Kaissis G, Rueckert D. Evaluation and mitigation of the limitations of large language models in clinical decision-making. *Nature Medicine*. 2024. doi:10.1038/s41591-024-03097-1.
 
-2. Gu Y, et al. Health AI readiness evaluation and robustness stress-testing resource. *Nature Medicine*. 2026. doi:10.1038/s41591-026-04501-8. Code and data release: https://github.com/aiden-ygu/health-ai-readiness-eval/tree/v1.0.0. Zenodo: https://doi.org/10.5281/zenodo.20047288.
+2. Gu Y, et al. Evaluating the robustness and readiness of large frontier models in health AI applications. *Nature Medicine*. 2026. doi:10.1038/s41591-026-04501-8. Code and data release: https://github.com/aiden-ygu/health-ai-readiness-eval/tree/v1.0.0. Zenodo: https://doi.org/10.5281/zenodo.20047288.
 
 3. Feng JJ, et al. Expert Evaluation of Clinical AI Tools on Real Point-of-Care Clinical Queries. arXiv:2606.28960. 2026. https://arxiv.org/abs/2606.28960.
 
@@ -284,6 +284,8 @@ The machine-readable data underlying the manuscript are collected under a single
 
 9. Vasey B, Nagendran M, Campbell B, Clifton DA, Collins GS, Denaxas S, et al. DECIDE-AI: Developmental and Exploratory Clinical Investigations of Decision support systems driven by Artificial Intelligence. *Nature Medicine*. 2022. doi:10.1038/s41591-022-01772-9.
 
-10. Liu X, Cruz Rivera S, Moher D, Calvert MJ, Denniston AK, SPIRIT-AI and CONSORT-AI Working Group. Reporting guidelines for clinical trials evaluating artificial intelligence interventions: the CONSORT-AI and SPIRIT-AI extensions. *Nature Medicine*. 2020. doi:10.1038/s41591-020-1037-7.
+10. Liu X, Cruz Rivera S, Moher D, Calvert MJ, Denniston AK, et al. Reporting guidelines for clinical trial reports for interventions involving artificial intelligence: the CONSORT-AI extension. *Nature Medicine*. 2020. doi:10.1038/s41591-020-1034-x.
 
 11. STARD-AI Steering Group. STARD-AI reporting guideline for diagnostic accuracy studies involving artificial intelligence. *Nature Medicine*. 2025. doi:10.1038/s41591-025-03953-8.
+
+12. Cruz Rivera S, Liu X, Chan AW, Denniston AK, Calvert MJ, et al. Guidelines for clinical trial protocols for interventions involving artificial intelligence: the SPIRIT-AI extension. *Nature Medicine*. 2020. doi:10.1038/s41591-020-1037-7.

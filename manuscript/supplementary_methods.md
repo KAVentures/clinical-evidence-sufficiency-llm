@@ -16,9 +16,9 @@ Prompts are stored as plain-text files and hashed with SHA-256. Each inference r
 
 Inference outputs are written as JSONL with run ID, item ID, perturbation ID, provider, model name, version where available, prompt condition, prompt hash, temperature, timestamp, response text, token usage, latency, error status, and raw response payload.
 
-## Clinician review export
+## Historical reviewer packet export — not human validation
 
-The annotation export blinds prompt condition labels as A/B and includes clinician-label columns for primary and secondary rubric fields.
+The legacy annotation export blinded prompt condition labels as A/B and included columns for hypothetical clinician review. The public CSV worksheets are **unfilled templates**. Completed workbooks from earlier AI-assisted sessions must not be called physician ratings. All old apparent clinician majority, sensitivity, specificity, and adjudication statistics are excluded from the revised scientific analyses. See `REPLICATION_AUDIT.md` for the provenance audit. Genuine physician validation would require a new authenticated and blinded external reviewer protocol.
 
 ## Power simulation
 

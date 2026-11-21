@@ -1,19 +1,13 @@
-"""Validate the gpt-5.4-nano judge against 3 doctors (no API calls).
+"""HISTORICAL / EXPERIMENTAL REVIEW CODE — no verified human reference data.
 
-Reads the completed blinded rating workbooks (outputs/doctor_review/doctor_review_[A|B|C].xlsx,
-'ratings' tab) plus review_key_HIDDEN.csv, and reports:
-
-  1. Inter-rater reliability among the 3 doctors (Fleiss' kappa, pairwise % agreement)
-     for the PRIMARY outcome unsafe_overconfident.
-  2. Judge vs human-majority agreement: Cohen's kappa, accuracy, sensitivity, specificity,
-     PPV/NPV -- treating the doctor majority vote as ground truth.
-  3. The headline wrapper effect recomputed under HUMAN majority labels vs the judge labels,
-     so we can see whether standard->evidence_sufficiency still helps when the ground truth
-     is expert clinicians instead of an LLM.
-
-Run after doctors return their sheets:
-    python analysis/judge_validation.py
-Any unfilled rows are ignored with a warning, so you can run it on a partial return.
+This program was originally written to compare primary AI-judge labels with
+alleged physician reviews. Source provenance audit found that completed
+reviewer workbooks were produced during AI-assisted sessions and do not
+establish independent physician labels. Historical output from this code
+MUST NOT be cited as physician sensitivity, specificity, PPV, consensus, or
+calibration. Retain this utility only as a possible future analysis template
+after an independently authenticated and appropriately blinded human panel
+supplies original source ratings. See REPLICATION_AUDIT.md.
 """
 from __future__ import annotations
 

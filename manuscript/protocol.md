@@ -82,3 +82,7 @@ LLM judge scores are triage labels, not final ground truth. A 20-30% blinded cli
 ## Ethics and data governance
 
 This is a retrospective benchmark study using public, non-MIMIC datasets for external API calls. MIMIC-derived data must not be sent to external APIs and should be handled only in compliant local or approved environments.
+
+## Historical protocol and deviation transparency
+
+This file records the earlier research design and is retained as a **dated design document**, not silently rewritten to make later exploratory choices appear prospectively specified. The executable final study used a 1,200-cell fully paired common panel, added 480-cell neutral- and forced-commitment-scaffold controls, a different-family cross-judge, three reported clinician-review sets, and supplementary robustness analyses. These were not all part of the initial design snapshot. See the final manuscript's Methods and the saved `outputs/tables/rigor_addons_report.json` analysis registry for which comparisons are confirmatory, secondary, exploratory or post hoc. The clinician-reporting source workbooks needed for complete independent reanalysis are not in the public repository; see `REPLICATION_AUDIT.md`.

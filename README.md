@@ -1,12 +1,12 @@
 # Judge-Dependent Safety Gains and Model-Specific Helpfulness Costs of Evidence-Sufficiency Prompting in Clinical LLMs
 
-**A paired public-data stress test showing that a measured "safety gain" from prompting clinical LLMs is directionally real but _judge-dependent_ — its magnitude nearly halves under an independent judge, blinded clinicians characterize the automated label as a high-sensitivity, low-specificity screen, and the behavior change carries a model-specific helpfulness cost. Matched scaffold controls argue against a trivial scaffold-token-only explanation but cannot exclude condition-dependent judge bias.**
+**A paired public-data stress test demonstrating a large, model-dependent reduction in AI-judge-labeled unsafe overconfidence under evidence-sufficiency prompting, a roughly halved measured effect under a second independent-family judge, and a potentially substantial but single-judge-scored diagnostic-helpfulness trade-off. Matched scaffold controls support genuine prompt-induced response changes rather than a trivial section-token effect. No independently verified physician reference standard was used.**
 
 **Author:** Koyar Afrasyab, M.D. · Kinvectum AB, Sweden · [ORCID 0009-0009-3530-4606](https://orcid.org/0009-0009-3530-4606)
 **Correspondence:** koyar@kinvectum.com
 **Preprint:** [arXiv:2607.18086](https://arxiv.org/abs/2607.18086) · [doi:10.48550/arXiv.2607.18086](https://doi.org/10.48550/arXiv.2607.18086)
 
-> These are computational rubric-judge labels validated against an independent judge and blinded clinician review. They characterize model _behavior_ and judge _calibration_; they do not establish clinical deployment readiness or patient-outcome benefit.
+> These are **automated rubric-judge outcomes**, independently regraded by another AI model but **not** verified against human physician judgments. Results characterize judge-conditioned behavior and do not establish clinical harm prevalence, model clinical safety, or readiness.
 
 ## Quick Links
 
@@ -46,7 +46,7 @@ Every inference record stores prompt hash, prompt condition, model/provider meta
 
 ## Main Results
 
-**Headline: a measured safety gain from prompting is directionally real but judge-dependent, and it costs helpfulness.** The wrapper shifted behavior in the intended direction, but the *size* of that shift depends strongly on the judge that scores it; blinded clinicians characterize the automated label as a screen rather than a calibrated rate; and the behavior change carries a model-specific accuracy cost. Matched scaffold controls argue against a trivial scaffold-token-only explanation but cannot exclude condition-dependent judge bias. The pre-specified primary analysis (below) is the vehicle for these findings, not the conclusion.
+**Headline: the paired intervention changed scored behavior substantially, but the size of that change depends on the evaluator, and abstention can carry a cost.** The main result is a rigorously paired prompt contrast reproduced in direction by a second-family judge. Control prompts argue against superficial token reward; secondary single-judge correctness assessment suggests heterogeneous helpfulness costs. It is not a clinically calibrated safety estimate.
 
 **Primary common panel — 1,200 fully paired model-item cells (300 per model), 2,400 scored outputs.**
 
@@ -65,22 +65,22 @@ Unsafe overconfidence fell from **49.3%** (592/1,200) under the standard prompt 
 
 **Absolute magnitude is judge-dependent.** An independent, different-family judge (Claude Sonnet 5) re-scored the full panel. The two judges agreed on the *direction* of the effect but disagreed on 1,147/3,534 cells almost entirely in one direction (GPT-5.4-nano labeled unsafe where Sonnet labeled safe: 1,147 vs 15 reverse). The paired reduction nearly halved to **+13.1 pp** under Sonnet — a two-fold swing in a clinical-safety number depending only on which LLM scores it.
 
-**Blinded clinician review — a high-sensitivity, low-specificity screen.** Three physicians rated three blinded sets. On a dedicated positive-enriched set the primary judge's sensitivity was **1.00** against the human majority (95% CI 0.61–1.00) while specificity was **0.55**; on judge-discordant cases the two reliable clinicians sided with the conservative Sonnet judge. The primary judge detected all 6 of 6 clinician-majority-unsafe responses in the positive-enriched sample, but its sensitivity is imprecisely estimated (95% CI 0.61–1.00). In another adjudication set, both AI judges missed two responses rated unsafe by at least one retained clinician; neither judge has established general clinical sensitivity. Positive predictive values are sampling-frame-dependent.
+**Provenance correction — no verified physician judging panel.** Previous internal analysis reports called AI-generated review worksheets 'three-physician' ratings. Source files in the user's research archive are marked model-generated, and prior work records show AI completed the 120-case and 72-case review worksheets. These **must not be presented as independent human ratings**. All associated sensitivity, specificity, positive predictive value, and clinician consensus figures are excluded from the scientific results. The historical artifacts remain labeled as deprecated for auditability.
 
-**Safety carries a model-dependent helpfulness cost.** On 330 answerable complete-information cases, correct diagnosis fell 80.3% → 50.3% and abstention rose 12.7% → 46.4% — but this ranged from near-free for GPT-5.5 (correct −2 pp) to catastrophic for Gemini 3.5 Flash (correct −58 pp; abstention 18% → 82%). This trade-off was scored by a **single correctness judge and awaits blinded human confirmation**; the per-model magnitudes are provisional.
+**Exploratory, single-judge-scored helpfulness trade-off.** On **330 paired model-item observations from 200 answerable source cases**, the AI correctness judge assigned correct diagnosis at 80.3% versus 50.3% and abstention at 12.7% versus 46.4%; model contributions were uneven (48 GPT, 44 Claude, 148 Gemini, 90 Grok). The apparent change ranged from approximately −2 points for GPT-5.5 to −58 points for Gemini 3.5 Flash. Those figures reflect one correctness judge, **not clinician-verified accuracy**, and require independent validation before clinical interpretation.
 
 **The direction is genuine behavior, not judge circularity.** Two matched control arms on a 120-item × 4-model subset used the wrapper's four section labels with different instructions. Identical scaffold tokens produced very different unsafe rates — neutral scaffold 37.7%, wrapper 22.9%, forced-commitment format scaffold 79.8% — so the judge scored behavior rather than tokens. The gain decomposed additively into a **scaffold-structure component (+9.0 pp)** and a larger **abstention-content component (+14.8 pp)**; because all arms share one judge, this contrast is robust to a constant judge threshold.
 
 ## Key Conclusions
 
-- The **magnitude** of a measured safety effect is a property of the **judge's calibration**, not the model alone: the paired reduction nearly halved (24.7 → 13.1 pp) under an independent judge, with disagreement almost entirely one-directional (1,147 vs 15). Blinded clinicians characterize the primary endpoint as a **high-sensitivity, low-specificity screen** — useful for contrasting these judging procedures on the paired panel, not a validated clinical ranking or calibrated absolute rate.
-- The safety gain trades off against diagnostic accuracy, and the *single-correctness-judge* estimate of that trade-off differs sharply across models (near-free for GPT-5.5, large apparent collapse for Gemini 3.5 Flash) — it must be evaluated jointly, per model. This trade-off currently rests on a single correctness judge and awaits human confirmation.
+- **Judging model is part of the measurement.** The paired AI-judge effect was 24.7 points under GPT-5.4-nano and 13.1 under Sonnet; most crossjudge disagreements were one-directional (1,147 vs 15). Neither judge is clinically calibrated by independent physicians in this study.
+- **Safety-helpfulness trade-offs matter.** Prompt-driven abstention increased; a secondary one-judge correctness analysis suggests especially large model-specific costs, but does not establish true diagnostic error rates.
 - The **direction** of the effect is genuine behavior change, not judge circularity: a matched scaffold-control decomposition (+9.0 pp structure, +14.8 pp abstention content) isolates it in a contrast robust to a constant judge threshold.
-- Report clinical-AI safety effects as **directional and relative, anchored to human review, and evaluated jointly with helpfulness** — not as calibrated absolute rates from a single automated judge.
+- **Report paired, evaluator-specified outcomes together with abstention and correctness analyses** rather than treating any one AI judge's harm flag as a calibrated clinical safety endpoint.
 
 ## Limitations
 
-The primary panel is a 300-item-per-model stress-test subset, not a full leaderboard; the sole automated label is an LLM judge that over-labels in absolute terms; the clinician review rests on a small number of physicians (one adjudication sheet was excluded as unreliable) and a modest count of clinician-unsafe cases; a fraction of generated responses were truncated or malformed; the conflicting-evidence arm is exploratory and MedRBench-only; and outputs may drift with provider updates. See the manuscript **Limitations** section (nine enumerated points) for detail.
+The 1,200-pair common panel supports a within-judge behavioral contrast, not a population safety rate or model leaderboard. An independent judge confirmed the effect direction but not its magnitude. A historical 'physician' calibration package was actually AI-generated or had unauthenticated authorship and is **excluded** from scientific evidence. Some outputs were truncated, the contradiction arm is exploratory, and provider versions may drift. See the revised manuscript and [REPLICATION_AUDIT.md](REPLICATION_AUDIT.md).
 
 ## Repository Contents
 
@@ -88,12 +88,12 @@ The primary panel is a 300-item-per-model stress-test subset, not a full leaderb
 | --- | --- |
 | `manuscript/` | Manuscript (`.md` + `.pdf`), protocol, supplementary methods, references, reporting checklists (DECIDE-AI / STARD-AI / S1), peer-review rounds |
 | `prompts/` | Version-controlled prompts: standard, evidence-sufficiency (+2 paraphrases), neutral scaffold, format scaffold, judge, and others |
-| `analysis/` | End-to-end run, scoring, and analysis scripts (panel run, cross-judge, accuracy trade-off, paraphrase, stability, rigor add-ons, clinician-review analysis) |
+| `analysis/` | Paired experiment, cross-judge, accuracy-trade-off, paraphrase, stability, and robustness scripts; historical simulated-review scripts retained for provenance, not clinician validation |
 | `src/` | Dataset loaders, perturbation utilities, prompt hashing, provider-neutral inference schema, scoring helpers, reliability + stats |
 | `outputs/tables/` | Machine-readable result JSON (primary panel summary and all secondary/robustness reports) |
 | `outputs/figures/` | Nine publication figures (PNG + PDF) |
 | `outputs/scores/` | Primary and cross-judge rubric scores (JSONL) |
-| `outputs/doctor_review/` | **Unfilled** blinded rating templates, hidden review-ID keys, and aggregate adjudication/sensitivity reports; the filled source sheets underlying the reported physician statistics are not publicly included |
+| `outputs/doctor_review/` | **Blank reviewer templates only**; historical aggregate reviewer reports are **DEPRECATED (model-generated / unauthenticated)** and not human evidence |
 | `tests/` | Unit tests (`pytest`) |
 
 **Not redistributed here:** the full raw model-output records (they embed source-case text from the underlying licensed datasets), provider API keys, and MIMIC-derived data. The raw output records are available from the corresponding author on reasonable request.
@@ -124,7 +124,7 @@ python analysis/cross_judge_robustness.py
 python analysis/accuracy_tradeoff.py
 ```
 
-Individual robustness analyses have dedicated scripts and reports: cross-judge (`crossjudge_agreement_report.json`), helpfulness/accuracy (`accuracy_tradeoff_report.json`), paraphrase (`paraphrase_robustness_report.json`), decode stability (`stability_report.json`), multiplicity/heterogeneity/power (`rigor_addons_report.json`), and the clinician sub-studies (`adjudication_report_final.json`, `sensitivity_report.json`).
+Individual robustness analyses have dedicated scripts and reports: cross-judge (`crossjudge_agreement_report.json`), helpfulness/accuracy (`accuracy_tradeoff_report.json`), paraphrase (`paraphrase_robustness_report.json`), decode stability (`stability_report.json`), and multiplicity/heterogeneity/power (`rigor_addons_report.json`). Historical model-assisted reviewer simulations (`adjudication_report_final.json`, `sensitivity_report.json`) are retained but excluded from scientific results.
 
 ## Data
 
@@ -136,9 +136,9 @@ Place downloaded public data under `data/external/`. Do **not** place MIMIC-deri
 
 Loaders can also fetch public Hugging Face datasets when network access and credentials are available.
 
-## Data and Human Labels
+## Data and provenance of excluded reviewer artifacts
 
-The repository includes deidentified **blank clinician-review templates**, hidden review-ID/condition keys, and aggregate result reports under `outputs/doctor_review/`. The nine public reviewer CSVs contain zero completed unsafe/safe labels. The filled workbooks used to compute the clinician-validation results and exclusion sensitivity are **not publicly present**; independent reproduction of those findings is blocked until authentic filled source sheets can be verified and released (or audited under controlled access). One adjudication rater was excluded based on a post-collection consistency review; the underlying source and effect of inclusion should be independently auditable. See [REPLICATION_AUDIT.md](REPLICATION_AUDIT.md) and run `python scripts/check_preprint_integrity.py`.
+Reviewer packet CSVs contain blank rating fields. Earlier completed reviewer workbooks were generated in AI-assisted sessions and do **not** provide human reference labels. Historical reviewer aggregates are deprecated and cannot be used to claim physician sensitivity, specificity, consensus or independent validation. Do not fabricate human ratings. For the provenance findings and viable computational replication path, see [REPLICATION_AUDIT.md](REPLICATION_AUDIT.md).
 
 ## Citation
 

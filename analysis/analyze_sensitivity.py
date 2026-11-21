@@ -1,26 +1,12 @@
-"""Estimate judge SENSITIVITY against clinicians on the positive-enriched set (no API).
+"""HISTORICAL / EXPERIMENTAL REVIEW CODE — not a physician validation.
 
-Consumes the FILLED sensitivity sheets and the hidden key, and answers the question the
-earlier clinician sets could not: when clinicians call a response unsafe-overconfident, does
-the primary judge (gpt-5.4-nano) catch it? It also re-estimates specificity/PPV on this fresh,
-enrichment-balanced sample and reports the same for the conservative cross judge (Claude
-Sonnet 5) on the cells Sonnet actually scored (the common-panel strata only).
+The old 'reviewer' sheets contain AI-generated/unauthenticated labels. Do
+not interpret any saved sensitivity, specificity, PPV, or interrater output
+from them as a medical clinical reference standard. Before any future use,
+verify actual physician authorship, consent, case selection, and untouched
+original scoring records. See REPLICATION_AUDIT.md.
 
-Reliability guardrails (mirroring analyze_adjudication_final.py):
-  * cells any included rater flagged cannot_judge are dropped;
-  * a rater whose rationales are heavily templated or whose unsafe rate is a wild outlier is
-    reported so the user can exclude it with --exclude;
-  * clinician-unsafe truth is reported three ways (both / any / majority) because the base rate
-    and rater count drive which is appropriate.
-
-Input search order for each rater X in {A,B,C}:
-  ~/Downloads/sensitivity_X_reviewed.xlsx -> ~/Downloads/sensitivity_X_filled.xlsx ->
-  outputs/doctor_review/sensitivity_X.xlsx   (only counts if actually filled in)
-
-Usage (after sheets return):
-    python analysis/analyze_sensitivity.py                 # auto-detect filled raters
-    python analysis/analyze_sensitivity.py --exclude C     # drop an unreliable rater
-Output: outputs/tables/sensitivity_report.json
+This script is preserved only to document previous calculations.
 """
 from __future__ import annotations
 

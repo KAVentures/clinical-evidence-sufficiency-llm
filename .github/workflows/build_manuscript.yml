@@ -19,14 +19,16 @@ jobs:
           sudo apt-get install -y pandoc texlive-xetex texlive-latex-extra texlive-fonts-recommended poppler-utils
       - name: Regenerate source-aligned PDF
         run: |
-          pandoc manuscript/manuscript.md --from=gfm+tex_math_dollars --standalone --pdf-engine=xelatex --resource-path=manuscript:.:outputs/figures -V geometry:margin=1in -V fontsize=10pt -o manuscript/manuscript.pdf
+          python scripts/build_preprint_with_figures.py
+          pandoc manuscript/manuscript_with_figures.md --from=markdown+tex_math_dollars --standalone --pdf-engine=xelatex --resource-path=.:manuscript:outputs/figures -V geometry:margin=1in -V fontsize=10pt -o manuscript/manuscript.pdf
           test -s manuscript/manuscript.pdf
-          pdftotext manuscript/manuscript.pdf - | grep -q 'Judge-dependent safety gains'
+          pdftotext manuscript/manuscript.pdf - | grep -iq 'judge-dependent safety gains'
+          test "$(pdfimages -list manuscript/manuscript.pdf | tail -n +3 | wc -l)" -ge 9
       - name: Commit updated PDF
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add manuscript/manuscript.pdf
+          git add manuscript/manuscript.pdf manuscript/manuscript_with_figures.md
           if ! git diff --cached --quiet; then
             git commit -m "Regenerate manuscript PDF from audited Markdown source"
             git push origin HEAD:${{ github.ref_name }}

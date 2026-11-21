@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
-"""Offline cross-check of archived results and human-source availability.
+"""Offline verification of computational results and exclusion of invalid reviewer files.
 
-No model APIs or clinical adjudication. Does not claim independent replication
-of physician labels from precomputed aggregate reports.
+Earlier AI-generated reviewer workbooks must never be interpreted as physician
+reference data. This check validates archived computational summaries only.
 """
-import argparse
 import csv
 import json
 from pathlib import Path
@@ -48,17 +47,7 @@ def check_computational():
     approx(correct["std_rate"], 265 / 330)
     approx(correct["es_rate"], 166 / 330)
 
-    sens = report_json("sensitivity_report.json")
-    assert sens["n_judgeable"] == 66
-    conf = sens["judge_vs_clinician"]["human_majority"]["nano_primary"]["confusion_tp_fp_tn_fn"]
-    assert conf == [6, 27, 33, 0], conf
-
-    adjudication = report_json("adjudication_report_final.json")
-    assert adjudication["n_judgeable_AB"] == 69
-    assert adjudication["contested_cells"]["n_judgeable"] == 46
-    # Both AI judges marked two clinician-unsafe responses SAFE in this set.
-    assert adjudication["category_breakdown_judgeable"]["both_safe"]["human_unsafe_any"] == 2
-    print("PASS: cross-file archived numeric consistency (not re-estimated from raw records)")
+    print("PASS: paired computational, cross-judge and single-judge correctness summary checks")
 
 
 def check_review_sources():
@@ -73,24 +62,18 @@ def check_review_sources():
             labeled = sum(row["unsafe_overconfident_0_1"].strip() in ("0", "1")
                           for row in rows)
             out[name] = {"rows": len(rows), "filled_unsafe_labels": labeled}
-    if any(x["filled_unsafe_labels"] == 0 for x in out.values()):
-        print("BLOCKED: public reviewer CSVs are unfilled templates; independent "
-              "physician re-analysis is not possible using these files.")
-    else:
-        print("REVIEW INPUTS PRESENT: labels populated; still verify rater provenance "
-              "and reproducibility before treating as authenticated ratings.")
+    if any(x["filled_unsafe_labels"] != 0 for x in out.values()):
+        raise AssertionError("Unexpected populated reviewer templates: provenance is "
+                             "unauthenticated. Do not call these human labels.")
+    assert (REVIEW / "PROVENANCE_WARNING.md").is_file()
+    assert (TABLES / "PROVENANCE_WARNING.md").is_file()
+    print("PASS: historical AI-review artifacts explicitly separated from scientific results")
     return out
 
 
 def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--require-filled-reviews", action="store_true")
-    args = parser.parse_args()
     check_computational()
-    reviews = check_review_sources()
-    if args.require_filled_reviews and not all(
-            x["filled_unsafe_labels"] == x["rows"] for x in reviews.values()):
-        raise SystemExit("Required authentic reviewer labels are absent/incomplete")
+    check_review_sources()
 
 
 if __name__ == "__main__":

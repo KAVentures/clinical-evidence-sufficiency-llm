@@ -1,0 +1,17 @@
+name: Research source checks
+on:
+  push:
+    branches: [main, preprint-integrity-review-20261121]
+  pull_request:
+jobs:
+  integrity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install --upgrade pip
+      - run: python -m pip install numpy pandas scipy pytest
+      - run: python -m pytest -q
+      - run: python scripts/check_preprint_integrity.py

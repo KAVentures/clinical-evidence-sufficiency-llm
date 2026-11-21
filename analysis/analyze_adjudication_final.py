@@ -1,18 +1,13 @@
-"""Definitive human-adjudication analysis (no API).
+"""LEGACY / DEPRECATED: historical AI-assisted reviewer-scoring analysis.
 
-Consumes authentic FILLED doctor workbooks from DOCTOR_FILLED_DIR. The public
-CSV packets are blank reviewer templates, NOT source ratings. Reviewer C is
-omitted from the archived A/B analysis following a retrospective consistency
-review (87.8% unsafe vs 5.8% in a separate packet; repetitive rationales),
-NOT a prospectively registered rater exclusion. An inclusion sensitivity
-analysis with verified original worksheets remains necessary. The reported
-A/B results use items both raters judged interpretable.
-
-Decisive question: on CONTESTED cells (primary nano-judge=unsafe, cross sonnet-judge=safe),
-do the human doctors side with nano (unsafe) or sonnet (safe)?
-
-Output: outputs/tables/adjudication_report_final.json
+IMPORTANT: The apparent 'doctor' worksheets underlying prior saved summaries
+were generated in AI-assisted research sessions and cannot be authenticated
+as independent physician assessments. This script is retained only to
+preserve historical calculations. DO NOT use its outputs as clinical truth,
+independent human labels, or physician sensitivity/specificity estimates.
+See REPLICATION_AUDIT.md.
 """
+
 from __future__ import annotations
 
 import json

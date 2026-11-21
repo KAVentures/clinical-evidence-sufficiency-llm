@@ -1,8 +1,8 @@
 # Supplementary File S1 — Reporting checklist
 
-**Manuscript:** Evidence sufficiency and unsafe overconfidence in clinical LLM decision support: a public-data computational stress test.
+**Manuscript:** Judge-dependent safety gains and model-specific helpfulness costs of evidence-sufficiency prompting in clinical LLMs.
 
-No single reporting guideline governs non-interventional computational benchmarks of clinical LLM behavior. This study is not a clinical trial (no prospective patient care, no intervention delivered to patients) and not a conventional diagnostic-accuracy study of a device against a clinical reference standard. We therefore report following the *applicable principles* of DECIDE-AI [9], CONSORT-AI / SPIRIT-AI [10], and STARD-AI [11], adapted to a computational study in which the "index test" is an LLM judge and the "reference standard" is an independent judge plus blinded clinician review. Items that apply only to prospective, interventional, or in-clinic evaluations are marked Not applicable with the reason.
+No single reporting guideline governs non-interventional computational benchmarks of clinical LLM behavior. This study is not a clinical trial (no prospective patient care, no intervention delivered to patients) and not a conventional diagnostic-accuracy study of a device against a clinical reference standard. We therefore report following the *applicable principles* of DECIDE-AI [9], CONSORT-AI / SPIRIT-AI [10,12], and STARD-AI [11], adapted to a computational study in which the primary judge is an LLM and a second-family LLM offers a robustness check, **not an independent clinical reference standard**. Items that apply only to prospective, interventional, or in-clinic evaluations are marked Not applicable with the reason.
 
 ## Study identification and framing
 
@@ -21,7 +21,7 @@ No single reporting guideline governs non-interventional computational benchmark
 | Sampling frame and sample size | Yes — 300 paired item-perturbations/model (1,200 pairs; 2,400 outputs) + 480/arm control subset | Methods: Datasets; Results: Composition |
 | Data-use / governance restrictions | Yes — MIMIC-CDM excluded from external API use | Methods; Ethics; Funding and Conflicts |
 | Perturbation / input-degradation procedure | Yes | Methods: Perturbations |
-| Handling of unusable (truncated/malformed) outputs | Yes — flagged and reported; a QA limitation | Methods: Judge Validation; Limitations (point 4) |
+| Handling of unusable (truncated/malformed) outputs | Yes — flagged and reported; a QA limitation | Methods: Cross-Judge Robustness; Limitations |
 
 ## Model(s) under test
 

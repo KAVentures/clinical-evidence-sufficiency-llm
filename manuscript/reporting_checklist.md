@@ -38,10 +38,10 @@ No single reporting guideline governs non-interventional computational benchmark
 | Index test defined (primary judge, rubric, outputs) | Yes — GPT-5.4-nano structured rubric | Methods: Scoring |
 | Index test treated as label, not ground truth | Yes | Methods: Scoring |
 | Independent index test (different family) | Yes — Claude Sonnet 5 re-scored all double-judged cells | Methods: Judge Validation; Results: Cross-Judge |
-| Clinician reference analysis | Reported — three blinded reviewers and a selected reviewer exclusion; original completed scoring workbooks are currently absent from the public release, so independent recomputation is blocked | Methods: Judge Validation; Results: Clinician Review; REPLICATION_AUDIT.md |
-| Blinding of reference raters | Yes — case + response only; blind to model, condition, and both judge labels | Methods: Judge Validation |
-| Reference-rater reliability and exclusions | Reported — an adjudication rater was excluded following a quality assessment; original completed source sheets and exclusion sensitivity cannot currently be independently audited | Results: Clinician Review; REPLICATION_AUDIT.md |
-| Estimand for judge validity (sensitivity) explicitly powered | Yes — dedicated positive-enriched set built blind to judge labels | Methods: Judge Validation; Results: Clinician Review |
+| Clinician reference analysis | **Not reported as evidence** — AI-generated reviewer simulations were previously mislabeled as clinician validation and have been withdrawn | REPLICATION_AUDIT.md |
+| Clinical-rater blinding | Not applicable — no authenticated human reference raters in this computational study | REPLICATION_AUDIT.md |
+| Physician rater reliability | Not applicable — historical reviewer metrics excluded from scientific analysis | REPLICATION_AUDIT.md |
+| Clinician-calibrated sensitivity/specificity | Not estimated; the nominal positive-enriched reviewer data were AI-generated and excluded | REPLICATION_AUDIT.md |
 
 ## Analysis
 
@@ -70,7 +70,7 @@ No single reporting guideline governs non-interventional computational benchmark
 
 | Item | Addressed | Location |
 |---|---|---|
-| Data and code availability | Partial — scripts, prompts, manifests, scores, tables, figures are public; raw model outputs remain request-only and public reviewer CSVs are blank templates, not the filled source sheets required to verify clinician metrics; no unconfirmed archive DOI is asserted | Data and Code Availability; REPLICATION_AUDIT.md |
+| Data and code availability | Computational code, scores, tables and figures are public; raw model outputs are request-only subject to licences. Historical AI-generated reviewer aggregates are labeled deprecated, not physician data; no unconfirmed archive DOI is asserted | Data and Code Availability; REPLICATION_AUDIT.md |
 | Funding and competing interests | Yes | Funding and Conflicts |
 | Ethics statement | Yes — retrospective public non-MIMIC data; no prospective patient care | Ethics |
 | Author contributions | Yes | Author Contributions |
